@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+//git test
+//aNOTHER git test
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -25,6 +28,7 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   private Drive drive;
+  CameraStream usbCam;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -35,9 +39,12 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.putNumber("ANumber", 1.0);
 
     Io.initIO();
     drive =new Drive();
+    usbCam=new CameraStream();
+    usbCam.initCamera();
   }
 
   /**
@@ -68,6 +75,8 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+
+    //Here is another added comment.
   }
 
   /**
@@ -96,6 +105,8 @@ public class Robot extends TimedRobot {
 
     //For example:
     drive.driveByJoystick();
+//    usbCam.grabFrame();
+    System.out.println("Got to here.  It should have worked.");
   }
 
   /**

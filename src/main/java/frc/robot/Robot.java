@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
 
   private Drive drive;
   CameraStream usbCam;
+  private TestComponents testThisRobot;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -45,6 +46,8 @@ public class Robot extends TimedRobot {
     drive =new Drive();
     usbCam=new CameraStream();
     usbCam.initCamera();
+    testThisRobot=new TestComponents();
+
   }
 
   /**
@@ -114,5 +117,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    testThisRobot.operateTest();
   }
 }

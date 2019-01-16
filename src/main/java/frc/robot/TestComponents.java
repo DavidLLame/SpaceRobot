@@ -4,14 +4,14 @@ public class TestComponents
 {
 
     long stateTransitionTime;
-    TestFiniteStates currentState=TestFiniteStates.IDLE;
-     final int  DEFAULTSTATETIME=2000;
+    TestFiniteStates currentState = TestFiniteStates.IDLE;
+     final int  DEFAULTSTATETIME = 2000;
 
     private void changeState(TestFiniteStates newstate)
     
     {
-        stateTransitionTime=System.currentTimeMillis();
-        currentState=newstate;
+        stateTransitionTime = System.currentTimeMillis();
+        currentState = newstate;
 }
 
 public void operateTest()

@@ -38,7 +38,7 @@ public class Drive{
 
       
       
-      Io.meccDrive.driveCartesian(Io.joystick.getRawAxis(0), -1 * Io.joystick.getRawAxis(1), Io.joystick.getRawAxis(0),Io.joystick.getRawAxis(0));
+      Io.meccDrive.driveCartesian(Io.joystick.getRawAxis(0), -1 * Io.joystick.getRawAxis(1), Io.joystick.getRawAxis(2),Io.joystick.getRawAxis(0));
 
 
     }

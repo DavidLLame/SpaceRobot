@@ -110,7 +110,6 @@ public class Robot extends TimedRobot {
     
     drive.driveByJoystick();
 //    usbCam.grabFrame();
-    System.out.println("Got to here.  It should have worked.");
   }
 
   /**

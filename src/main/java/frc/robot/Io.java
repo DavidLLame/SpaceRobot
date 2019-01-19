@@ -78,6 +78,8 @@ public class Io  {
        
        public static AHRS navX;
 
+      public static double deadband;
+
     //This function will instantiate  all of the hardware variables declared above. And all any
     //Initialization functions needed.
     public static void initIO()
@@ -99,9 +101,11 @@ public class Io  {
         
         joystick = new Joystick(1);
 
-        navX = new AHRS(SerialPort.Port.kMXP);
+        navX = new AHRS(SerialPort.Port.kUSB1);
 
+        navX.zeroYaw();
 
+        
 
     }
 

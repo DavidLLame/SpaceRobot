@@ -37,9 +37,16 @@ public class Drive{
       //It really comes down to personal preference and whatever the team agrees to.
 
       
-      
-      Io.meccDrive.driveCartesian(Io.joystick.getRawAxis(0), -1 * Io.joystick.getRawAxis(1), Io.joystick.getRawAxis(2),Io.joystick.getRawAxis(0));
+      Io.meccDrive.driveCartesian(Io.joystick.getRawAxis(0), -1 * Io.joystick.getRawAxis(1), Io.joystick.getRawAxis(2),Io.navX.getAngle());}
 
+    double deadbanded (double joyY, double deadband) {
+        if ((Math.abs(joyY) >= deadband)) {
+            return joyY;
+        }
+        else{
+            return 0;
+        }
+    
 
     }
 

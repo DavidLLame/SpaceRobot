@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
-
+    
     //Here is another added comment.
   }
 
@@ -104,9 +104,10 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    //Do everything that we do at every iteration
 
-    //For example:
+    double newAngle = Io.navX.getAngle();
+    System.out.println(newAngle);
+    
     drive.driveByJoystick();
 //    usbCam.grabFrame();
     System.out.println("Got to here.  It should have worked.");

@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -7,6 +9,7 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
+import edu.wpi.first.wpilibj.SerialPort;
 public class Io  {
   
 
@@ -72,6 +75,9 @@ public class Io  {
 
        public static Joystick joystick;
 
+       
+       public static AHRS navX;
+
     //This function will instantiate  all of the hardware variables declared above. And all any
     //Initialization functions needed.
     public static void initIO()
@@ -93,7 +99,7 @@ public class Io  {
         
         joystick = new Joystick(1);
 
-
+        navX = new AHRS(SerialPort.Port.kMXP);
 
 
 

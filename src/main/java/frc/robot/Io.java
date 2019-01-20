@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 import edu.wpi.first.wpilibj.SerialPort;
@@ -46,7 +47,12 @@ public class Io  {
     public static final int AINPORT_1=1;
     public static final int AINPORT_2=2;
     public static final int AINPORT_3=3;
-    public static final int FRONTLEFTMOTOR_PWMPORT = 4;
+
+    /**
+     *
+     */
+
+    private static final int FRONTLEFTMOTOR_PWMPORT = 4;
     private static final int REARRIGHTMOTOR_PWMPORT = 2;
     private static final int FRONTRIGHTMOTOR_PWMPORT = 3;
     private static final int REARLEFTMOTOR_PWMPORT = 5;
@@ -58,7 +64,7 @@ public class Io  {
 
     //Here's some examples: (in comments.  They'll be replaced by real ones as we move on.)
     
-    public static  SpeedController leftDriveMotor;  //A SpeedController is a generic motor.
+    
     //  Note:  These are declarations.  Not instantiations.  Learn the difference.  It will save a lot of 
     //  NullReferenceException errors.
     //  public static Joystick leftStick;  
@@ -102,8 +108,9 @@ public class Io  {
         joystick = new Joystick(1);
 
         navX = new AHRS(SerialPort.Port.kUSB1);
-
         navX.zeroYaw();
+
+        
 
         
 

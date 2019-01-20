@@ -97,6 +97,11 @@ public class Robot extends TimedRobot {
         break;
     }
   }
+  @Override
+  public void teleopInit() {
+    super.teleopInit();//What's this?  Not sure if it's necessary.  We'll try without it, too.
+    Io.navX.zeroYaw();
+  }
 
   /**
    * This function is called periodically during operator control.

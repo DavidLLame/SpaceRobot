@@ -1,9 +1,28 @@
 package frc.robot;
 
+import javax.lang.model.util.ElementScanner6;
+
 /**
  * The class for all driving related functions
  */
 public class Drive{
+
+    private final double AXISDEADBAND=0.1;
+    private final double TWISTDEADBAND=0.1;
+    private final double ROTATIONTHRESHOLD=10;//10 degrees per second.  Threshold to determine if rtation has stopped.
+    private final double CORRECTIONCONSTANT=.01;//Kp of a rotation PID control
+
+    public DriveCoordinates drivingMode=DriveCoordinates.FIELD_CENTERED;
+
+    double deadbanded (double joyY, double deadband) {
+        if ((Math.abs(joyY) >= deadband)) {
+            return joyY;
+        }
+        else{
+            return 0;
+        }
+    }
+
 
     //Notice that class names start with capital letters.
     //Members of the class (variables and methods) start with a lower case letter, but subsequent words have an upper case letter.
@@ -17,11 +36,64 @@ public class Drive{
     //will start doing it the way that book says.  Also, those conventions are only standard for Java, not
     //for C#.  The C# programmers read different books.
 
+    boolean overrideDriver=true;
     /**
      * This function is called to do "normal", teleperated, driving.
      */
     public void driveByJoystick()
-    {
+    {if (overrideDriver)
+        {
+
+            double absspeed=0.5;
+            double twistspeed=0.5;
+            double VelX=0;
+            double VelY=0;
+            double VelTwist=0;
+
+            if (Io.joystick.getRawButton(1))
+            {
+                VelY=absspeed;
+                VelX=0;
+                VelTwist=0;
+            }
+            else if (Io.joystick.getRawButton(2))
+            {
+                VelX=0;
+                VelY=-absspeed;
+                VelTwist=0;
+            }
+            else if (Io.joystick.getRawButton(3))
+            { VelX=-absspeed;
+              VelY=0;
+              VelTwist=0;
+            }
+            else if (Io.joystick.getRawButton(4))
+            {
+                VelX=absspeed;
+                VelY=0;
+                VelTwist=0;
+            }
+            else if (Io.joystick.getRawButton(5))
+            {
+                VelX=0;
+                VelY=0;
+                VelTwist=twistspeed;
+            }
+            else if (Io.joystick.getRawButton(6))
+            {
+                VelX=0;
+                VelY=absspeed;
+                VelTwist=twistspeed;
+            }
+            else
+            {
+                VelX=0;
+                VelY=0;
+                VelTwist=0;
+            }
+            Io.meccDrive.driveCartesian(VelX, VelY, VelTwist,Io.navX.getYaw());
+            return;
+        }
        //Io.leftDriveMotor.set(Io.leftJoystick.getRawAxis(1));  //Notice the things that come from Io are referenced using the class name.
                                                             //Static variables are common to the class so, you use the class name to reference them.
        //Io.rightDriveMotor.set(Io.rightJoystick.getRawAxis(1));
@@ -36,16 +108,39 @@ public class Drive{
 
       //It really comes down to personal preference and whatever the team agrees to.
 
-      
-      Io.meccDrive.driveCartesian(Io.joystick.getRawAxis(0), -1 * Io.joystick.getRawAxis(1), Io.joystick.getRawAxis(2),Io.navX.getAngle());}
+      //TODO:  To switch back and forth between field centered and robot centered,
+      //there has to be some adjustment in yaw calculations.
+      if (drivingMode==DriveCoordinates.FIELD_CENTERED)
+      {
+      Io.meccDrive.driveCartesian(deadbanded(Io.joystick.getRawAxis(0),AXISDEADBAND),
+       -1 * deadbanded(Io.joystick.getRawAxis(1),AXISDEADBAND), deadbanded(Io.joystick.getRawAxis(2),TWISTDEADBAND),Io.navX.getAngle());
+      }
+      else
+      {
 
-    double deadbanded (double joyY, double deadband) {
-        if ((Math.abs(joyY) >= deadband)) {
-            return joyY;
+        double correctionFactor;
+
+        //If we aren't commanding a turn, and we have stopped any previous turn
+        if ((deadbanded(Io.joystick.getRawAxis(2),TWISTDEADBAND)==0)&&
+            (Math.abs(Io.navX.getRate())<ROTATIONTHRESHOLD))
+            {//We are trying to go straight
+              correctionFactor=-1*CORRECTIONCONSTANT*Io.navX.getYaw();
+
+            }
+        else
+        {
+            correctionFactor=0;
+            Io.navX.zeroYaw();
+
         }
-        else{
-            return 0;
-        }
+
+            
+
+        Io.meccDrive.driveCartesian(deadbanded(Io.joystick.getRawAxis(0),AXISDEADBAND),
+        -1 * deadbanded(Io.joystick.getRawAxis(1),AXISDEADBAND), deadbanded(Io.joystick.getRawAxis(2),TWISTDEADBAND)+correctionFactor,0);
+      }
+
+    
     
 
     }
@@ -61,4 +156,11 @@ public class Drive{
         //Calculate the desired motor speeds based on the desired input speeds
     }
 
+    public enum DriveCoordinates
+    {
+    ROBOT_CENTERED,
+    FIELD_CENTERED
+    }
+
 }
+

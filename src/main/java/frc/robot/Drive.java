@@ -22,9 +22,9 @@ public class Drive{
      */
     public void driveByJoystick()
     {
-      // Io.leftDriveMotor.set(Io.leftJoystick.getRawAxis(1));  //Notice the things that come from Io are referenced using the class name.
+       //Io.leftDriveMotor.set(Io.leftJoystick.getRawAxis(1));  //Notice the things that come from Io are referenced using the class name.
                                                             //Static variables are common to the class so, you use the class name to reference them.
-      // Io.rightDriveMotor.set(Io.rightJoystick.getRawAxis(1));
+       //Io.rightDriveMotor.set(Io.rightJoystick.getRawAxis(1));
 
       //Notice also that if you compare this code to last year's code, last year this class had an instance
       //of Joystick inside it, and it got initialized in the class constructor.  This year, we are calling
@@ -36,9 +36,17 @@ public class Drive{
 
       //It really comes down to personal preference and whatever the team agrees to.
 
+      
+      Io.meccDrive.driveCartesian(Io.joystick.getRawAxis(0), -1 * Io.joystick.getRawAxis(1), Io.joystick.getRawAxis(2),Io.navX.getAngle());}
 
-      //Io.meccDrive.driveCartesian(Io.singleJoystick.getRawAxis(JS_FORWARDAXIS), Io.singleJoystick.getRawAxis(JS_TRANSVERSEAXIS), Io.singleJoystick.getRawAxis(JS_ROTATIONAXIS, 0);//The zero assumes we are using robot centered coordinates
-
+    double deadbanded (double joyY, double deadband) {
+        if ((Math.abs(joyY) >= deadband)) {
+            return joyY;
+        }
+        else{
+            return 0;
+        }
+    
 
     }
 

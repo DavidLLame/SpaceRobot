@@ -1,11 +1,15 @@
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
+import edu.wpi.first.wpilibj.SerialPort;
 public class Io  {
   
 
@@ -42,6 +46,11 @@ public class Io  {
     public static final int AINPORT_1=1;
     public static final int AINPORT_2=2;
     public static final int AINPORT_3=3;
+    public static final int FRONTLEFTMOTOR_PWMPORT = 4;
+    private static final int REARRIGHTMOTOR_PWMPORT = 2;
+    private static final int FRONTRIGHTMOTOR_PWMPORT = 3;
+    private static final int REARLEFTMOTOR_PWMPORT = 5;
+    
 
 
     //After the declarations of constants, we'll declare variables, but not initialize them yet.  We'll keep the initializations
@@ -59,7 +68,17 @@ public class Io  {
 
     //All functions of this class should be declared as static.
     //We will never have more than one of this class, so we'll just use statics.
+        static Victor frontLeftMotor;
+        static Victor rearLeftMotor;
+        static Victor frontRightMotor;
+        static Victor rearRightMotor;
 
+       public static Joystick joystick;
+
+       
+       public static AHRS navX;
+
+      public static double deadband;
 
     //This function will instantiate  all of the hardware variables declared above. And all any
     //Initialization functions needed.
@@ -72,8 +91,22 @@ public class Io  {
 
         //Repeat for all of the objects.     
         
-        //=new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+       
+        frontLeftMotor = new Victor(FRONTLEFTMOTOR_PWMPORT);
+        rearLeftMotor = new Victor(REARLEFTMOTOR_PWMPORT);
+        frontRightMotor = new Victor(FRONTRIGHTMOTOR_PWMPORT);
+        rearRightMotor = new Victor(REARRIGHTMOTOR_PWMPORT);
+    
+        meccDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
         
+        joystick = new Joystick(1);
+
+        navX = new AHRS(SerialPort.Port.kUSB1);
+
+        navX.zeroYaw();
+
+        
+
     }
 
 

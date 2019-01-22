@@ -43,7 +43,7 @@ public class Drive{
     public void driveByJoystick()
     {if (overrideDriver)
         {
-
+            System.out.println("Yaw: "+Io.navX.getYaw()+" Angle: "+ Io.navX.getAngle());
             double absspeed=0.5;
             double twistspeed=0.5;
             double VelX=0;
@@ -51,39 +51,59 @@ public class Drive{
             double VelTwist=0;
 
             if (Io.joystick.getRawButton(1))
-            {
+            {//Drive forward
                 VelY=absspeed;
                 VelX=0;
                 VelTwist=0;
             }
             else if (Io.joystick.getRawButton(2))
-            {
+            {//Drive backward
                 VelX=0;
                 VelY=-absspeed;
                 VelTwist=0;
             }
             else if (Io.joystick.getRawButton(3))
-            { VelX=-absspeed;
+            { //Drive left
+              VelX=-absspeed;
               VelY=0;
               VelTwist=0;
             }
             else if (Io.joystick.getRawButton(4))
             {
+                //Drive right
                 VelX=absspeed;
                 VelY=0;
                 VelTwist=0;
             }
             else if (Io.joystick.getRawButton(5))
             {
+                //Rotate clockwise
                 VelX=0;
                 VelY=0;
                 VelTwist=twistspeed;
             }
             else if (Io.joystick.getRawButton(6))
             {
+                //Rotate clockwise while driving forward
                 VelX=0;
                 VelY=absspeed;
                 VelTwist=twistspeed;
+            }
+            else if (Io.joystick.getRawButton(8))
+            {
+                //Drive forward and slight right while rotating to 30 degrees
+                //Have to do some more work on signs and wraparounds
+                VelX=0.2;
+                VelY=absspeed;
+                double target=30;
+                double kp=.1;
+                VelTwist=kp*(target-Io.navX.getYaw());
+                if (Math.abs(VelTwist)>0.5)
+                {
+                    VelTwist=0.5*Math.signum(VelTwist);
+
+                }
+                
             }
             else
             {
@@ -91,7 +111,11 @@ public class Drive{
                 VelY=0;
                 VelTwist=0;
             }
-            Io.meccDrive.driveCartesian(VelX, VelY, VelTwist,Io.navX.getYaw());
+            if (Io.joystick.getRawButton(7))
+            {
+                Io.navX.zeroYaw();
+            }
+            Io.meccDrive.driveCartesian(VelX, VelY, VelTwist,-Io.navX.getYaw());
             return;
         }
        //Io.leftDriveMotor.set(Io.leftJoystick.getRawAxis(1));  //Notice the things that come from Io are referenced using the class name.

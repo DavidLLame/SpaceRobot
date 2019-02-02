@@ -180,6 +180,17 @@ public class Drive{
         //Calculate the desired motor speeds based on the desired input speeds
     }
 
+    public void driveToAngle(double newAngle)
+    {
+        double currentAngle=Io.navX.getAngle();
+        double error=newAngle-currentAngle;
+        System.out.println("Error: "+error+" Current: "+currentAngle);
+        if (Math.abs(error)>2)
+        {
+        Io.meccDrive.driveCartesian(0, 0, error*0.05,0);
+        }
+    }
+
     public enum DriveCoordinates
     {
     ROBOT_CENTERED,

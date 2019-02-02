@@ -1,16 +1,21 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Solenoid;
 public class Io  {
   
 
@@ -81,7 +86,11 @@ public class Io  {
 
        public static Joystick joystick;
 
-       
+       public static Solenoid shoot1;
+       public static Solenoid lasthope;
+
+       public static Spark intake;
+      
        public static AHRS navX;
 
       public static double deadband;
@@ -110,7 +119,9 @@ public class Io  {
         navX = new AHRS(SerialPort.Port.kUSB1);
         navX.zeroYaw();
 
-        
+        shoot1 = new Solenoid(1);
+        lasthope = new Solenoid(0);
+        intake = new Spark(4);
 
         
 

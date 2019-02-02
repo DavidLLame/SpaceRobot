@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
   private Drive drive;
   CameraStream usbCam;
   private TestComponents testThisRobot;
+  Manip manip;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -47,6 +48,7 @@ public class Robot extends TimedRobot {
     usbCam=new CameraStream();
     usbCam.initCamera();
     testThisRobot=new TestComponents();
+    manip = new Manip();
 
   }
 
@@ -109,7 +111,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-
+    manip.runtime();
     double newAngle = Io.navX.getAngle();
     System.out.println(newAngle);
     

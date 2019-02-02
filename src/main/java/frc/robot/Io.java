@@ -120,7 +120,7 @@ public class Io  {
         navX.zeroYaw();
 
         shoot1 = new Solenoid(1);
-        lasthope = new Solenoid(1);
+        lasthope = new Solenoid(0);
         intake = new Spark(4);
 
         

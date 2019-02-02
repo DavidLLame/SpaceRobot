@@ -63,8 +63,7 @@ break;
     break;
     case FIREINGB:
         Io.shoot1.set(on);
-        Io.shoot2.set(on);
-        Io.shoot3.set(on);
+
         Io.intake.set(1);
     break;
     case PICKUP:
@@ -76,8 +75,6 @@ break;
     case RESET:
         Io.lasthope.set(off);
         Io.shoot1.set(off);
-        Io.shoot2.set(off);
-        Io.shoot3.set(off);
         Io.intake.set(0);
     break;
 

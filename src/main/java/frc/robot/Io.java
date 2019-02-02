@@ -87,8 +87,6 @@ public class Io  {
        public static Joystick joystick;
 
        public static Solenoid shoot1;
-       public static Solenoid shoot2;
-       public static Solenoid shoot3;
        public static Solenoid lasthope;
 
        public static Spark intake;
@@ -122,10 +120,8 @@ public class Io  {
         navX.zeroYaw();
 
         shoot1 = new Solenoid(1);
-        shoot2 = new Solenoid(2);
-        shoot3 = new Solenoid(3);
-        lasthope = new Solenoid(4);
-        intake = new Spark(1);
+        lasthope = new Solenoid(1);
+        intake = new Spark(4);
 
         
 

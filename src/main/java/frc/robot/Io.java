@@ -19,6 +19,12 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Solenoid;
+
+//URL for spark max motor controller
+//https://www.revrobotics.com/content/sw/max/sdk/REVRobotics.jso
+
+
+
 public class Io  {
   
 
@@ -218,8 +224,12 @@ public class Io  {
         }
 
         elevator=new CANSparkMax(ELEVATOR_CANID, MotorType.kBrushless);
-        elevatorEncoder=new CANEncoder(elevator); 
-        elevatorController=new CANPIDController(elevator);
+       
+       
+
+      //  elevatorEncoder=new CANEncoder(elevator); 
+      //  elevatorController=new CANPIDController(elevator);
+
 
     
         meccDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);

@@ -105,6 +105,8 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     super.teleopInit();//What's this?  Not sure if it's necessary.  We'll try without it, too.
     Io.navX.zeroYaw();
+
+    
   }
 
   /**
@@ -114,10 +116,10 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     manip.runtime();
-    double newAngle = Io.navX.getAngle();
-    System.out.println(newAngle);
+   // double newAngle = Io.navX.getAngle();
+   // System.out.println(newAngle);
     
-   // drive.driveByJoystick();
+    drive.driveByJoystick();
     elevatorOps.operateElevator();
 //    usbCam.grabFrame();
   }

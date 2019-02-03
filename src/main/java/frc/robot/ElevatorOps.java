@@ -27,8 +27,13 @@ public class ElevatorOps
 
     private double encoderZero;  //The stored value that represents 0
 
-    public void ElevatorOps()
+    public  ElevatorOps()
     {
+
+        Io.elevatorController=Io.elevator.getPIDController();
+        Io.elevatorEncoder=Io.elevator.getEncoder();
+
+
         Io.elevatorController.setP(elevatorKp);
         Io.elevatorController.setD(elevatorKd);
         Io.elevatorController.setI(elevatorKi);

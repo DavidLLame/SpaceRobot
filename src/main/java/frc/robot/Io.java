@@ -1,8 +1,10 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
@@ -74,6 +76,19 @@ public class Io  {
     public static final int FIRE_BUTTON=10;
     public static final int INTAKE_BUTTON=11;
 
+    //The joystick buttons for hatch selection
+    public static final int JSB_LEVEL1HATCH=1;
+    public static final int JSB_LEVEL2HATCH=2;
+    public static final int JSB_LEVEL3HATCH=3;
+    public static final int JSB_LEVEL1CARGO=4;
+    public static final int JSB_LEVEL2CARGO=5;
+    public static final int JSB_LEVEL3CARGO=6;
+    public static final int MANUALOVERRIDEELEVATOR=7;
+    public static final int AUTOMATICOPERATIONELEVATOR=8;
+
+    public static final int MANUALAXISELEVATOR=1;
+
+
 
 
     //Notice that the following are not "final"
@@ -83,6 +98,7 @@ public class Io  {
     public static  int REARLEFTMOTOR_PWMPORT = 5; 
     
     private static int INTAKE_PWMPORT=1;
+    private static int ELEVATOR_CANID=10;
 
 
     private static int SHOOTERSOLENOID=1;
@@ -116,11 +132,14 @@ public class Io  {
       public  static SpeedController rearRightMotor;
 
        public static Joystick joystick;
+       public static Joystick elevatorStick;
 
        public static Solenoid shoot1;
        public static Solenoid lasthope;
 
        public static SpeedController intake;
+       public static CANSparkMax elevator;
+       public static CANEncoder elevatorEncoder;
       
        public static AHRS navX;
 
@@ -193,6 +212,9 @@ public class Io  {
 
         intake=new Spark(INTAKE_PWMPORT);
         }
+
+        elevator=new CANSparkMax(ELEVATOR_CANID, MotorType.kBrushless);
+        elevatorEncoder=new CANEncoder(elevator); 
     
         meccDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
         

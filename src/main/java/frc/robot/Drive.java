@@ -5,6 +5,8 @@ import javax.lang.model.util.ElementScanner6;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Relay.Value;
+
 
 /**
  * The class for all driving related functions
@@ -187,12 +189,29 @@ public class Drive{
         //Calculate the desired motor speeds based on the desired input speeds
     }
 
+    public void driveToAngle(double newAngle)
+    {
+        double currentAngle=Io.navX.getAngle();
+        double error=newAngle-currentAngle;
+        System.out.println("Error: "+error+" Current: "+currentAngle);
+        if (Math.abs(error)>2)
+        {
+        Io.meccDrive.driveCartesian(0, 0, error*0.05,0);
+        }
+    }
+
     public enum DriveCoordinates
     {
     ROBOT_CENTERED,
     FIELD_CENTERED
     }
 
+<<<<<<< HEAD
+=======
+
+
+}
+>>>>>>> a28fcc510c035d649afda58f49df3a8ac15717f2
 
     public void sparkthing () {
         Io.sparkMotor.set(sparkspeed);

@@ -1,6 +1,10 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -86,6 +90,11 @@ public class Io  {
 
       public static double deadband;
 
+      public static CANSparkMax sparkMotor;
+
+      public static CANEncoder sparkEncoder;
+
+      public static CANPIDController canPid;
     //This function will instantiate  all of the hardware variables declared above. And all any
     //Initialization functions needed.
     public static void initIO()
@@ -107,13 +116,15 @@ public class Io  {
         
         joystick = new Joystick(1);
 
-        navX = new AHRS(SerialPort.Port.kUSB1);
-        navX.zeroYaw();
+      //  navX = new AHRS(SerialPort.Port.kUSB1);
+     //   navX.zeroYaw();
 
+        sparkMotor = new CANSparkMax(10, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+        sparkEncoder = new CANEncoder(sparkMotor);
+
+        canPid = new CANPIDController(sparkMotor);
         
-
-        
-
     }
 
 

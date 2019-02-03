@@ -2,15 +2,22 @@ package frc.robot;
 
 import javax.lang.model.util.ElementScanner6;
 
+import com.revrobotics.CANSparkMax;
+
+import edu.wpi.first.wpilibj.Spark;
+
 /**
  * The class for all driving related functions
  */
 public class Drive{
 
+    private final double sparkspeed=.75;
     private final double AXISDEADBAND=0.1;
     private final double TWISTDEADBAND=0.1;
     private final double ROTATIONTHRESHOLD=10;//10 degrees per second.  Threshold to determine if rtation has stopped.
     private final double CORRECTIONCONSTANT=.01;//Kp of a rotation PID control
+
+    public static CANSparkMax sparkMotor;
 
     public DriveCoordinates drivingMode=DriveCoordinates.FIELD_CENTERED;
 
@@ -23,7 +30,7 @@ public class Drive{
         }
     }
 
-
+    
     //Notice that class names start with capital letters.
     //Members of the class (variables and methods) start with a lower case letter, but subsequent words have an upper case letter.
     //The initial lower case followed by upper case words is called "camel case"
@@ -186,5 +193,15 @@ public class Drive{
     FIELD_CENTERED
     }
 
-}
 
+    public void sparkthing () {
+        Io.sparkMotor.set(sparkspeed);
+        
+    }
+
+   // public double sparkposition(){
+        //Io.sparkEncoder.getPosition();
+    
+    
+
+}

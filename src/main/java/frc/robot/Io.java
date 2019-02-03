@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -77,12 +78,12 @@ public class Io  {
     public static final int INTAKE_BUTTON=11;
 
     //The joystick buttons for hatch selection
-    public static final int JSB_LEVEL1HATCH=1;
-    public static final int JSB_LEVEL2HATCH=2;
-    public static final int JSB_LEVEL3HATCH=3;
-    public static final int JSB_LEVEL1CARGO=4;
-    public static final int JSB_LEVEL2CARGO=5;
-    public static final int JSB_LEVEL3CARGO=6;
+    public static final int JSB_LEVEL1HATCH=7;
+    public static final int JSB_LEVEL2HATCH=9;
+    public static final int JSB_LEVEL3HATCH=11;
+    public static final int JSB_LEVEL1CARGO=8;
+    public static final int JSB_LEVEL2CARGO=10;
+    public static final int JSB_LEVEL3CARGO=12;
     public static final int MANUALOVERRIDEELEVATOR=7;
     public static final int AUTOMATICOPERATIONELEVATOR=8;
 
@@ -140,6 +141,9 @@ public class Io  {
        public static SpeedController intake;
        public static CANSparkMax elevator;
        public static CANEncoder elevatorEncoder;
+       public static CANPIDController elevatorController;
+
+
       
        public static AHRS navX;
 
@@ -215,25 +219,20 @@ public class Io  {
 
         elevator=new CANSparkMax(ELEVATOR_CANID, MotorType.kBrushless);
         elevatorEncoder=new CANEncoder(elevator); 
+        elevatorController=new CANPIDController(elevator);
+
     
         meccDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
         
         joystick = new Joystick(1);
+        elevatorStick=joystick;
 
         navX = new AHRS(SerialPort.Port.kUSB1);
         navX.zeroYaw();
 
         shoot1 = new Solenoid(SHOOTERSOLENOID);
         lasthope = new Solenoid(LASTHOPESOLENOID);
-        if (isTestBench())
-        {
-        intake = new Spark(INTAKE_PWMPORT);
-        }
-        else
-        {
-            intake =new Spark(INTAKE_PWMPORT);
-        }
-
+    
         
 
     }

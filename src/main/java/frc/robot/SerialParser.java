@@ -4,7 +4,7 @@ public class SerialParser
 {
     public boolean checkForInstructions(Drive drive)
     {
-        String cameraInstructions=Io.jevoisPort.readString();
+        String cameraInstructions="junk";//Io.jevoisPort.readString();
         if (cameraInstructions!=null)
         {
             System.out.println("From jevois: "+cameraInstructions);

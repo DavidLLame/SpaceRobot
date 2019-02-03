@@ -10,21 +10,25 @@ public class Manip {
     int  DEFAULTTIME = 5000;
 
 public void runtime(){
-    shooter();
-    todolist();
+    shooter();//Compute next state
+    todolist();//Set actuators
 }
     public void changeState(FiniteStates newstate){     
     nowstate = newstate;
     statetime = System.currentTimeMillis();
     }    
 
+    /**
+     * Finite state machine for pickup and fire mechanism.
+     * Compute next state
+     */
 public void shooter(){
     long now=System.currentTimeMillis();
 switch(nowstate){
 case IDLE:
-    if(Io.joystick.getRawButton(10))
+    if(Io.joystick.getRawButton(Io.FIRE_BUTTON))
     changeState(FiniteStates.FIREINGA);
-    else if (Io.joystick.getRawButton(11))
+    else if (Io.joystick.getRawButton(Io.INTAKE_BUTTON))
     changeState(FiniteStates.PICKUP);
 break;
 case FIREINGA:
@@ -41,11 +45,11 @@ case PICKUP:
 break;
 case LOADED:
 boolean pressed = true;
-if (Io.joystick.getRawButton(11) != pressed)
+if (Io.joystick.getRawButton(Io.INTAKE_BUTTON) != pressed)
     changeState(FiniteStates.IDLE);
 break;
 case RESET:
-    if (now-statetime>DEFAULTTIME)
+    if ((now-statetime>DEFAULTTIME)&&(!Io.joystick.getRawButton(Io.FIRE_BUTTON)))
     changeState(FiniteStates.IDLE);
 break;
 }

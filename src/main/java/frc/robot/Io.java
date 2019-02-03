@@ -57,10 +57,37 @@ public class Io  {
      *
      */
 
-    private static final int FRONTLEFTMOTOR_PWMPORT = 4;
-    private static final int REARRIGHTMOTOR_PWMPORT = 2;
-    private static final int FRONTRIGHTMOTOR_PWMPORT = 3;
-    private static final int REARLEFTMOTOR_PWMPORT = 5;
+    private static final int FRONTLEFTMOTOR_PWMPORT_TBENCH = 4;
+    private static final int REARRIGHTMOTOR_PWMPORT_TBENCH = 2;
+    private static final int FRONTRIGHTMOTOR_PWMPORT_TBENCH = 3;
+    private static final int REARLEFTMOTOR_PWMPORT_TBENCH = 5;
+
+    private static final int FRONTLEFTMOTOR_PWMPORT_BBOT = 4;
+    private static final int REARRIGHTMOTOR_PWMPORT_BBOT = 2;
+    private static final int FRONTRIGHTMOTOR_PWMPORT_BBOT = 3;
+    private static final int REARLEFTMOTOR_PWMPORT_BBOT = 5;
+
+    private static final int INTAKE_PWMPORT_TBENCH=1;
+    private static final int INTAKE_PWMPORT_BBOT=1;
+
+    //Joystick buttons
+    public static final int FIRE_BUTTON=10;
+    public static final int INTAKE_BUTTON=11;
+
+
+
+    //Notice that the following are not "final"
+    public static  int FRONTLEFTMOTOR_PWMPORT = 4;
+    public static int REARRIGHTMOTOR_PWMPORT = 2;
+    public static  int FRONTRIGHTMOTOR_PWMPORT = 3;
+    public static  int REARLEFTMOTOR_PWMPORT = 5; 
+    
+    private static int INTAKE_PWMPORT=1;
+
+
+    private static int SHOOTERSOLENOID=1;
+    private static int LASTHOPESOLENOID=0;
+    
     
 
 
@@ -79,22 +106,64 @@ public class Io  {
 
     //All functions of this class should be declared as static.
     //We will never have more than one of this class, so we'll just use statics.
-        static Victor frontLeftMotor;
-        static Victor rearLeftMotor;
-        static Victor frontRightMotor;
-        static Victor rearRightMotor;
+
+    //Notice that the motor controller objects are declared as SpeedController objects, not
+    //as sparks, victors, talons, etc.  That way, we can use any of them, and reuse the same 
+    //code on a-bot and b-bot, even though they have different controllers.
+      public  static SpeedController frontLeftMotor;
+      public   static SpeedController rearLeftMotor;
+      public  static SpeedController frontRightMotor;
+      public  static SpeedController rearRightMotor;
 
        public static Joystick joystick;
 
        public static Solenoid shoot1;
        public static Solenoid lasthope;
 
-       public static Spark intake;
+       public static SpeedController intake;
       
        public static AHRS navX;
 
       public static double deadband;
 
+
+      public static boolean isTestBench()
+      {
+          return true;
+      }
+
+      public static boolean isBBot()
+      {
+          return false;
+      }
+
+      public static boolean isABot()
+      {
+          return false;
+      }
+
+      private static void setSpecificRobot()
+      {
+          if (isTestBench())
+          {
+              FRONTLEFTMOTOR_PWMPORT=FRONTLEFTMOTOR_PWMPORT_TBENCH;
+              FRONTRIGHTMOTOR_PWMPORT=FRONTRIGHTMOTOR_PWMPORT_TBENCH;
+              REARLEFTMOTOR_PWMPORT=REARLEFTMOTOR_PWMPORT_TBENCH;
+              REARRIGHTMOTOR_PWMPORT=REARRIGHTMOTOR_PWMPORT_TBENCH;
+
+              INTAKE_PWMPORT=INTAKE_PWMPORT_TBENCH;
+          }
+
+          else 
+          {
+            FRONTLEFTMOTOR_PWMPORT=FRONTLEFTMOTOR_PWMPORT_BBOT;
+            FRONTRIGHTMOTOR_PWMPORT=FRONTRIGHTMOTOR_PWMPORT_BBOT;
+            REARLEFTMOTOR_PWMPORT=REARLEFTMOTOR_PWMPORT_BBOT;
+            REARRIGHTMOTOR_PWMPORT=REARRIGHTMOTOR_PWMPORT_BBOT;
+
+            INTAKE_PWMPORT=INTAKE_PWMPORT_BBOT;
+          }
+      }
     //This function will instantiate  all of the hardware variables declared above. And all any
     //Initialization functions needed.
     public static void initIO()
@@ -106,11 +175,24 @@ public class Io  {
 
         //Repeat for all of the objects.     
         
-       
+        if (isTestBench()||isBBot())
+        {
         frontLeftMotor = new Victor(FRONTLEFTMOTOR_PWMPORT);
         rearLeftMotor = new Victor(REARLEFTMOTOR_PWMPORT);
         frontRightMotor = new Victor(FRONTRIGHTMOTOR_PWMPORT);
         rearRightMotor = new Victor(REARRIGHTMOTOR_PWMPORT);
+
+        intake=new Victor(INTAKE_PWMPORT);
+        }
+        else
+        {
+        frontLeftMotor = new Spark(FRONTLEFTMOTOR_PWMPORT);
+        rearLeftMotor = new Spark(REARLEFTMOTOR_PWMPORT);
+        frontRightMotor = new Spark(FRONTRIGHTMOTOR_PWMPORT);
+        rearRightMotor = new Spark(REARRIGHTMOTOR_PWMPORT);
+
+        intake=new Spark(INTAKE_PWMPORT);
+        }
     
         meccDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
         
@@ -119,9 +201,16 @@ public class Io  {
         navX = new AHRS(SerialPort.Port.kUSB1);
         navX.zeroYaw();
 
-        shoot1 = new Solenoid(1);
-        lasthope = new Solenoid(0);
-        intake = new Spark(4);
+        shoot1 = new Solenoid(SHOOTERSOLENOID);
+        lasthope = new Solenoid(LASTHOPESOLENOID);
+        if (isTestBench())
+        {
+        intake = new Spark(INTAKE_PWMPORT);
+        }
+        else
+        {
+            intake =new Spark(INTAKE_PWMPORT);
+        }
 
         
 

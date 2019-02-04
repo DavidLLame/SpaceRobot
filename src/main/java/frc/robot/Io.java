@@ -64,13 +64,13 @@ public class Io  {
     private static final int FRONTRIGHTMOTOR_PWMPORT_TBENCH = 3;
     private static final int REARLEFTMOTOR_PWMPORT_TBENCH = 5;
 
-    private static final int FRONTLEFTMOTOR_PWMPORT_BBOT = 4;
-    private static final int REARRIGHTMOTOR_PWMPORT_BBOT = 2;
-    private static final int FRONTRIGHTMOTOR_PWMPORT_BBOT = 3;
-    private static final int REARLEFTMOTOR_PWMPORT_BBOT = 5;
+    private static final int FRONTLEFTMOTOR_PWMPORT_BBOT = 2;
+    private static final int REARRIGHTMOTOR_PWMPORT_BBOT = 1;
+    private static final int FRONTRIGHTMOTOR_PWMPORT_BBOT = 0;
+    private static final int REARLEFTMOTOR_PWMPORT_BBOT = 3;
 
     private static final int INTAKE_PWMPORT_TBENCH=1;
-    private static final int INTAKE_PWMPORT_BBOT=1;
+    private static final int INTAKE_PWMPORT_BBOT=4;
 
     //Joystick buttons
     public static final int FIRE_BUTTON=10;
@@ -225,14 +225,8 @@ public class Io  {
 
         shoot1 = new Solenoid(SHOOTERSOLENOID);
         lasthope = new Solenoid(LASTHOPESOLENOID);
-        if (isTestBench())
-        {
-        intake = new Spark(INTAKE_PWMPORT);
-        }
-        else
-        {
-            intake =new Spark(INTAKE_PWMPORT);
-        }
+
+    
 
         
 

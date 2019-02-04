@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
   private TestComponents testThisRobot;
   Manip manip;
   ElevatorOps elevatorOps;
+  ShuffleTest shuffleTest;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -51,6 +52,7 @@ public class Robot extends TimedRobot {
     testThisRobot=new TestComponents();
     manip = new Manip();
     elevatorOps=new ElevatorOps();
+    shuffleTest=new ShuffleTest();
 
   }
 
@@ -82,6 +84,7 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+    shuffleTest.Init();
     
     //Here is another added comment.
   }
@@ -100,6 +103,8 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }
+
+    shuffleTest.increment();
   }
   @Override
   public void teleopInit() {

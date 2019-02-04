@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
   CameraStream usbCam;
   private TestComponents testThisRobot;
   Manip manip;
+  ElevatorOps elevatorOps;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -49,6 +50,7 @@ public class Robot extends TimedRobot {
     usbCam.initCamera();
     testThisRobot=new TestComponents();
     manip = new Manip();
+    elevatorOps=new ElevatorOps();
 
   }
 
@@ -103,6 +105,8 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     super.teleopInit();//What's this?  Not sure if it's necessary.  We'll try without it, too.
     Io.navX.zeroYaw();
+
+    
   }
 
   /**
@@ -112,10 +116,11 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     manip.runtime();
-    double newAngle = Io.navX.getAngle();
-    System.out.println(newAngle);
+   // double newAngle = Io.navX.getAngle();
+   // System.out.println(newAngle);
     
     drive.driveByJoystick();
+    elevatorOps.operateElevator();
 //    usbCam.grabFrame();
   }
 

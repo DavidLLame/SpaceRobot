@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.revrobotics.ControlType;
+
 public class ElevatorOps
 {
     //obviously, the values will have to be changed
@@ -12,12 +14,33 @@ public class ElevatorOps
 
     private boolean isAutomatic=true;
 
+
+    private double elevatorKp=0.1;
+    private double elevatorKd=0.0;
+    private double elevatorKi=0.0;
+    private double elevatorIZone=5;
+
     private ElevatorPresets currentTarget=ElevatorPresets.LEVEL1HATCH;
 
     private double currentTargetPosition;
     private double gravityOffsetEstimate=0; //The estimated motor set in order to hold against gravity
 
     private double encoderZero;  //The stored value that represents 0
+
+    public  ElevatorOps()
+    {
+
+        Io.elevatorController=Io.elevator.getPIDController();
+        Io.elevatorEncoder=Io.elevator.getEncoder();
+
+
+        Io.elevatorController.setP(elevatorKp);
+        Io.elevatorController.setD(elevatorKd);
+        Io.elevatorController.setI(elevatorKi);
+        Io.elevatorController.setIZone(elevatorIZone);
+        Io.elevatorController.setOutputRange(-1.0, 1.0);
+        
+    }
 
     public void selectTarget()
     {
@@ -82,19 +105,26 @@ public class ElevatorOps
     public void operateElevator()
     {
         selectTarget(); //Also deterines manual or automatic mode
+        getCurrentTargetPosition();
+        System.out.println("Target   "+currentTargetPosition);
+        System.out.println("Current Position"+Io.elevatorEncoder.getPosition());
 
         if (isAutomatic)
         {
+
             currentTargetPosition=getCurrentTargetPosition();
 
-            double error=currentTargetPosition-Io.elevatorEncoder.getPosition();
+            Io.elevatorController.setReference(currentTargetPosition, ControlType.kPosition);
+            
 
-            //TODO:  Figure out closed loop control on spark max with neo
+            
 
            
         }
         else
         {
+
+            //Todo:  This might not work at all.  I'm not sure you can turn this "off"
             Io.elevator.set(Io.elevatorStick.getRawAxis(Io.MANUALAXISELEVATOR));
         }
     }

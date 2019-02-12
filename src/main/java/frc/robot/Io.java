@@ -1,5 +1,6 @@
 package frc.robot;
 
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -7,8 +8,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -27,6 +30,8 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 public class Io  {
   
+
+    
 
     //This class will be used to do all hardware initialization.
     //The lines below will be changed as we move forward to replace their current descriptions
@@ -84,17 +89,32 @@ public class Io  {
     public static final int INTAKE_BUTTON=11;
 
     //The joystick buttons for hatch selection
-    public static final int JSB_LEVEL1HATCH=7;
-    public static final int JSB_LEVEL2HATCH=9;
-    public static final int JSB_LEVEL3HATCH=11;
-    public static final int JSB_LEVEL1CARGO=8;
-    public static final int JSB_LEVEL2CARGO=10;
-    public static final int JSB_LEVEL3CARGO=12;
+    public static final int JSB_LEVEL1HATCH=1;
+    public static final int JSB_LEVEL2HATCH=2;
+    public static final int JSB_LEVEL3HATCH=3;
+    public static final int JSB_LEVEL1CARGO=13;
+    public static final int JSB_LEVEL2CARGO=16;
+    public static final int JSB_LEVEL3CARGO=15;
     public static final int MANUALOVERRIDEELEVATOR=7;
     public static final int AUTOMATICOPERATIONELEVATOR=8;
 
+
+
+    //Joystick AXES
+
+    public static final int DRIVEXAXIS=0;
+    public static final int DRIVEYAXIS=1;
+    public static final int DRIVETWISTAXIS=2;
+    public static final int THROTTLEAXIS=3;
+
     public static final int MANUALAXISELEVATOR=1;
 
+    public static final int JSB_BEAVERTAILLOWER=5;
+    public static final int JSB_BEAVERTAILFIRE=6;
+
+    public static final int USBPORTELEVATORSTICK=1;
+    public static final int USBPORTDRIVESTICK=0;
+    public static final int USBPORTFIGHTSTICK=2;
 
 
 
@@ -110,6 +130,8 @@ public class Io  {
 
     private static int SHOOTERSOLENOID=1;
     private static int LASTHOPESOLENOID=0;
+    private static final int BEAVERTAILLOWER=2;
+    private static final int BEAVERTAILFIRE=3;
     
     
 
@@ -138,16 +160,21 @@ public class Io  {
       public  static SpeedController frontRightMotor;
       public  static SpeedController rearRightMotor;
 
-       public static Joystick joystick;
+       public static Joystick driveStick;
        public static Joystick elevatorStick;
+       public static Joystick fightStick;
 
        public static Solenoid shoot1;
        public static Solenoid lasthope;
+       public static Solenoid beaverTailLower;
+       public static Solenoid beaverTailFire;
 
        public static SpeedController intake;
        public static CANSparkMax elevator;
        public static CANEncoder elevatorEncoder;
        public static CANPIDController elevatorController;
+
+       public static PowerDistributionPanel pdp;
 
 
       
@@ -155,15 +182,17 @@ public class Io  {
 
       public static double deadband;
 
+      private static boolean MecanumIsSet=false;
+
 
       public static boolean isTestBench()
       {
-          return true;
+          return false;
       }
 
       public static boolean isBBot()
       {
-          return false;
+          return true;
       }
 
       public static boolean isABot()
@@ -185,6 +214,7 @@ public class Io  {
 
           else 
           {
+              System.out.println("Setting up bbot");
             FRONTLEFTMOTOR_PWMPORT=FRONTLEFTMOTOR_PWMPORT_BBOT;
             FRONTRIGHTMOTOR_PWMPORT=FRONTRIGHTMOTOR_PWMPORT_BBOT;
             REARLEFTMOTOR_PWMPORT=REARLEFTMOTOR_PWMPORT_BBOT;
@@ -197,6 +227,7 @@ public class Io  {
     //Initialization functions needed.
     public static void initIO()
     {
+        setSpecificRobot();
         //leftDriveMotor =new Talon(LEFTSIDEMOTOR_PWMPORT);  //Notice we don't say Victor(0).  That makes it easier to change.
                                                            //If we always use the symbolic names, we can change what port they are plugged in to
                                                            //by only changing one line of code.
@@ -208,8 +239,14 @@ public class Io  {
         {
         frontLeftMotor = new Victor(FRONTLEFTMOTOR_PWMPORT);
         rearLeftMotor = new Victor(REARLEFTMOTOR_PWMPORT);
+        rearLeftMotor.setInverted(true);
         frontRightMotor = new Victor(FRONTRIGHTMOTOR_PWMPORT);
+        frontRightMotor.setInverted(true);
         rearRightMotor = new Victor(REARRIGHTMOTOR_PWMPORT);
+        rearRightMotor.setInverted(true);
+
+
+            
 
         intake=new Victor(INTAKE_PWMPORT);
         }
@@ -232,18 +269,42 @@ public class Io  {
 
 
     
-       // meccDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
         
-        joystick = new Joystick(1);
-        elevatorStick=joystick;
+        driveStick = new Joystick(USBPORTDRIVESTICK);
+        elevatorStick=new Joystick(USBPORTELEVATORSTICK);
+        fightStick=new Joystick(USBPORTFIGHTSTICK);
 
-        navX = new AHRS(SerialPort.Port.kUSB1);
+        navX = new AHRS(SerialPort.Port.kMXP);
         navX.zeroYaw();
 
         shoot1 = new Solenoid(SHOOTERSOLENOID);
         lasthope = new Solenoid(LASTHOPESOLENOID);
+        beaverTailLower=new Solenoid(BEAVERTAILLOWER);
+        beaverTailFire=new Solenoid(BEAVERTAILFIRE);
+
+      //  pdp=new PowerDistributionPanel();
+
     
         
+
+    }
+
+
+    /**
+     * After the Mecanum Drive object is initialized, it must be "fed"
+     * frequently or it will fail.  Rather than "feeding" it in RobotPeriodi,
+     * we will wait to initialize it 
+     */
+    public static void initMecanum()
+    {
+        if (MecanumIsSet) return;
+        else
+        {
+
+            meccDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
+            MecanumIsSet=true;
+       
+        }
 
     }
 

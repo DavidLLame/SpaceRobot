@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
   CameraStream usbCam;
   private TestComponents testThisRobot;
   Manip manip;
+  ElevatorOps elevatorOps;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -49,6 +50,7 @@ public class Robot extends TimedRobot {
     usbCam.initCamera();
     testThisRobot=new TestComponents();
     manip = new Manip();
+    elevatorOps=new ElevatorOps();
 
   }
 
@@ -115,7 +117,8 @@ public class Robot extends TimedRobot {
     double newAngle = Io.navX.getAngle();
     System.out.println(newAngle);
     
-    drive.driveByJoystick();
+   // drive.driveByJoystick();
+    elevatorOps.operateElevator();
 //    usbCam.grabFrame();
   }
 

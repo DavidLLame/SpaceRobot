@@ -26,9 +26,9 @@ public void shooter(){
     long now=System.currentTimeMillis();
 switch(nowstate){
 case IDLE:
-    if(Io.joystick.getRawButton(Io.FIRE_BUTTON))
+    if(Io.driveStick.getRawButton(Io.FIRE_BUTTON))
     changeState(FiniteStates.FIREINGA);
-    else if (Io.joystick.getRawButton(Io.INTAKE_BUTTON))
+    else if (Io.elevatorStick.getRawButton(Io.INTAKE_BUTTON))
     changeState(FiniteStates.PICKUP);
 break;
 case FIREINGA:
@@ -45,11 +45,11 @@ case PICKUP:
 break;
 case LOADED:
 boolean pressed = true;
-if (Io.joystick.getRawButton(Io.INTAKE_BUTTON) != pressed)
+if (Io.elevatorStick.getRawButton(Io.INTAKE_BUTTON) != pressed)
     changeState(FiniteStates.IDLE);
 break;
 case RESET:
-    if ((now-statetime>DEFAULTTIME)&&(!Io.joystick.getRawButton(Io.FIRE_BUTTON)))
+    if ((now-statetime>DEFAULTTIME)&&(!Io.elevatorStick.getRawButton(Io.FIRE_BUTTON)))
     changeState(FiniteStates.IDLE);
 break;
 }

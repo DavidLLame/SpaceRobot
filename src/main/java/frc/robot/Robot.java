@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,6 +34,11 @@ public class Robot extends TimedRobot {
   Manip manip;
   ElevatorOps elevatorOps;
 
+  Beavertail beavertail;
+
+  private boolean DriveDisabled=true;
+
+  
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -51,6 +57,7 @@ public class Robot extends TimedRobot {
     testThisRobot=new TestComponents();
     manip = new Manip();
     elevatorOps=new ElevatorOps();
+    beavertail=new Beavertail();
 
   }
 
@@ -64,6 +71,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    
   }
 
   /**
@@ -82,6 +90,7 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+    Io.initMecanum();
     
     //Here is another added comment.
   }
@@ -100,11 +109,16 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }
+
+
   }
   @Override
   public void teleopInit() {
     super.teleopInit();//What's this?  Not sure if it's necessary.  We'll try without it, too.
+    Io.initMecanum();
     Io.navX.zeroYaw();
+
+    
   }
 
   /**
@@ -113,13 +127,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    manip.runtime();
-    double newAngle = Io.navX.getAngle();
-    System.out.println(newAngle);
-    
-   // drive.driveByJoystick();
-    elevatorOps.operateElevator();
-//    usbCam.grabFrame();
+    // manip.runtime();
+   // double newAngle = Io.navX.getAngle();
+   // System.out.println(newAngle);
+  
+       drive.driveByJoystick();
+
+    //elevatorOps.operateElevator();
+    //beavertail.OperateBeaverTail();
+    //usbCam.grabFrame();
+
+   // SmartDashboard.putNumber("Port_1_Current",Io.pdp.getCurrent(1));
   }
 
   /**

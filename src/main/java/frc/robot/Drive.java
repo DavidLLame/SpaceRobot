@@ -206,12 +206,6 @@ public class Drive{
     FIELD_CENTERED
     }
 
-<<<<<<< HEAD
-=======
-
-
-}
->>>>>>> a28fcc510c035d649afda58f49df3a8ac15717f2
 
     public void sparkthing () {
         Io.sparkMotor.set(sparkspeed);

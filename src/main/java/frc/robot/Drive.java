@@ -17,14 +17,7 @@ public class Drive{
     public DriveCoordinates drivingMode=DriveCoordinates.ROBOT_CENTERED;
     public boolean naxXDisabled=true;
 
-    double deadbanded (double joyY, double deadband) {
-        if ((Math.abs(joyY) >= deadband)) {
-            return joyY;
-        }
-        else{
-            return 0;
-        }
-    }
+    
 
 
     //Notice that class names start with capital letters.
@@ -49,13 +42,25 @@ public class Drive{
 
         System.out.println("Driving by joystick");
         
-        double throttleMultiplier=throttleLevel(Io.driveStick.getRawAxis(Io.THROTTLEAXIS));
+
+        double throttleMultiplier=UserCom.throttle();
       //TODO:  To switch back and forth between field centered and robot centered,
       //there has to be some adjustment in yaw calculations.
-      if (drivingMode==DriveCoordinates.FIELD_CENTERED)
+      if (drivingMode==DriveCoordinates.FOURTYFIVE)
       {
-      Io.meccDrive.driveCartesian(throttleMultiplier*deadbanded(Io.driveStick.getRawAxis(Io.DRIVEXAXIS),AXISDEADBAND),
-       -1*throttleMultiplier * deadbanded(Io.driveStick.getRawAxis(1),AXISDEADBAND), deadbanded(Io.driveStick.getRawAxis(Io.DRIVETWISTAXIS),TWISTDEADBAND),Io.navX.getAngle());
+          if (UserCom.yDrive()>0.5)
+          {
+              Io.meccDrive.driveCartesian(-0.7, .7, 0,-1*Io.navX.getAngle());
+          }
+          else
+          {
+              Io.meccDrive.driveCartesian(0, 0, 0,0);
+          }
+      }
+
+
+      else if (drivingMode==DriveCoordinates.FIELD_CENTERED)
+      {Io.meccDrive.driveCartesian(throttleMultiplier*UserCom.xDrive(),throttleMultiplier*UserCom.yDrive(),UserCom.twistDrive(),Io.navX.getAngle());
       }
       else
       {
@@ -68,24 +73,21 @@ public class Drive{
         {
              correctionFactor=0;
         }
-        if ((deadbanded(Io.driveStick.getRawAxis(Io.DRIVETWISTAXIS),TWISTDEADBAND)==0)&&
-            (Math.abs(Io.navX.getRate())<ROTATIONTHRESHOLD))
+
+        if ((UserCom.twistDrive()==0)&&(Math.abs(Io.navX.getRate())<ROTATIONTHRESHOLD))
             {//We are trying to go straight
               correctionFactor=-1*CORRECTIONCONSTANT*Io.navX.getYaw();
-
             }
         else
         {
             correctionFactor=0;
             Io.navX.zeroYaw();
-
         }
 
             
 
-        
-        Io.meccDrive.driveCartesian(deadbanded(Io.driveStick.getRawAxis(Io.DRIVEXAXIS),AXISDEADBAND),
-        -1 * deadbanded(Io.driveStick.getRawAxis(Io.DRIVEYAXIS),AXISDEADBAND), deadbanded(Io.driveStick.getRawAxis(Io.DRIVETWISTAXIS),TWISTDEADBAND)+correctionFactor,0);
+        //In the following, either correctionfactor or twistDtive() will be zero
+        Io.meccDrive.driveCartesian(UserCom.xDrive(),UserCom.yDrive(),correctionFactor+UserCom.twistDrive(),0);
       }
 
     
@@ -127,7 +129,8 @@ public class Drive{
     public enum DriveCoordinates
     {
     ROBOT_CENTERED,
-    FIELD_CENTERED
+    FIELD_CENTERED,
+    FOURTYFIVE
     }
 
 

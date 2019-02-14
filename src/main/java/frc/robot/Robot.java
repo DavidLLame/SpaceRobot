@@ -51,6 +51,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ANumber", 1.0);
 
     Io.initIO();
+    UserCom.init();
     drive =new Drive();
     usbCam=new CameraStream();
     usbCam.initCamera();
@@ -131,10 +132,18 @@ public class Robot extends TimedRobot {
    // double newAngle = Io.navX.getAngle();
    // System.out.println(newAngle);
   
-       drive.driveByJoystick();
+   
+   
+   
+   System.out.println("TeleopPeriodic");
+   
+   
+   
+   
+   drive.driveByJoystick();
 
-    //elevatorOps.operateElevator();
-    //beavertail.OperateBeaverTail();
+    elevatorOps.operateElevator();
+    beavertail.OperateBeaverTail();
     //usbCam.grabFrame();
 
    // SmartDashboard.putNumber("Port_1_Current",Io.pdp.getCurrent(1));

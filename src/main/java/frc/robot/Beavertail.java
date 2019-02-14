@@ -5,12 +5,12 @@ public class Beavertail
 
     public void OperateBeaverTail()
     {
-        if (Io.elevatorStick.getRawButton(Io.JSB_BEAVERTAILLOWER))
+        if (UserCom.beaverTailLower())
             Io.beaverTailLower.set(true);
         else
-            Io.beaverTailFire.set(false);
+            Io.beaverTailLower.set(false);
 
-        if(Io.elevatorStick.getRawButton(Io.JSB_BEAVERTAILFIRE))
+        if(UserCom.beaverTailFire())
             Io.beaverTailFire.set(true);
         else
             Io.beaverTailFire.set(false);

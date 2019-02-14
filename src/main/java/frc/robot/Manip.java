@@ -1,6 +1,6 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Manip {
@@ -26,9 +26,9 @@ public void shooter(){
     long now=System.currentTimeMillis();
 switch(nowstate){
 case IDLE:
-    if(Io.driveStick.getRawButton(Io.FIRE_BUTTON))
+    if(UserCom.primaryFire())
     changeState(FiniteStates.FIREINGA);
-    else if (Io.elevatorStick.getRawButton(Io.INTAKE_BUTTON))
+    else if (UserCom.intakeMotorOn())
     changeState(FiniteStates.PICKUP);
 break;
 case FIREINGA:
@@ -45,11 +45,11 @@ case PICKUP:
 break;
 case LOADED:
 boolean pressed = true;
-if (Io.elevatorStick.getRawButton(Io.INTAKE_BUTTON) != pressed)
+if (!UserCom.intakeMotorOn())
     changeState(FiniteStates.IDLE);
 break;
 case RESET:
-    if ((now-statetime>DEFAULTTIME)&&(!Io.elevatorStick.getRawButton(Io.FIRE_BUTTON)))
+    if ((now-statetime>DEFAULTTIME)&&(!UserCom.primaryFire()))
     changeState(FiniteStates.IDLE);
 break;
 }

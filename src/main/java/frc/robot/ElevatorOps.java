@@ -50,7 +50,7 @@ public class ElevatorOps
     {
 
         //Check for any requests to change from maunal to automatic, or vice versa
-        if (Io.fightStick.getRawButton(Io.MANUALOVERRIDEELEVATOR))
+       /* if (Io.fightStick.getRawButton(Io.MANUALOVERRIDEELEVATOR))
         {
             isAutomatic=false;
         }
@@ -59,27 +59,32 @@ public class ElevatorOps
             isAutomatic=true;
         }
 
+        
+        */
+
+        isAutomatic=false;
+
         //Now check for any new preset instruction
 
-        if (Io.fightStick.getRawButton(Io.JSB_LEVEL1CARGO))
+        if (UserCom.Level1Cargo())
         {currentTarget=ElevatorPresets.LEVEL1CARGO;}
-        else if (Io.fightStick.getRawButton(Io.JSB_LEVEL2CARGO))
+        else if (UserCom.Level2Cargo())
         {
             currentTarget=ElevatorPresets.LEVEL2CARGO;
         }
-        else if (Io.fightStick.getRawButton(Io.JSB_LEVEL3CARGO))
+        else if (UserCom.Level3Cargo())
         {
             currentTarget=ElevatorPresets.LEVEL3CARGO;
         }
-        else if (Io.fightStick.getRawButton(Io.JSB_LEVEL1HATCH))
+        else if (UserCom.Level1Hatch())     
         {
             currentTarget=ElevatorPresets.LEVEL1HATCH;
         }
-        else if (Io.fightStick.getRawButton(Io.JSB_LEVEL2HATCH))
+        else if (UserCom.Level2Hatch())
         {
             currentTarget=ElevatorPresets.LEVEL2HATCH;
         }
-        else if (Io.fightStick.getRawButton(Io.JSB_LEVEL3HATCH))
+        else if (UserCom.Level3Hatch())
         {
             currentTarget=ElevatorPresets.LEVEL3HATCH;
         }
@@ -109,7 +114,7 @@ public class ElevatorOps
     public void operateElevator()
     {
         selectTarget(); //Also deterines manual or automatic mode
-        getCurrentTargetPosition();
+        getCurrentTargetPosition();//Sets the number of rotations
         System.out.println("Target   "+currentTargetPosition);
         System.out.println("Current Position"+Io.elevatorEncoder.getPosition());
         SmartDashboard.putNumber("Rotations", Io.elevatorEncoder.getPosition());
@@ -132,27 +137,23 @@ public class ElevatorOps
 
             //Todo:  This might not work at all.  I'm not sure you can turn this "off"
            // Io.elevator.set(Io.elevatorStick.getRawAxis(Io.MANUALAXISELEVATOR));
-           System.out.println("Raw stick: "+Io.elevatorStick.getRawAxis(Io.MANUALAXISELEVATOR));
-           System.out.println("Scaled stick: "+joystickScaling(Io.elevatorStick.getRawAxis(Io.MANUALAXISELEVATOR)));
-           Io.elevatorController.setReference(joystickScaling(Io.elevatorStick.getRawAxis(Io.MANUALAXISELEVATOR)), ControlType.kDutyCycle);
+           System.out.println("Raw stick: "+UserCom.manualElevatorSpeed());
+           System.out.println("Scaled stick: "+limitedElevator());
+           Io.elevatorController.setReference(limitedElevator(), ControlType.kDutyCycle);
         }
     }
 
-    private double ELEVATORDEADBAND=0.3;
+
     private double ELEVATORMAXSCALEDSPEED=0.2;
     /**
-     * if the stick is in the deadband, output 0
-     * If the stick is at 1, output ELEVATORMAX SPEED
-     * Between the deadband limit and 1, scale linearly
      * 
-     * @param rawAxis The raw joystick value
      * @return The scaled value
      */
-    private double joystickScaling(double rawAxis)
-    {if (Math.abs(rawAxis)<ELEVATORDEADBAND)
-        return 0;
-     else
-          return Math.signum(rawAxis)*ELEVATORMAXSCALEDSPEED*(Math.abs(rawAxis)-ELEVATORDEADBAND)/(1-ELEVATORDEADBAND);
+    private double limitedElevator()
+    {
+        double requestedValue=UserCom.manualElevatorSpeed();//Deadband has been applied
+        Io.printDebugMessage("Scaled value:"+Math.signum(requestedValue)*Math.min(Math.abs(requestedValue),ELEVATORMAXSCALEDSPEED));
+        return Math.signum(requestedValue)*Math.min(Math.abs(requestedValue),ELEVATORMAXSCALEDSPEED);
     }
 
 

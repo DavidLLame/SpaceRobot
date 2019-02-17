@@ -114,15 +114,10 @@ public class Io  {
 
       public static double deadband;
 
-<<<<<<< HEAD
       public static boolean isTestBench()
       {
           return false;
       }
-=======
-      private static boolean MecanumIsSet=false;
-
->>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
 
       public static boolean isBBot()
       {
@@ -134,34 +129,7 @@ public class Io  {
           return false;
       }
 
-<<<<<<< HEAD
-      private static void setSpecificRobot()
-      {
-          if (isTestBench())
-          {
-              FRONTLEFTMOTOR_PWMPORT=FRONTLEFTMOTOR_PWMPORT_TBENCH;
-              FRONTRIGHTMOTOR_PWMPORT=FRONTRIGHTMOTOR_PWMPORT_TBENCH;
-              REARLEFTMOTOR_PWMPORT=REARLEFTMOTOR_PWMPORT_TBENCH;
-              REARRIGHTMOTOR_PWMPORT=REARRIGHTMOTOR_PWMPORT_TBENCH;
-
-              INTAKE_PWMPORT=INTAKE_PWMPORT_TBENCH;
-          }
-
-          else 
-          {
-              System.out.println("Setting up bbot");
-            FRONTLEFTMOTOR_PWMPORT=FRONTLEFTMOTOR_PWMPORT_BBOT;
-            FRONTRIGHTMOTOR_PWMPORT=FRONTRIGHTMOTOR_PWMPORT_BBOT;
-            REARLEFTMOTOR_PWMPORT=REARLEFTMOTOR_PWMPORT_BBOT;
-            REARRIGHTMOTOR_PWMPORT=REARRIGHTMOTOR_PWMPORT_BBOT;
-
-            INTAKE_PWMPORT=INTAKE_PWMPORT_BBOT;
-          }
-      }
-
-=======
       
->>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
     //This function will instantiate  all of the hardware variables declared above. And all any
     //Initialization functions needed.
     public static void initIO()

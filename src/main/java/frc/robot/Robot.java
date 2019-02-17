@@ -120,12 +120,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     super.teleopInit();//What's this?  Not sure if it's necessary.  We'll try without it, too.
     Io.initMecanum();
-<<<<<<< HEAD
   //  Io.navX.zeroYaw();
-=======
-    Io.navX.zeroYaw();
-    drive.Init();
->>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
 
     
   }
@@ -140,12 +135,6 @@ public class Robot extends TimedRobot {
    // double newAngle = Io.navX.getAngle();
    // System.out.println(newAngle);
   
-<<<<<<< HEAD
-    //   drive.driveByJoystick();
-
-    //elevatorOps.operateElevator();
-    beavertail.OperateBeaverTail();
-=======
    
    
    
@@ -159,7 +148,6 @@ public class Robot extends TimedRobot {
 
    //elevatorOps.operateElevator();
    beavertail.OperateBeaverTail();
->>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
     //usbCam.grabFrame();
 
    // SmartDashboard.putNumber("Port_1_Current",Io.pdp.getCurrent(1));

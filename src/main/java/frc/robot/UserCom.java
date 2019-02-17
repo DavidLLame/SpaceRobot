@@ -1,6 +1,11 @@
 package frc.robot;
 
+import java.util.ArrayList;
+
+import com.sun.tools.javac.code.Attribute.Array;
+
 import edu.wpi.first.wpilibj.Joystick;
+import jdk.internal.jline.console.completer.ArgumentCompleter.ArgumentList;
 
 /**
  * User commands
@@ -25,39 +30,57 @@ public class UserCom
     //Joysticks will be private when it's done, because
     //no other code ought to reference joysticks directly
     private static Joystick driveStick;
+    private static Joystick turnStick;
     private static int DRIVESTICKPORT=0;
     
-    private static int DRIVEAXISX=0;
     private static int DRIVEAXISY=1;
     private static int DRIVEAXISTWIST=2;
     private static int DRIVEAXISTHROTTLE=3;
 
-    private static int PRIMARY_FIRE_BUTTON=10;
-    private static int INTAKE_BUTTON=11;
-
     private static double XDRIVEDEADBAND=0.3;
     private static double YDRIVEDEADBAND=0.3;
     private static double TWISTDEADBAND=0.5;
+   
+    public static int BIGTRIGGERRIGHT=1;
+//Turn Stick
+    private static int DRIVEAXISX=0;
+    public static int BIGTRIGGERLEFT=1;
+  
+/************************DECLARATIONS FOR DRIVER 2 Controllers */
 
-/************************DECLARATIONS FOR DRIVER 2 STICK */
-
-    private static Joystick driver2Stick;//The controller held in the hand of driver 1
-
+    private static Joystick driver2Stick;//The controller held in the hand of driver 2
+    private static Joystick fightStick;//Fight Stick buttons for driver 2
     private static int DRIVER2STICKPORT=1;
-    private static int  MANUALAXISELEVATOR=1;
     private static double ELEVATORDEADBAND=0.35;
 
-    public static final int JSB_LEVEL1HATCH=6;
-    public static final int JSB_LEVEL2HATCH=7;
-    public static final int JSB_LEVEL3HATCH=8;
-    public static final int JSB_LEVEL1CARGO=11;
-    public static final int JSB_LEVEL2CARGO=10;
-    public static final int JSB_LEVEL3CARGO=9;
-    public static final int JSB_ELEVATORZERO=4;
-    public static final int JSB_ELEVATORAUTO=5;
+//Street Fighter
+    public static final int JSB_LEVEL1HATCH=1;
+    public static final int JSB_LEVEL2HATCH=2;
+    public static final int JSB_LEVEL3HATCH=3;
+    public static final int JSB_LEVEL1CARGO=5;
+    public static final int JSB_LEVEL2CARGO=6;
+    public static final int JSB_LEVEL3CARGO=7;
+    public static final int JSB_ELEVATORZERO=;
+    public static final int JSB_ELEVATORAUTO=;
 
-    public static final int JSB_BEAVERTAILLOWER=1;
+//Afterglow Controller
+    private static int  MANUALAXISELEVATOR=1;
+    public static final int JSB_BEAVERTAILLOWER=5;
     public static final int JSB_BEAVERTAILFIRE=2;
+
+    private static int PRIMARY_FIRE_BUTTON=1;
+    private static int INTAKE_BUTTON = 6;
+    private static int INTAKE_BUTTONL=5;
+    private static int INTAKE_BUTTONR=7;
+
+    
+    public static boolean intakeButtons(){
+        if(driver2Stick.getPOV() == INTAKE_BUTTONL || driver2Stick.getPOV() == INTAKE_BUTTONR || driver2Stick.getPOV() == INTAKE_BUTTON ){
+           return true;
+            
+        }
+    }
+
 /************************************************** */
 
     /**

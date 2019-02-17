@@ -51,6 +51,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ANumber", 1.0);
 
     Io.initIO();
+    UserCom.init();
     drive =new Drive();
     usbCam=new CameraStream();
     usbCam.initCamera();
@@ -108,7 +109,10 @@ public class Robot extends TimedRobot {
       default:
         // Put default auto code here
         break;
+
     }
+    SmartDashboard.putNumber("Yaw",Io.navX.getYaw());
+    SmartDashboard.putNumber("Y angle", Io.navX.getAngle());
 
 
   }
@@ -116,7 +120,12 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     super.teleopInit();//What's this?  Not sure if it's necessary.  We'll try without it, too.
     Io.initMecanum();
+<<<<<<< HEAD
   //  Io.navX.zeroYaw();
+=======
+    Io.navX.zeroYaw();
+    drive.Init();
+>>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
 
     
   }
@@ -127,14 +136,30 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    // manip.runtime();
+     manip.runtime();
    // double newAngle = Io.navX.getAngle();
    // System.out.println(newAngle);
   
+<<<<<<< HEAD
     //   drive.driveByJoystick();
 
     //elevatorOps.operateElevator();
     beavertail.OperateBeaverTail();
+=======
+   
+   
+   
+   System.out.println("TeleopPeriodic");
+   
+   
+   
+   
+   drive.driveByJoystick();
+   //drive.sitStill();
+
+   //elevatorOps.operateElevator();
+   beavertail.OperateBeaverTail();
+>>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
     //usbCam.grabFrame();
 
    // SmartDashboard.putNumber("Port_1_Current",Io.pdp.getCurrent(1));

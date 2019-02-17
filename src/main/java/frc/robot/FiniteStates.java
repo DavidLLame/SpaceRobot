@@ -5,7 +5,10 @@ public enum FiniteStates{
     IDLE, 
     FIREINGA, 
     FIREINGB,
-    PICKUP, 
+    PICKUPA,
+    PICKUPB,
+    PICKUPC,
+    PICKUPD, 
     LOADED, 
     RESET, 
     

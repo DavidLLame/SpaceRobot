@@ -12,7 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -42,89 +42,31 @@ public class Io  {
     //The line that says  public static final int PWMPORT_0=0;
     //will be replaced by  public static final int LEFTSIDEMOTOR_PWMPORT=0;
 
-    public static final int DIOPORT_0=0;
-    public static final int DIOPORT_1=1;
-    public static final int DIOPORT_2=2;
-    public static final int DIOPORT_3=3;
-    public static final int DIOPORT_4=4;
-    public static final int DIOPORT_5=5;
-    public static final int DIOPORT_6=6;
-    public static final int DIOPORT_7=7;
-    public static final int DIOPORT_8=8;
-    public static final int DIOPORT_9=9;
-
-    public static final int PWMPORT_0=0;
-    public static final int PWMPORT_1=1;
-    public static final int PWMPORT_2=2;
-    public static final int PWMPORT_3=3;
-    public static final int PWMPORT_4=4;
-    public static final int PWMPORT_5=5;
-    public static final int PWMPORT_6=6;
-    public static final int PWMPORT_7=7;
-    public static final int PWMPORT_8=8;
-    public static final int PWMPORT_9=9;
-
-    public static final int AINPORT_0=0;
-    public static final int AINPORT_1=1;
-    public static final int AINPORT_2=2;
-    public static final int AINPORT_3=3;
 
     /**
      *
      */
 
-    private static final int FRONTLEFTMOTOR_PWMPORT_TBENCH = 4;
-    private static final int REARRIGHTMOTOR_PWMPORT_TBENCH = 2;
-    private static final int FRONTRIGHTMOTOR_PWMPORT_TBENCH = 3;
-    private static final int REARLEFTMOTOR_PWMPORT_TBENCH = 5;
 
-    private static final int FRONTLEFTMOTOR_PWMPORT_BBOT = 2;
-    private static final int REARRIGHTMOTOR_PWMPORT_BBOT = 1;
-    private static final int FRONTRIGHTMOTOR_PWMPORT_BBOT = 0;
-    private static final int REARLEFTMOTOR_PWMPORT_BBOT = 3;
 
-    private static final int INTAKE_PWMPORT_TBENCH=1;
     private static final int INTAKE_PWMPORT_BBOT=4;
 
-    //Joystick buttons
-    public static final int FIRE_BUTTON=10;
-    public static final int INTAKE_BUTTON=11;
-
-    //The joystick buttons for hatch selection
-    public static final int JSB_LEVEL1HATCH=1;
-    public static final int JSB_LEVEL2HATCH=2;
-    public static final int JSB_LEVEL3HATCH=3;
-    public static final int JSB_LEVEL1CARGO=13;
-    public static final int JSB_LEVEL2CARGO=16;
-    public static final int JSB_LEVEL3CARGO=15;
-    public static final int MANUALOVERRIDEELEVATOR=7;
-    public static final int AUTOMATICOPERATIONELEVATOR=8;
 
 
 
-    //Joystick AXES
 
-    public static final int DRIVEXAXIS=0;
-    public static final int DRIVEYAXIS=1;
-    public static final int DRIVETWISTAXIS=2;
-    public static final int THROTTLEAXIS=3;
+ 
 
-    public static final int MANUALAXISELEVATOR=1;
 
-    public static final int JSB_BEAVERTAILLOWER=5;
-    public static final int JSB_BEAVERTAILFIRE=6;
 
-    public static final int USBPORTELEVATORSTICK=1;
-    public static final int USBPORTDRIVESTICK=0;
-    public static final int USBPORTFIGHTSTICK=2;
 
 
 
     //Notice that the following are not "final"
-    public static  int FRONTLEFTMOTOR_PWMPORT = 4;
-    public static int REARRIGHTMOTOR_PWMPORT = 2;
-    public static  int FRONTRIGHTMOTOR_PWMPORT = 3;
-    public static  int REARLEFTMOTOR_PWMPORT = 5; 
+    public static  int FRONTLEFTMOTOR_PWMPORT = 2;
+    public static int REARRIGHTMOTOR_PWMPORT = 1;
+    public static  int FRONTRIGHTMOTOR_PWMPORT = 0;
+    public static  int REARLEFTMOTOR_PWMPORT = 3; 
     
     private static int INTAKE_PWMPORT=4;
     private static int ELEVATOR_CANID=10;
@@ -138,16 +80,7 @@ public class Io  {
     
 
 
-    //After the declarations of constants, we'll declare variables, but not initialize them yet.  We'll keep the initializations
-    //in a single initialization function.
 
-    //Here's some examples: (in comments.  They'll be replaced by real ones as we move on.)
-    
-    
-    //  Note:  These are declarations.  Not instantiations.  Learn the difference.  It will save a lot of 
-    //  NullReferenceException errors.
-    //  public static Joystick leftStick;  
-    //  public static Joystick rightStick;
 
     public static MecanumDrive meccDrive;
 
@@ -162,9 +95,6 @@ public class Io  {
       public  static SpeedController frontRightMotor;
       public  static SpeedController rearRightMotor;
 
-       public static Joystick driveStick;
-       public static Joystick elevatorStick;
-       public static Joystick fightStick;
 
        public static Solenoid shoot1;
        public static Solenoid lasthope;
@@ -184,10 +114,15 @@ public class Io  {
 
       public static double deadband;
 
+<<<<<<< HEAD
       public static boolean isTestBench()
       {
           return false;
       }
+=======
+      private static boolean MecanumIsSet=false;
+
+>>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
 
       public static boolean isBBot()
       {
@@ -199,6 +134,7 @@ public class Io  {
           return false;
       }
 
+<<<<<<< HEAD
       private static void setSpecificRobot()
       {
           if (isTestBench())
@@ -223,21 +159,22 @@ public class Io  {
           }
       }
 
+=======
+      
+>>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
     //This function will instantiate  all of the hardware variables declared above. And all any
     //Initialization functions needed.
     public static void initIO()
-    {
-        setSpecificRobot();
-        //leftDriveMotor =new Talon(LEFTSIDEMOTOR_PWMPORT);  //Notice we don't say Victor(0).  That makes it easier to change.
+    {  //leftDriveMotor =new Talon(LEFTSIDEMOTOR_PWMPORT);  //Notice we don't say Victor(0).  That makes it easier to change.
                                                            //If we always use the symbolic names, we can change what port they are plugged in to
                                                            //by only changing one line of code.
                                              //All of the startup code for each object is in one place.
 
         //Repeat for all of the objects.     
         
-        if (isTestBench()||isBBot())
-        {
+
         frontLeftMotor = new Victor(FRONTLEFTMOTOR_PWMPORT);
+        frontLeftMotor.setInverted(true);
         rearLeftMotor = new Victor(REARLEFTMOTOR_PWMPORT);
         rearLeftMotor.setInverted(true);
         frontRightMotor = new Victor(FRONTRIGHTMOTOR_PWMPORT);
@@ -249,16 +186,6 @@ public class Io  {
             
 
         intake=new Victor(INTAKE_PWMPORT);
-        }
-        else
-        {
-        frontLeftMotor = new Spark(FRONTLEFTMOTOR_PWMPORT);
-        rearLeftMotor = new Spark(REARLEFTMOTOR_PWMPORT);
-        frontRightMotor = new Spark(FRONTRIGHTMOTOR_PWMPORT);
-        rearRightMotor = new Spark(REARRIGHTMOTOR_PWMPORT);
-
-        intake=new Spark(INTAKE_PWMPORT);
-        }
 
         elevator=new CANSparkMax(ELEVATOR_CANID, MotorType.kBrushless);
        
@@ -269,10 +196,7 @@ public class Io  {
 
 
     
-        
-        driveStick = new Joystick(USBPORTDRIVESTICK);
-        elevatorStick=new Joystick(USBPORTELEVATORSTICK);
-        fightStick=new Joystick(USBPORTFIGHTSTICK);
+
 
       //  navX = new AHRS(SerialPort.Port.kUSB1);
      //   navX.zeroYaw();
@@ -282,7 +206,8 @@ public class Io  {
         beaverTailLower=new Solenoid(BEAVERTAILLOWER);
         beaverTailFire=new Solenoid(BEAVERTAILFIRE);
 
-      //  pdp=new PowerDistributionPanel();
+        //pdp=new PowerDistributionPanel();
+        
 
     
         
@@ -305,6 +230,15 @@ public class Io  {
       8 
         }*/
 
+    }
+
+    private static boolean printDebugStrings=true;
+    public static void printDebugMessage(String st)
+    {
+        if (printDebugStrings)
+        {
+            System.out.println(st);
+        }
     }
 
 

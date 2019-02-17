@@ -8,11 +8,11 @@ public class ElevatorOps
 {
     //obviously, the values will have to be changed
     private double level1HatchPreset=5.0;
-    private double level2HatchPreset=10.0;
-    private double level3HatchPreset=15.0;
-    private double level1CargoPreset=20.0;
+    private double level2HatchPreset=14.7;
+    private double level3HatchPreset=31;
+    private double level1CargoPreset=10.3;
     private double level2CargoPreset=25.0;
-    private double level3CargoPreset=30.0;
+    private double level3CargoPreset=41.0;
 
     private boolean isAutomatic=false;
 
@@ -28,8 +28,10 @@ public class ElevatorOps
     private double gravityOffsetEstimate=0; //The estimated motor set in order to hold against gravity
 
     private double encoderZero;  //The stored value that represents 0
-    private double ELMINSPEED=-0.2;
-    private double ELMAXSPEED=0.2;
+    private double ELMINSPEED=-0.1;
+    private double ELMAXSPEED=0.45;
+
+    private double zeroLevel=0.0;
 
     public  ElevatorOps()
     {
@@ -49,20 +51,9 @@ public class ElevatorOps
     public void selectTarget()
     {
 
-        //Check for any requests to change from maunal to automatic, or vice versa
-       /* if (Io.fightStick.getRawButton(Io.MANUALOVERRIDEELEVATOR))
-        {
-            isAutomatic=false;
-        }
-        else if (Io.fightStick.getRawButton(Io.AUTOMATICOPERATIONELEVATOR))
-        {
-            isAutomatic=true;
-        }
+  
 
         
-        */
-
-        isAutomatic=false;
 
         //Now check for any new preset instruction
 
@@ -88,6 +79,11 @@ public class ElevatorOps
         {
             currentTarget=ElevatorPresets.LEVEL3HATCH;
         }
+
+        if (UserCom.isElevatorAuto())
+          {
+              isAutomatic=true;
+          }
     }
 
     private double getCurrentTargetPosition()
@@ -113,17 +109,22 @@ public class ElevatorOps
 
     public void operateElevator()
     {
+        
         selectTarget(); //Also deterines manual or automatic mode
-        getCurrentTargetPosition();//Sets the number of rotations
+        currentTargetPosition=getCurrentTargetPosition();
+        if (UserCom.resetElevatorZero()) zeroLevel=Io.elevatorEncoder.getPosition();
+        
         System.out.println("Target   "+currentTargetPosition);
         System.out.println("Current Position"+Io.elevatorEncoder.getPosition());
         SmartDashboard.putNumber("Rotations", Io.elevatorEncoder.getPosition());
+        SmartDashboard.putNumber("Elevator Target",currentTargetPosition);
 
         if (isAutomatic)
         {
            
-           
-            currentTargetPosition=getCurrentTargetPosition();
+            System.out.println("Operating in automatic");
+            currentTargetPosition=getCurrentTargetPosition()-zeroLevel;
+            SmartDashboard.putNumber("Current Target",currentTargetPosition);
 
             Io.elevatorController.setReference(currentTargetPosition, ControlType.kPosition);
             
@@ -139,12 +140,13 @@ public class ElevatorOps
            // Io.elevator.set(Io.elevatorStick.getRawAxis(Io.MANUALAXISELEVATOR));
            System.out.println("Raw stick: "+UserCom.manualElevatorSpeed());
            System.out.println("Scaled stick: "+limitedElevator());
+           SmartDashboard.putNumber("ScaledStick",limitedElevator());
            Io.elevatorController.setReference(limitedElevator(), ControlType.kDutyCycle);
         }
     }
 
 
-    private double ELEVATORMAXSCALEDSPEED=0.2;
+    private double ELEVATORMAXSCALEDSPEED=0.45;
     /**
      * 
      * @return The scaled value

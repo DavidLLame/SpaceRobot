@@ -40,32 +40,6 @@ public class Io  {
     //The line that says  public static final int PWMPORT_0=0;
     //will be replaced by  public static final int LEFTSIDEMOTOR_PWMPORT=0;
 
-    public static final int DIOPORT_0=0;
-    public static final int DIOPORT_1=1;
-    public static final int DIOPORT_2=2;
-    public static final int DIOPORT_3=3;
-    public static final int DIOPORT_4=4;
-    public static final int DIOPORT_5=5;
-    public static final int DIOPORT_6=6;
-    public static final int DIOPORT_7=7;
-    public static final int DIOPORT_8=8;
-    public static final int DIOPORT_9=9;
-
-    public static final int PWMPORT_0=0;
-    public static final int PWMPORT_1=1;
-    public static final int PWMPORT_2=2;
-    public static final int PWMPORT_3=3;
-    public static final int PWMPORT_4=4;
-    public static final int PWMPORT_5=5;
-    public static final int PWMPORT_6=6;
-    public static final int PWMPORT_7=7;
-    public static final int PWMPORT_8=8;
-    public static final int PWMPORT_9=9;
-
-    public static final int AINPORT_0=0;
-    public static final int AINPORT_1=1;
-    public static final int AINPORT_2=2;
-    public static final int AINPORT_3=3;
 
     /**
      *
@@ -196,7 +170,8 @@ public class Io  {
         beaverTailLower=new Solenoid(BEAVERTAILLOWER);
         beaverTailFire=new Solenoid(BEAVERTAILFIRE);
 
-      //  pdp=new PowerDistributionPanel();
+        //pdp=new PowerDistributionPanel();
+        
 
     
         

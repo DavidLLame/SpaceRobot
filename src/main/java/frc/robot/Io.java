@@ -126,7 +126,7 @@ public class Io  {
     public static  int FRONTRIGHTMOTOR_PWMPORT = 3;
     public static  int REARLEFTMOTOR_PWMPORT = 5; 
     
-    private static int INTAKE_PWMPORT=1;
+    private static int INTAKE_PWMPORT=4;
     private static int ELEVATOR_CANID=10;
 
 
@@ -184,12 +184,6 @@ public class Io  {
 
       public static double deadband;
 
-<<<<<<< HEAD
-=======
-      private static boolean MecanumIsSet=false;
-
-
->>>>>>> 1e7b1e4cc19024a0f6550f758dee919965749006
       public static boolean isTestBench()
       {
           return false;
@@ -280,13 +274,8 @@ public class Io  {
         elevatorStick=new Joystick(USBPORTELEVATORSTICK);
         fightStick=new Joystick(USBPORTFIGHTSTICK);
 
-<<<<<<< HEAD
       //  navX = new AHRS(SerialPort.Port.kUSB1);
      //   navX.zeroYaw();
-=======
-        navX = new AHRS(SerialPort.Port.kMXP);
-        navX.zeroYaw();
->>>>>>> 1e7b1e4cc19024a0f6550f758dee919965749006
 
         shoot1 = new Solenoid(SHOOTERSOLENOID);
         lasthope = new Solenoid(LASTHOPESOLENOID);
@@ -307,14 +296,14 @@ public class Io  {
      */
     public static void initMecanum()
     {
-        if (MecanumIsSet) return;
+   /*     if (MecanumIsSet) return;
         else
         {
 
             meccDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
             MecanumIsSet=true;
-       
-        }
+      8 
+        }*/
 
     }
 

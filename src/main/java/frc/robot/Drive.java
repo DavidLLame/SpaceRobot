@@ -19,14 +19,11 @@ public class Drive{
     private final double ROTATIONTHRESHOLD=10;//10 degrees per second.  Threshold to determine if rtation has stopped.
     private final double CORRECTIONCONSTANT=.01;//Kp of a rotation PID control
 
-<<<<<<< HEAD
     public static CANSparkMax sparkMotor;
 
-    public DriveCoordinates drivingMode=DriveCoordinates.FIELD_CENTERED;
-=======
-    public DriveCoordinates drivingMode=DriveCoordinates.ROBOT_CENTERED;
+   // public DriveCoordinates drivingMode=DriveCoordinates.FIELD_CENTERED;
+    //public DriveCoordinates drivingMode=DriveCoordinates.ROBOT_CENTERED;
     public boolean naxXDisabled=true;
->>>>>>> 1e7b1e4cc19024a0f6550f758dee919965749006
 
     double deadbanded (double joyY, double deadband) {
         if ((Math.abs(joyY) >= deadband)) {
@@ -63,12 +60,12 @@ public class Drive{
         double throttleMultiplier=throttleLevel(Io.driveStick.getRawAxis(Io.THROTTLEAXIS));
       //TODO:  To switch back and forth between field centered and robot centered,
       //there has to be some adjustment in yaw calculations.
-      if (drivingMode==DriveCoordinates.FIELD_CENTERED)
+     // if (drivingMode==DriveCoordinates.FIELD_CENTERED)
       {
       Io.meccDrive.driveCartesian(throttleMultiplier*deadbanded(Io.driveStick.getRawAxis(Io.DRIVEXAXIS),AXISDEADBAND),
        -1*throttleMultiplier * deadbanded(Io.driveStick.getRawAxis(1),AXISDEADBAND), deadbanded(Io.driveStick.getRawAxis(Io.DRIVETWISTAXIS),TWISTDEADBAND),Io.navX.getAngle());
       }
-      else
+      //else
       {
 
         System.out.println("Driving robot centered");
@@ -142,10 +139,10 @@ public class Drive{
     }
 
 
-    public void sparkthing () {
-        Io.sparkMotor.set(sparkspeed);
+   // public void sparkthing () {
+   //     Io.sparkMotor.set(sparkspeed);
         
-    }
+    
 
    // public double sparkposition(){
         //Io.sparkEncoder.getPosition();

@@ -2,37 +2,22 @@ package frc.robot;
 
 import javax.lang.model.util.ElementScanner6;
 
-<<<<<<< HEAD
-import com.revrobotics.CANSparkMax;
-
-import edu.wpi.first.wpilibj.Spark;
-=======
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
->>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 /**
  * The class for all driving related functions
  */
 public class Drive{
 
-    private final double sparkspeed=.75;
     private final double AXISDEADBAND=0.1;
     private final double TWISTDEADBAND=0.5;
     private final double ROTATIONTHRESHOLD=3;//10 degrees per second.  Threshold to determine if rtation has stopped.
     private final double CORRECTIONCONSTANT=.01;//Kp of a rotation PID control
 
-<<<<<<< HEAD
-    public static CANSparkMax sparkMotor;
-
-   // public DriveCoordinates drivingMode=DriveCoordinates.FIELD_CENTERED;
-    //public DriveCoordinates drivingMode=DriveCoordinates.ROBOT_CENTERED;
-=======
     public DriveCoordinates drivingMode=DriveCoordinates.FIELD_CENTERED;
->>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
     public boolean naxXDisabled=true;
 
     PIDController rotatePidController;
@@ -42,12 +27,9 @@ public class Drive{
     MecPIDOutput rotationOutput;
 
     
-<<<<<<< HEAD
-=======
 
     private TurnCommand turningState=TurnCommand.DRIVE_STRAIGHT;
 
->>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
     //Notice that class names start with capital letters.
     //Members of the class (variables and methods) start with a lower case letter, but subsequent words have an upper case letter.
     //The initial lower case followed by upper case words is called "camel case"
@@ -146,11 +128,7 @@ public class Drive{
         double throttleMultiplier=UserCom.throttle();
       //TODO:  To switch back and forth between field centered and robot centered,
       //there has to be some adjustment in yaw calculations.
-<<<<<<< HEAD
-     // if (drivingMode==DriveCoordinates.FIELD_CENTERED)
-=======
       if (drivingMode==DriveCoordinates.FOURTYFIVE)
->>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
       {
           if (UserCom.yDrive()>0.5)
           {
@@ -161,11 +139,6 @@ public class Drive{
               Io.meccDrive.driveCartesian(0, 0, 0,0);
           }
       }
-<<<<<<< HEAD
-      //else
-      {
-=======
->>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
 
 
       else if (drivingMode==DriveCoordinates.FIELD_CENTERED)
@@ -239,24 +212,11 @@ public class Drive{
     FOURTYFIVE
     }
 
-<<<<<<< HEAD
-
-   // public void sparkthing () {
-   //     Io.sparkMotor.set(sparkspeed);
-        
-    
-=======
     public enum TurnCommand
     {
         TURNING_COMMANDED,
         TURNING_INERTIA,
         DRIVE_STRAIGHT
     }
->>>>>>> fe136014161808ab36773ecbe504fa6f2533ba87
-
-   // public double sparkposition(){
-        //Io.sparkEncoder.getPosition();
-    
-    
 
 }

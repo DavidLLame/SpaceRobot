@@ -1,11 +1,7 @@
 package frc.robot;
 
-import java.util.ArrayList;
-
-import com.sun.tools.javac.code.Attribute.Array;
 
 import edu.wpi.first.wpilibj.Joystick;
-import jdk.internal.jline.console.completer.ArgumentCompleter.ArgumentList;
 
 /**
  * User commands
@@ -60,8 +56,8 @@ public class UserCom
     public static final int JSB_LEVEL1CARGO=5;
     public static final int JSB_LEVEL2CARGO=6;
     public static final int JSB_LEVEL3CARGO=7;
-    public static final int JSB_ELEVATORZERO=;
-    public static final int JSB_ELEVATORAUTO=;
+    public static final int JSB_ELEVATORZERO=3;
+    public static final int JSB_ELEVATORAUTO=4;
 
 //Afterglow Controller
     private static int  MANUALAXISELEVATOR=1;
@@ -75,9 +71,13 @@ public class UserCom
 
     
     public static boolean intakeButtons(){
-        if(driver2Stick.getPOV() == INTAKE_BUTTONL || driver2Stick.getPOV() == INTAKE_BUTTONR || driver2Stick.getPOV() == INTAKE_BUTTON ){
+        if(driver2Stick.getPOV() == INTAKE_BUTTONL || driver2Stick.getPOV() == INTAKE_BUTTONR || driver2Stick.getPOV() == INTAKE_BUTTON )
+        {
            return true;
             
+        }
+        else{
+            return false;
         }
     }
 

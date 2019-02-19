@@ -104,7 +104,7 @@ public class Io  {
        public static CANEncoder elevatorEncoder;
        public static CANPIDController elevatorController;
 
-       public static PowerDistributionPanel pdp;
+ //      public static PowerDistributionPanel pdp;
 
 
       
@@ -115,15 +115,6 @@ public class Io  {
       private static boolean MecanumIsSet=false;
 
 
-      public static boolean isBBot()
-      {
-          return true;
-      }
-
-      public static boolean isABot()
-      {
-          return false;
-      }
 
       
     //This function will instantiate  all of the hardware variables declared above. And all any
@@ -153,13 +144,8 @@ public class Io  {
 
         elevator=new CANSparkMax(ELEVATOR_CANID, MotorType.kBrushless);
        
-       
-
-      //  elevatorEncoder=new CANEncoder(elevator); 
-      //  elevatorController=new CANPIDController(elevator);
-
-
-    
+        elevatorEncoder=new CANEncoder(elevator); 
+        elevatorController=new CANPIDController(elevator);
 
 
         navX = new AHRS(SerialPort.Port.kMXP);

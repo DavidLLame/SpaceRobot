@@ -122,6 +122,7 @@ public class Robot extends TimedRobot {
     Io.initMecanum();
     Io.navX.zeroYaw();
     drive.Init();
+    elevatorOps.Init();
 
     
   }
@@ -133,8 +134,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
      manip.runtime();
-   // double newAngle = Io.navX.getAngle();
-   // System.out.println(newAngle);
+
   
    
    
@@ -145,9 +145,9 @@ public class Robot extends TimedRobot {
    
    
    drive.driveByJoystick();
-   //drive.sitStill();
 
-   //elevatorOps.operateElevator();
+
+   elevatorOps.operateElevator();
    beavertail.OperateBeaverTail();
     //usbCam.grabFrame();
 

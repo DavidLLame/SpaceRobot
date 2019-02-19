@@ -8,5 +8,6 @@ public enum ElevatorPresets
     LEVEL3HATCH,
     LEVEL1CARGO,
     LEVEL2CARGO,
-    LEVEL3CARGO
+    LEVEL3CARGO,
+    HOLDCURRENT
 }

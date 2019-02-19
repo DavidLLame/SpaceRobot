@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ElevatorOps
 {
-    //obviously, the values will have to be changed
+
+    private double bottomTarget=0;
     private double level1HatchPreset=5.0;
     private double level2HatchPreset=14.7;
     private double level3HatchPreset=31;
@@ -25,13 +26,13 @@ public class ElevatorOps
     private ElevatorPresets currentTarget=ElevatorPresets.LEVEL1HATCH;
 
     private double currentTargetPosition;
+    private double lastManualPosition=0;//The last value it was moved to while in manual mode, or its first starting position
     private double gravityOffsetEstimate=0; //The estimated motor set in order to hold against gravity
-
-    private double encoderZero;  //The stored value that represents 0
+  
     private double ELMINSPEED=-0.1;
-    private double ELMAXSPEED=0.45;
+    private double ELMAXSPEED=0.6;
 
-    private double zeroLevel=0.0;
+    private double zeroLevel=0.0;//The stored value that represents 0
 
     public  ElevatorOps()
     {
@@ -46,6 +47,14 @@ public class ElevatorOps
         Io.elevatorController.setIZone(elevatorIZone);
         Io.elevatorController.setOutputRange(ELMINSPEED, ELMAXSPEED);
         
+    }
+
+    public void Init()
+    {
+        zeroLevel=Io.elevatorEncoder.getPosition();
+        currentTargetPosition=0;
+        lastManualPosition=0;
+
     }
 
     public void selectTarget()
@@ -102,7 +111,9 @@ public class ElevatorOps
 
             case LEVEL3CARGO: return level3CargoPreset;
 
-            default: return level1HatchPreset;
+            case HOLDCURRENT: return lastManualPosition;
+
+            default: return bottomTarget;
 
         }
     }
@@ -119,7 +130,7 @@ public class ElevatorOps
         SmartDashboard.putNumber("Rotations", Io.elevatorEncoder.getPosition());
         SmartDashboard.putNumber("Elevator Target",currentTargetPosition);
 
-        if (isAutomatic)
+        if (isAutomatic  &&  UserCom.manualElevatorSpeed()==0)
         {
            
             System.out.println("Operating in automatic");
@@ -136,17 +147,18 @@ public class ElevatorOps
         else
         {
 
-            //Todo:  This might not work at all.  I'm not sure you can turn this "off"
-           // Io.elevator.set(Io.elevatorStick.getRawAxis(Io.MANUALAXISELEVATOR));
            System.out.println("Raw stick: "+UserCom.manualElevatorSpeed());
            System.out.println("Scaled stick: "+limitedElevator());
            SmartDashboard.putNumber("ScaledStick",limitedElevator());
            Io.elevatorController.setReference(limitedElevator(), ControlType.kDutyCycle);
+           lastManualPosition=Io.elevatorEncoder.getPosition();//When it leaes manual mode, it will hold the position.
+           currentTarget=ElevatorPresets.HOLDCURRENT;
+           
         }
     }
 
 
-    private double ELEVATORMAXSCALEDSPEED=0.45;
+    private double ELEVATORMAXSCALEDSPEED=0.6;
     /**
      * 
      * @return The scaled value

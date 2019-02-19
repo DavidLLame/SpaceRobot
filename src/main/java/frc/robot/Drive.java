@@ -5,6 +5,7 @@ import javax.lang.model.util.ElementScanner6;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Relay.Value;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -21,12 +22,12 @@ public class Drive{
     public boolean naxXDisabled=true;
 
     PIDController rotatePidController;
-    private final double Kp=0.04;
+    private final double Kp=0.03;
     private final double Kd=0.0;
     private final double Ki=0.0;
     MecPIDOutput rotationOutput;
 
-    
+    long stateChangeTime;
 
     private TurnCommand turningState=TurnCommand.DRIVE_STRAIGHT;
 
@@ -77,6 +78,8 @@ public class Drive{
         rotatePidController.setSetpoint(Io.navX.getYaw());
         lastIsRecorded=false;
     }
+
+    private boolean drivemodebuttonpressed=false;
     /**
      * This function is called to do "normal", teleperated, driving.
      */
@@ -90,38 +93,11 @@ public class Drive{
         SmartDashboard.putNumber("Turn Rate",Io.navX.getRate());
 
         
-      
-        //Compute the turning state
-        if (UserCom.twistDrive()!=0)
-        {
-        turningState=TurnCommand.TURNING_COMMANDED;
-        lastcalltime=System.currentTimeMillis();
-        }/*
-        else if ((turningState==TurnCommand.TURNING_COMMANDED||turningState==TurnCommand.TURNING_INERTIA)
-                   &&(Math.abs(Io.navX.getRate())>ROTATIONTHRESHOLD))
-                   {
-                   turningState=TurnCommand.TURNING_INERTIA;
-                   }
-                   */
-                  else if ((turningState==TurnCommand.TURNING_COMMANDED||turningState==TurnCommand.TURNING_INERTIA)
-                  &&(System.currentTimeMillis()-lastcalltime<250))
-                  {
-                      lastcalltime=System.currentTimeMillis();
-                      turningState=TurnCommand.TURNING_INERTIA;
-                  }
-        else
-        {
-            //When transitioning from a turn, set a new setpoint
-            if ((turningState==TurnCommand.TURNING_COMMANDED)||(turningState==TurnCommand.TURNING_INERTIA))
-            {rotatePidController.setSetpoint(Io.navX.getAngle());
-            }
-            turningState=TurnCommand.DRIVE_STRAIGHT;
-            
-        }
+        computeTurningState();
+        ComputeDriveMode();
+        SmartDashboard.putString("Drive coordinates",drivingMode.toString());
+        SmartDashboard.putString("Turn Mode", turningState.toString());
     
-        
-
-
         System.out.println("Driving by joystick");
         
 
@@ -151,7 +127,7 @@ public class Drive{
           Io.meccDrive.driveCartesian(throttleMultiplier*UserCom.xDrive(),throttleMultiplier*UserCom.yDrive(),UserCom.twistDrive(),-1*Io.navX.getAngle());
          }
       }
-      else
+      else if (drivingMode==DriveCoordinates.ROBOT_CENTERED)
       {
 
         if (turningState==TurnCommand.DRIVE_STRAIGHT)        
@@ -163,6 +139,10 @@ public class Drive{
             Io.meccDrive.driveCartesian(UserCom.xDrive(),UserCom.yDrive(),UserCom.twistDrive(),0);
   
         }
+      }
+      else
+      {
+          Io.meccDrive.driveCartesian(UserCom.xDrive(), UserCom.yDrive(), UserCom.twistDrive(),0);
       }
 
     
@@ -205,11 +185,84 @@ public class Drive{
     public double throttleLevel(double axisValue)
     { return (axisValue+1)/2.0;}
 
+
+    private boolean holdingDriveButton=false;
+    private void ComputeDriveMode()
+    {
+        if (!UserCom.driveModeSwitch()) holdingDriveButton=false;
+        if (holdingDriveButton) return;//Whatever you were doing, you're still doing it.
+
+        if (UserCom.driveModeSwitch())
+        {
+            holdingDriveButton=true;
+            if (drivingMode==DriveCoordinates.FIELD_CENTERED)
+            {
+                drivingMode=DriveCoordinates.ROBOT_CENTERED;
+            }
+            else if (drivingMode==DriveCoordinates.ROBOT_CENTERED)
+            {
+                drivingMode=DriveCoordinates.FIELD_CENTERED;
+            }
+        }
+
+        
+    }
+
+
+    public void computeTurningState()
+    {
+        switch(turningState)
+        {
+            case DRIVE_STRAIGHT:
+               if (UserCom.twistDrive()!=0)
+               {
+                   changeState(TurnCommand.TURNING_COMMANDED);
+               }
+               break;
+            case TURNING_COMMANDED:
+            if (UserCom.twistDrive()==0)
+            {
+                changeState(TurnCommand.TURNING_INERTIA);
+            }
+            break;
+            case TURNING_INERTIA:
+            if (UserCom.twistDrive()!=0)
+            {
+                changeState(TurnCommand.TURNING_COMMANDED);
+            }
+            else if (System.currentTimeMillis()-stateChangeTime >400)
+            {
+                changeState(TurnCommand.DRIVE_STRAIGHT);
+            }
+            break;
+
+        }
+    }
+
+    private void changeState(TurnCommand newState)
+    {
+        if (newState!=turningState)
+        {
+            stateChangeTime=System.currentTimeMillis();
+        }
+
+
+        if ((turningState!=TurnCommand.DRIVE_STRAIGHT)&&
+        (newState==TurnCommand.DRIVE_STRAIGHT))
+        {
+            rotatePidController.setSetpoint(Io.navX.getYaw());
+        }
+
+        turningState=newState;
+    }
+
+
     public enum DriveCoordinates
     {
     ROBOT_CENTERED,
     FIELD_CENTERED,
-    FOURTYFIVE
+    RAWSTICK, //Gyro disabled.  Raw stick values
+    FOURTYFIVE //For test only.
     }
 
     public enum TurnCommand

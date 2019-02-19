@@ -26,14 +26,15 @@ public class UserCom
     //no other code ought to reference joysticks directly
     private static Joystick driveStick;
     private static int DRIVESTICKPORT=0;
+
+    private static int JSB_DRIVEMODE=2;
     
     private static int DRIVEAXISX=0;
     private static int DRIVEAXISY=1;
     private static int DRIVEAXISTWIST=2;
     private static int DRIVEAXISTHROTTLE=3;
 
-    private static int PRIMARY_FIRE_BUTTON=10;
-    private static int INTAKE_BUTTON=11;
+
 
     private static double XDRIVEDEADBAND=0.3;
     private static double YDRIVEDEADBAND=0.3;
@@ -42,6 +43,9 @@ public class UserCom
 /************************DECLARATIONS FOR DRIVER 2 STICK */
 
     private static Joystick driver2Stick;//The controller held in the hand of driver 1
+
+    private static int PRIMARY_FIRE_BUTTON=5;
+    private static int INTAKE_BUTTON=4;
 
     private static int DRIVER2STICKPORT=1;
     private static int  MANUALAXISELEVATOR=1;
@@ -162,12 +166,12 @@ public class UserCom
      */
     public static boolean primaryFire()
     {
-       return driveStick.getRawButton(PRIMARY_FIRE_BUTTON);
+       return driver2Stick.getRawButton(PRIMARY_FIRE_BUTTON);
     }
 
     public static boolean intakeMotorOn()
     {
-        return driveStick.getRawButton(INTAKE_BUTTON);
+        return driver2Stick.getRawButton(INTAKE_BUTTON);
     }
 
     public static boolean beaverTailFire()
@@ -189,6 +193,13 @@ public class UserCom
     public static boolean isElevatorAuto()
     {
         return driver2Stick.getRawButton(JSB_ELEVATORAUTO);
+    }
+
+
+    public static boolean driveModeSwitch()
+    {
+
+        return driveStick.getRawButton(JSB_DRIVEMODE);
     }
 
 

@@ -6,6 +6,8 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 
@@ -112,8 +114,10 @@ public class Io  {
 
       public static double deadband;
 
-      private static boolean MecanumIsSet=false;
-
+      public static boolean isTestBench()
+      {
+          return false;
+      }
 
 
       
@@ -148,8 +152,8 @@ public class Io  {
         elevatorController=new CANPIDController(elevator);
 
 
-        navX = new AHRS(SerialPort.Port.kMXP);
-        navX.zeroYaw();
+      //  navX = new AHRS(SerialPort.Port.kUSB1);
+     //   navX.zeroYaw();
 
         shoot1 = new Solenoid(SHOOTERSOLENOID);
         lasthope = new Solenoid(LASTHOPESOLENOID);
@@ -161,7 +165,6 @@ public class Io  {
 
     
         
-
     }
 
 
@@ -172,14 +175,14 @@ public class Io  {
      */
     public static void initMecanum()
     {
-        if (MecanumIsSet) return;
+   /*     if (MecanumIsSet) return;
         else
         {
 
             meccDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
             MecanumIsSet=true;
-       
-        }
+      8 
+        }*/
 
     }
 

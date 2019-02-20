@@ -15,7 +15,7 @@ public class ElevatorOps
     private double level2CargoPreset=25.0;
     private double level3CargoPreset=41.0;
 
-    private boolean isAutomatic=false;
+    private boolean isAutomatic=true;
 
 
     private double elevatorKp=0.1;
@@ -29,7 +29,7 @@ public class ElevatorOps
     private double lastManualPosition=0;//The last value it was moved to while in manual mode, or its first starting position
     private double gravityOffsetEstimate=0; //The estimated motor set in order to hold against gravity
   
-    private double ELMINSPEED=-0.1;
+    private double ELMINSPEED=-0.03;
     private double ELMAXSPEED=0.6;
 
     private double zeroLevel=0.0;//The stored value that represents 0
@@ -118,6 +118,35 @@ public class ElevatorOps
         }
     }
 
+    public void teachMode()
+    {
+        if (UserCom.Level1Hatch())
+        {
+            level1HatchPreset=Io.elevatorEncoder.getPosition()+zeroLevel;
+
+        }
+        else if (UserCom.Level2Hatch())
+        {
+            level2HatchPreset=Io.elevatorEncoder.getPosition()+zeroLevel;
+        }
+        else if (UserCom.Level3Hatch())
+        {
+            level3HatchPreset=Io.elevatorEncoder.getPosition()+zeroLevel;
+        }
+        else if (UserCom.Level1Cargo())
+        {
+            level1CargoPreset=Io.elevatorEncoder.getPosition()+zeroLevel;
+        }
+        else if (UserCom.Level2Cargo())
+        {
+            level2CargoPreset=Io.elevatorEncoder.getPosition()+zeroLevel;
+        }
+        else if (UserCom.Level3Cargo())
+        {
+            level3CargoPreset=Io.elevatorEncoder.getPosition()+zeroLevel;
+        }
+    }
+
     public void operateElevator()
     {
         
@@ -155,6 +184,8 @@ public class ElevatorOps
            currentTarget=ElevatorPresets.HOLDCURRENT;
            
         }
+
+        SmartDashboard.putNumber("Motor output", limitedElevator());
     }
 
 

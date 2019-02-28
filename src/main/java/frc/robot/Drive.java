@@ -120,6 +120,11 @@ public class Drive{
       else if (drivingMode==DriveCoordinates.FIELD_CENTERED)
       {if (turningState==TurnCommand.DRIVE_STRAIGHT)
         {
+            if(UserCom.fieldDriveToForward())
+            {
+                rotatePidController.setSetpoint(currentStickHeading());
+            }
+
           Io.meccDrive.driveCartesian(throttleMultiplier*UserCom.xDrive(),throttleMultiplier*UserCom.yDrive(),rotationOutput.getRotationCorrection(),-1*Io.navX.getAngle());
         }
           else
@@ -163,13 +168,9 @@ public class Drive{
 
     public void driveToAngle(double newAngle)
     {
-        double currentAngle=Io.navX.getAngle();
-        double error=newAngle-currentAngle;
-        System.out.println("Error: "+error+" Current: "+currentAngle);
-        if (Math.abs(error)>2)
-        {
-        Io.meccDrive.driveCartesian(0, 0, error*0.05,0);
-        }
+        rotatePidController.setSetpoint(newAngle);
+        Io.meccDrive.driveCartesian(0, 0, rotationOutput.getRotationCorrection(),Io.navX.getAngle());
+        
     }
 
     public void sitStill()
@@ -254,6 +255,31 @@ public class Drive{
         }
 
         turningState=newState;
+    }
+
+    /**
+     * Get the current compass heading dictated by the joysticks
+     * @return heading in DEGREES
+     */
+    private double currentStickHeading()
+    {
+
+        double xDirection=UserCom.xDrive();
+        double yDirection=UserCom.yDrive();
+
+        
+        if ((xDirection==0)&&(yDirection==0)) //If they aren't using the stick, keep pointed where you are
+        {return Io.navX.getAngle();}
+
+        
+        //Now convert from X/Y plane to field heading coordinates
+        double radiansHeading=Math.atan2(yDirection,xDirection);
+        double degreesCartesianHeading=radiansHeading*180.0/Math.PI;
+        double heading= 90-degreesCartesianHeading;
+        if (heading>189) heading-=180;
+        return heading;
+
+
     }
 
 

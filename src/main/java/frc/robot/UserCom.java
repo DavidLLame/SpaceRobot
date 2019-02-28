@@ -23,13 +23,15 @@ public class UserCom
 
 /*****************************DECLARATIONS FOR PRIMARY DRIVE STICK *******************/
 
-    //Joysticks will be private when it's done, because
-    //no other code ought to reference joysticks directly
+
     private static Joystick driveStick;
     private static Joystick turnStick;
     private static int DRIVESTICKPORT=0;
+    private static int TURNSTICKPORT=1;
 
     private static int JSB_DRIVEMODE=2;
+
+    private static int JSB_FIELDDRIVETOFORWARD=4;//arbitrary.  On turn stick
     
     private static int DRIVEAXISY=1;
     private static int DRIVEAXISTWIST=2;
@@ -48,7 +50,8 @@ public class UserCom
 
     private static Joystick driver2Stick;//The controller held in the hand of driver 2
     private static Joystick fightStick;//Fight Stick buttons for driver 2
-    private static int DRIVER2STICKPORT=1;
+    private static int DRIVER2STICKPORT=2;
+    private static int FIGHTSTICKPORT=3;
     private static double ELEVATORDEADBAND=0.35;
 
 //Street Fighter
@@ -93,6 +96,8 @@ public class UserCom
     {
         driveStick=new Joystick(DRIVESTICKPORT);//Temporarily, leave the instantiation in Io
         driver2Stick=new Joystick(DRIVER2STICKPORT);
+        fightStick=new Joystick(FIGHTSTICKPORT);
+        turnStick=new Joystick(TURNSTICKPORT);
     }
 
     public static double xDrive()
@@ -221,6 +226,11 @@ public class UserCom
     {
 
         return driveStick.getRawButton(JSB_DRIVEMODE);
+    }
+
+    public static boolean fieldDriveToForward()
+    {
+        return turnStick.getRawButton(JSB_FIELDDRIVETOFORWARD);
     }
 
 

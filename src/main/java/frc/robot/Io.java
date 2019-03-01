@@ -83,6 +83,7 @@ public class Io  {
 
 
     public static MecanumDrive meccDrive;
+    public static boolean MecanumIsSet=false;
 
     //All functions of this class should be declared as static.
     //We will never have more than one of this class, so we'll just use statics.
@@ -112,12 +113,9 @@ public class Io  {
       
        public static AHRS navX;
 
-      public static double deadband;
+    
 
-      public static boolean isTestBench()
-      {
-          return false;
-      }
+
 
 
       
@@ -175,14 +173,14 @@ public class Io  {
      */
     public static void initMecanum()
     {
-   /*     if (MecanumIsSet) return;
+        if (MecanumIsSet) return;
         else
         {
 
             meccDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
             MecanumIsSet=true;
-      8 
-        }*/
+       
+        }
 
     }
 

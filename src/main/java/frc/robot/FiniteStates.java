@@ -3,8 +3,7 @@ package frc.robot;
 
 public enum FiniteStates{
     IDLE, 
-    FIREINGA, 
-    FIREINGB,
+    FIRINGA, 
     PICKUPA,
     PICKUPB,
     PICKUPC,

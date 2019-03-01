@@ -53,6 +53,11 @@ public class UserCom
     private static int DRIVER2STICKPORT=2;
     private static int FIGHTSTICKPORT=3;
     private static double ELEVATORDEADBAND=0.35;
+    private static final int JSB_RESETCARRIAGE=4;//Get choice from Sammy
+    private static int PRIMARY_FIRE_BUTTON=1;
+    private static int INTAKE_BUTTON = 6;
+    private static int INTAKE_BUTTONL=5;
+    private static int INTAKE_BUTTONR=7;
 
 //Street Fighter
     public static final int JSB_LEVEL1HATCH=1;
@@ -61,7 +66,7 @@ public class UserCom
     public static final int JSB_LEVEL1CARGO=5;
     public static final int JSB_LEVEL2CARGO=6;
     public static final int JSB_LEVEL3CARGO=7;
-    public static final int JSB_ELEVATORZERO=3;
+    public static final int JSB_ELEVATORZERO=8;//Sammy
     public static final int JSB_ELEVATORAUTO=4;
 
 //Afterglow Controller
@@ -69,10 +74,7 @@ public class UserCom
     public static final int JSB_BEAVERTAILLOWER=5;
     public static final int JSB_BEAVERTAILFIRE=2;
 
-    private static int PRIMARY_FIRE_BUTTON=1;
-    private static int INTAKE_BUTTON = 6;
-    private static int INTAKE_BUTTONL=5;
-    private static int INTAKE_BUTTONR=7;
+
 
     
     public static boolean intakeButtons(){
@@ -195,10 +197,7 @@ public class UserCom
        return driver2Stick.getRawButton(PRIMARY_FIRE_BUTTON);
     }
 
-    public static boolean intakeMotorOn()
-    {
-        return driver2Stick.getRawButton(INTAKE_BUTTON);
-    }
+
 
     public static boolean beaverTailFire()
     {
@@ -219,6 +218,11 @@ public class UserCom
     public static boolean isElevatorAuto()
     {
         return driver2Stick.getRawButton(JSB_ELEVATORAUTO);
+    }
+
+    public static boolean resetCarriageState()
+    {
+        return driver2Stick.getRawButton(JSB_RESETCARRIAGE);
     }
 
 

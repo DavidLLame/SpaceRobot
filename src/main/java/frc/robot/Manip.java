@@ -61,16 +61,32 @@ break;
 public void stateTransition()
 {
     long now=System.currentTimeMillis();
+
+    //Sequence of events:
+    //intake on.
+    //Wait for timeout or sensor
+    //push firing arm, continue rolling
+    //pause briefly
+    //Roll again
+
     switch (nowstate)
     {
         case IDLE:
-           if (UserCom.intakeMotorOn())
+           if (UserCom.intakeButtons())
            {
                changeState(FiniteStates.PICKUPA);
            }
+           else if (UserCom.primaryFire())
+           {
+               changeState(FiniteStates.FIRINGA);
+           }
+           else if (UserCom.resetCarriageState())
+           {
+               changeState(FiniteStates.RESET);
+           }
            break;
         case PICKUPA:
-        if (now-statetime>2000)
+        if ((now-statetime>2000)||(!UserCom.intakeButtons())) //Add || sensor triggered
         {
                 changeState(FiniteStates.PICKUPB);
         }
@@ -96,10 +112,14 @@ break;
         case LOADED:
         if (UserCom.primaryFire())
         {
-            changeState(FiniteStates.FIREINGA);
+            changeState(FiniteStates.FIRINGA);
+        }
+        else if (UserCom.resetCarriageState())
+        {
+            changeState(FiniteStates.RESET);
         }
         break;
-        case FIREINGA:
+        case FIRINGA:
         if (!UserCom.primaryFire())
         {
             changeState(FiniteStates.RESET);
@@ -141,13 +161,13 @@ break;
     case LOADED:
         Io.intake.set(0);
     break;
-    case FIREINGA:
-        Io.lasthope.set(on);
+    case FIRINGA:
+        Io.lasthope.set(true);
         Io.shoot1.set(true);
         Io.intake.set(-1);
     break;
     case RESET:
-        Io.lasthope.set(off);
+        Io.lasthope.set(false);
         Io.shoot1.set(false);
         Io.intake.set(0);
     break;

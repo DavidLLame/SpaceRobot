@@ -63,10 +63,12 @@ public class Io  {
 
 
     //Notice that the following are not "final"
-    public static  int FRONTLEFTMOTOR_PWMPORT = 2;
-    public static int REARRIGHTMOTOR_PWMPORT = 1;
-    public static  int FRONTRIGHTMOTOR_PWMPORT = 0;
-    public static  int REARLEFTMOTOR_PWMPORT = 3; 
+
+
+    private static final int FRONTLEFTMOTOR_PWMPORT = 4;
+    private static final int REARRIGHTMOTOR_PWMPORT = 2;
+    private static final int FRONTRIGHTMOTOR_PWMPORT = 3;
+    private static final int REARLEFTMOTOR_PWMPORT = 5;
     
     private static int INTAKE_PWMPORT=4;
     private static int ELEVATOR_CANID=10;
@@ -131,13 +133,13 @@ public class Io  {
         
 
         frontLeftMotor = new Victor(FRONTLEFTMOTOR_PWMPORT);
-        frontLeftMotor.setInverted(true);
+        frontLeftMotor.setInverted(false);
         rearLeftMotor = new Victor(REARLEFTMOTOR_PWMPORT);
-        rearLeftMotor.setInverted(true);
+        rearLeftMotor.setInverted(false);
         frontRightMotor = new Victor(FRONTRIGHTMOTOR_PWMPORT);
-        frontRightMotor.setInverted(true);
+        frontRightMotor.setInverted(false);
         rearRightMotor = new Victor(REARRIGHTMOTOR_PWMPORT);
-        rearRightMotor.setInverted(true);
+        rearRightMotor.setInverted(false);
 
 
             

@@ -30,7 +30,9 @@ public class ElevatorOps
     private double gravityOffsetEstimate=0; //The estimated motor set in order to hold against gravity
   
     private double ELMINSPEED=-0.03;
+    private double ORIGINALELMINSPEED=-0.03;
     private double ELMAXSPEED=0.6;
+    private double SAFETYOVERRIDEINCREMENT=0.03;//The 
 
     private double zeroLevel=0.0;//The stored value that represents 0
     private boolean isInitialized=false;
@@ -56,6 +58,7 @@ public class ElevatorOps
         zeroLevel=Io.elevatorEncoder.getPosition();
         currentTargetPosition=0;
         lastManualPosition=0;
+        SafetyButtonState=TWO_BUTTONS_CLEARED;
         isInitialized=true;
 
     }
@@ -125,28 +128,28 @@ public class ElevatorOps
     {
         if (UserCom.Level1Hatch())
         {
-            level1HatchPreset=Io.elevatorEncoder.getPosition()+zeroLevel;
+            level1HatchPreset=Io.elevatorEncoder.getPosition()-zeroLevel;
 
         }
         else if (UserCom.Level2Hatch())
         {
-            level2HatchPreset=Io.elevatorEncoder.getPosition()+zeroLevel;
+            level2HatchPreset=Io.elevatorEncoder.getPosition()-zeroLevel;
         }
         else if (UserCom.Level3Hatch())
         {
-            level3HatchPreset=Io.elevatorEncoder.getPosition()+zeroLevel;
+            level3HatchPreset=Io.elevatorEncoder.getPosition()-zeroLevel;
         }
         else if (UserCom.Level1Cargo())
         {
-            level1CargoPreset=Io.elevatorEncoder.getPosition()+zeroLevel;
+            level1CargoPreset=Io.elevatorEncoder.getPosition()-zeroLevel;
         }
         else if (UserCom.Level2Cargo())
         {
-            level2CargoPreset=Io.elevatorEncoder.getPosition()+zeroLevel;
+            level2CargoPreset=Io.elevatorEncoder.getPosition()-zeroLevel;
         }
         else if (UserCom.Level3Cargo())
         {
-            level3CargoPreset=Io.elevatorEncoder.getPosition()+zeroLevel;
+            level3CargoPreset=Io.elevatorEncoder.getPosition()-zeroLevel;
         }
     }
 
@@ -166,15 +169,11 @@ public class ElevatorOps
         {
            
             System.out.println("Operating in automatic");
-            currentTargetPosition=getCurrentTargetPosition()-zeroLevel;
-            SmartDashboard.putNumber("Current Target",currentTargetPosition);
+            currentTargetPosition=getCurrentTargetPosition();
+            SmartDashboard.putNumber("Current Target",currentTargetPosition+zeroLevel);
 
-            Io.elevatorController.setReference(currentTargetPosition, ControlType.kPosition);
-            
+            Io.elevatorController.setReference(currentTargetPosition+zeroLevel, ControlType.kPosition);
 
-            
-
-           
         }
         else
         {
@@ -189,6 +188,7 @@ public class ElevatorOps
         if (UserCom.elevatorTeachMode())
         {teachMode();
         }
+        checkSafetyOverride();
 
         SmartDashboard.putNumber("Motor output", limitedElevator());
     }
@@ -214,6 +214,51 @@ public class ElevatorOps
     {
         isInitialized=false;
     }
+
+
+
+
+    //Safety override
+
+
+    private final int TWO_BUTTONS_PRESSED=1;
+    private final int TWO_BUTTONS_CLEARED=2;
+
+    private int SafetyButtonState=TWO_BUTTONS_CLEARED;
+    /**
+     * This function allows the operators to override the maximum downward force
+     * of the spark max controller, allowing a much more rapid descent.
+     * 
+     * To use it, a button on each of the drivers' sticks must be held simultaneously
+     * To increase again, both must be released, and then pressed again and held simultaneously
+     * 
+     * USE WITH CAUTION
+     */
+    private void checkSafetyOverride()
+    {
+        if(SafetyButtonState==TWO_BUTTONS_CLEARED)
+        {
+            if (UserCom.elevatorSafetyOverRideDriver1()&&UserCom.elevatorSafetyOverRideDriver2())
+            {
+                SafetyButtonState=TWO_BUTTONS_PRESSED;
+                ELMINSPEED-=SAFETYOVERRIDEINCREMENT;
+                Io.elevatorController.setOutputRange(ELMINSPEED, ELMAXSPEED);
+            }
+        }
+        if (!UserCom.elevatorSafetyOverRideDriver1()&&
+            !UserCom.elevatorSafetyOverRideDriver2())
+            {
+                SafetyButtonState=TWO_BUTTONS_CLEARED;
+            }
+
+        if (UserCom.restoreSafety())
+        {
+             Io.elevatorController.setOutputRange(ORIGINALELMINSPEED,ELMAXSPEED);
+        }
+    }
+
+    
+
 
 
 }

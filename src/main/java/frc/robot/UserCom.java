@@ -33,6 +33,7 @@ public class UserCom
 
     private static int JSB_FIELDDRIVETOFORWARD=4;//arbitrary.  On turn stick
     private static int JSB_TEACHMODE=10;
+    private static int JSB_SAFETYOVERRIDE_DRIVER=11;
     
     private static int DRIVEAXISY=1;
     private static int DRIVEAXISTWIST=2;
@@ -55,10 +56,15 @@ public class UserCom
     private static int FIGHTSTICKPORT=3;
     private static double ELEVATORDEADBAND=0.35;
     private static final int JSB_RESETCARRIAGE=4;//Get choice from Sammy
+    private static int JSB_SAFETYOVERRIDE_D2=5;
+    private static int JSB_SAFETYRESTORE=6;
+    
     private static int PRIMARY_FIRE_BUTTON=1;
-    private static int INTAKE_BUTTON = 6;
-    private static int INTAKE_BUTTONL=5;
-    private static int INTAKE_BUTTONR=7;
+    private static int INTAKE_BUTTON_POV = 6;
+    private static int INTAKE_BUTTONL_POV=5;
+    private static int INTAKE_BUTTONR_POV=7;
+
+
 
 //Street Fighter
     public static final int JSB_LEVEL1HATCH=1;
@@ -79,7 +85,7 @@ public class UserCom
 
     
     public static boolean intakeButtons(){
-        if(driver2Stick.getPOV() == INTAKE_BUTTONL || driver2Stick.getPOV() == INTAKE_BUTTONR || driver2Stick.getPOV() == INTAKE_BUTTON )
+        if(driver2Stick.getPOV() == INTAKE_BUTTONL_POV || driver2Stick.getPOV() == INTAKE_BUTTONR_POV || driver2Stick.getPOV() == INTAKE_BUTTON_POV )
         {
            return true;
             
@@ -242,6 +248,21 @@ public class UserCom
     {
         //NOTE THE TEACH MODE BUTTON IS ON DRIVER 1 STICK
         return driveStick.getRawButton(JSB_TEACHMODE);
+    }
+
+    public static boolean elevatorSafetyOverRideDriver1()
+    {
+        return driveStick.getRawButton(JSB_SAFETYOVERRIDE_DRIVER);
+    }
+
+    public static boolean elevatorSafetyOverRideDriver2()
+    {
+        return driveStick.getRawButton(JSB_SAFETYOVERRIDE_D2);
+    }
+
+    public static boolean restoreSafety()
+    {
+        return driver2Stick.getRawButton(JSB_SAFETYRESTORE);
     }
 
 

@@ -49,6 +49,7 @@ public class Drive{
     private long lastcalltime;
     private boolean lastIsRecorded=false;
 
+    private boolean isInitialized=false;
     private double myRate()
     {
         double diff=Io.navX.getAngle()-lastAngle;
@@ -75,8 +76,11 @@ public class Drive{
 
     public void Init()
     {
+        if (isInitialized) return;
+
         rotatePidController.setSetpoint(Io.navX.getYaw());
         lastIsRecorded=false;
+        isInitialized=true;
     }
 
     private boolean drivemodebuttonpressed=false;
@@ -282,6 +286,11 @@ public class Drive{
 
     }
 
+    public void disable()
+    {
+        isInitialized=false;
+    }
+
 
     public enum DriveCoordinates
     {
@@ -297,5 +306,7 @@ public class Drive{
         TURNING_INERTIA,
         DRIVE_STRAIGHT
     }
+
+    
 
 }

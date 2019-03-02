@@ -33,6 +33,7 @@ public class ElevatorOps
     private double ELMAXSPEED=0.6;
 
     private double zeroLevel=0.0;//The stored value that represents 0
+    private boolean isInitialized=false;
 
     public  ElevatorOps()
     {
@@ -51,9 +52,11 @@ public class ElevatorOps
 
     public void Init()
     {
+        if (isInitialized) return;
         zeroLevel=Io.elevatorEncoder.getPosition();
         currentTargetPosition=0;
         lastManualPosition=0;
+        isInitialized=true;
 
     }
 
@@ -176,13 +179,15 @@ public class ElevatorOps
         else
         {
 
-           System.out.println("Raw stick: "+UserCom.manualElevatorSpeed());
-           System.out.println("Scaled stick: "+limitedElevator());
-           SmartDashboard.putNumber("ScaledStick",limitedElevator());
+
            Io.elevatorController.setReference(limitedElevator(), ControlType.kDutyCycle);
            lastManualPosition=Io.elevatorEncoder.getPosition();//When it leaes manual mode, it will hold the position.
            currentTarget=ElevatorPresets.HOLDCURRENT;
            
+        }
+
+        if (UserCom.elevatorTeachMode())
+        {teachMode();
         }
 
         SmartDashboard.putNumber("Motor output", limitedElevator());
@@ -199,6 +204,15 @@ public class ElevatorOps
         double requestedValue=UserCom.manualElevatorSpeed();//Deadband has been applied
         Io.printDebugMessage("Scaled value:"+Math.signum(requestedValue)*Math.min(Math.abs(requestedValue),ELEVATORMAXSCALEDSPEED));
         return Math.signum(requestedValue)*Math.min(Math.abs(requestedValue),ELEVATORMAXSCALEDSPEED);
+    }
+
+    /**
+     * This function is called when disabled to allow robot reset during practice sessions.
+     * Hopefully, it won't cause any grief during competition.
+     */
+    public void disableOps()
+    {
+        isInitialized=false;
     }
 
 

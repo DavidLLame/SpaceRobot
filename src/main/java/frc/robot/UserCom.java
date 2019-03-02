@@ -32,6 +32,7 @@ public class UserCom
     private static int JSB_DRIVEMODE=2;
 
     private static int JSB_FIELDDRIVETOFORWARD=4;//arbitrary.  On turn stick
+    private static int JSB_TEACHMODE=10;
     
     private static int DRIVEAXISY=1;
     private static int DRIVEAXISTWIST=2;
@@ -235,6 +236,12 @@ public class UserCom
     public static boolean fieldDriveToForward()
     {
         return turnStick.getRawButton(JSB_FIELDDRIVETOFORWARD);
+    }
+
+    public static boolean elevatorTeachMode()
+    {
+        //NOTE THE TEACH MODE BUTTON IS ON DRIVER 1 STICK
+        return driveStick.getRawButton(JSB_TEACHMODE);
     }
 
 

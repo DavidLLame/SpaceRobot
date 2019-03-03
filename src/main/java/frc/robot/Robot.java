@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  //Bag night - 
+   
   private Drive drive;
   CameraStream usbCam;
   private TestComponents testThisRobot;
@@ -58,8 +58,8 @@ public class Robot extends TimedRobot {
     usbCam.initCamera();
     testThisRobot=new TestComponents();
     manip = new Manip();
-  //  elevatorOps=new ElevatorOps();
-  //  beavertail=new Beavertail();
+    elevatorOps=new ElevatorOps();
+    beavertail=new Beavertail();
 
   }
 
@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
     Io.navX.zeroYaw();
     drive.Init();
     manip.Init();
-    // elevatorOps.Init();
+    elevatorOps.Init();
 
   }
 
@@ -139,11 +139,10 @@ teleopPeriodic();
    drive.driveByJoystick();
 
 
-   //elevatorOps.operateElevator();
-   //beavertail.OperateBeaverTail();
-    //usbCam.grabFrame();
+   elevatorOps.operateElevator();
+   beavertail.OperateBeaverTail();
 
-   // SmartDashboard.putNumber("Port_1_Current",Io.pdp.getCurrent(1));
+
   }
 
   /**

@@ -135,26 +135,26 @@ public class Io  {
         
 
         frontLeftMotor = new Victor(FRONTLEFTMOTOR_PWMPORT);
-        frontLeftMotor.setInverted(false);
+        frontLeftMotor.setInverted(true);
         rearLeftMotor = new Victor(REARLEFTMOTOR_PWMPORT);
-        rearLeftMotor.setInverted(false);
+        rearLeftMotor.setInverted(true);
         frontRightMotor = new Victor(FRONTRIGHTMOTOR_PWMPORT);
-        frontRightMotor.setInverted(false);
+        frontRightMotor.setInverted(true);
         rearRightMotor = new Victor(REARRIGHTMOTOR_PWMPORT);
-        rearRightMotor.setInverted(false);
+        rearRightMotor.setInverted(true);
 
 
             
 
         intake=new Victor(INTAKE_PWMPORT);
 
-      //  elevator=new CANSparkMax(ELEVATOR_CANID, MotorType.kBrushless);
+        elevator=new CANSparkMax(ELEVATOR_CANID, MotorType.kBrushless);
        
-      //  elevatorEncoder=new CANEncoder(elevator); 
-      //  elevatorController=new CANPIDController(elevator);
+        elevatorEncoder=new CANEncoder(elevator); 
+        elevatorController=new CANPIDController(elevator);
 
 
-        navX = new AHRS(SerialPort.Port.kUSB1);
+        navX = new AHRS(SerialPort.Port.kMXP);
         navX.zeroYaw();
 
         shoot1 = new Solenoid(SHOOTERSOLENOID);

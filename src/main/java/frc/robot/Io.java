@@ -50,6 +50,8 @@ public class Io  {
 
 
     private static final int INTAKE_PWMPORT_BBOT=4;
+    public static final int INTAKE_PDP_CHANNEL=12;  //The PDP channel where the intake motor is plugged in.  
+                                                   //Note public.  Used in Manip.java
 
 
 
@@ -144,7 +146,7 @@ public class Io  {
 
             
 
-       // intake=new Victor(INTAKE_PWMPORT);
+        intake=new Victor(INTAKE_PWMPORT);
 
       //  elevator=new CANSparkMax(ELEVATOR_CANID, MotorType.kBrushless);
        

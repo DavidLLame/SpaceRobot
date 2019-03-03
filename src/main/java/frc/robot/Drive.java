@@ -50,18 +50,6 @@ public class Drive{
     private boolean lastIsRecorded=false;
 
 
-    private double myRate()
-    {
-        double diff=Io.navX.getAngle()-lastAngle;
-        long elapsed =System.currentTimeMillis()-lastcalltime;
-        if (diff>180) diff-=360;
-        else if (diff<-180) diff+=360;
-        return 1000.0*diff/elapsed;
-
-
-
-    }
-
     public Drive()
     {
         rotationOutput=new MecPIDOutput();
@@ -81,6 +69,8 @@ public class Drive{
 
         rotatePidController.setSetpoint(Io.navX.getYaw());
         lastIsRecorded=false;
+        drivingMode=DriveCoordinates.ROBOT_CENTERED;
+        holdingDriveButton=false;
 
     }
 
@@ -121,11 +111,11 @@ public class Drive{
             {
                 rotatePidController.setSetpoint(currentStickHeading());
             }
-          Io.meccDrive.driveCartesian(throttleMultiplier*UserCom.xDrive(),throttleMultiplier*UserCom.yDrive(),rotationOutput.getRotationCorrection(),-1*Io.navX.getAngle());
+          Io.meccDrive.driveCartesian(throttleMultiplier*UserCom.xDrive(),throttleMultiplier*UserCom.yDrive(),rotationOutput.getRotationCorrection(),-1*Io.navX.getYaw());
         }
           else
          { 
-          Io.meccDrive.driveCartesian(throttleMultiplier*UserCom.xDrive(),throttleMultiplier*UserCom.yDrive(),UserCom.twistDrive(),-1*Io.navX.getAngle());
+          Io.meccDrive.driveCartesian(throttleMultiplier*UserCom.xDrive(),throttleMultiplier*UserCom.yDrive(),UserCom.twistDrive(),-1*Io.navX.getYaw());
          }
       }
       else if (drivingMode==DriveCoordinates.ROBOT_CENTERED)
@@ -172,7 +162,7 @@ public class Drive{
     public void driveToAngle(double newAngle)
     {
         rotatePidController.setSetpoint(newAngle);
-        Io.meccDrive.driveCartesian(0, 0, rotationOutput.getRotationCorrection(),Io.navX.getAngle());
+        Io.meccDrive.driveCartesian(0, 0, rotationOutput.getRotationCorrection(),Io.navX.getYaw());
         
     }
 
@@ -272,7 +262,7 @@ public class Drive{
 
         
         if ((xDirection==0)&&(yDirection==0)) //If they aren't using the stick, keep pointed where you are
-        {return Io.navX.getAngle();}
+        {return Io.navX.getYaw();}
 
         
         //Now convert from X/Y plane to field heading coordinates

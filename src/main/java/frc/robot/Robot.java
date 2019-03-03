@@ -56,8 +56,8 @@ public class Robot extends TimedRobot {
     drive =new Drive();
     usbCam=new CameraStream();
     usbCam.initCamera();
-  //  testThisRobot=new TestComponents();
-  //  manip = new Manip();
+    testThisRobot=new TestComponents();
+    manip = new Manip();
   //  elevatorOps=new ElevatorOps();
   //  beavertail=new Beavertail();
 
@@ -96,6 +96,7 @@ public class Robot extends TimedRobot {
     Io.initMecanum();
     Io.navX.zeroYaw();
     drive.Init();
+    manip.Init();
     // elevatorOps.Init();
 
   }
@@ -124,7 +125,7 @@ teleopPeriodic();
   public void teleopPeriodic()
   {
     SmartDashboard.putNumber("Port 0 Current",Io.pdp.getCurrent(0));
-     //manip.runtime();
+     manip.runtime();
 
   
    

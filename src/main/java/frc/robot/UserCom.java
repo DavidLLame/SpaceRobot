@@ -2,6 +2,7 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * User commands
@@ -61,9 +62,12 @@ public class UserCom
     private static int JSB_SAFETYRESTORE=6;
     
     private static int PRIMARY_FIRE_BUTTON=1;
-    private static int INTAKE_BUTTON_POV = 6;
-    private static int INTAKE_BUTTONL_POV=5;
-    private static int INTAKE_BUTTONR_POV=7;
+    private static int INTAKE_BUTTON_POV = 180;
+    private static int INTAKE_BUTTONL_POV=225;
+    private static int INTAKE_BUTTONR_POV=135;
+    private static int HATCH_BUTTON_POV=0;
+    private static int HATCH_BUTTON_POVL=315;
+    private static int HATCH_BUTTON_POVR=45;
 
 
 
@@ -96,6 +100,18 @@ public class UserCom
         else{
             return false;
         }
+    }
+
+    public static boolean hatchPickup()
+    {
+        if ((driver2Stick.getPOV()==HATCH_BUTTON_POV) ||
+            (driver2Stick.getPOV()==HATCH_BUTTON_POVL) ||
+            (driver2Stick.getPOV()==HATCH_BUTTON_POVR))
+            return true;
+            else
+            {
+                return false;
+            }
     }
 
 /************************************************** */

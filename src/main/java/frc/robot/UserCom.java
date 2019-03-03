@@ -36,11 +36,10 @@ public class UserCom
     private static int JSB_SAFETYOVERRIDE_DRIVER=11;
     
     private static int DRIVEAXISY=1;
-    private static int DRIVEAXISTWIST=2;
     private static int DRIVEAXISTHROTTLE=3;
 
-    private static double XDRIVEDEADBAND=0.3;
-    private static double YDRIVEDEADBAND=0.3;
+    private static double XDRIVEDEADBAND=0.15;
+    private static double YDRIVEDEADBAND=0.15;
     private static double TWISTDEADBAND=0.5;
    
     public static int BIGTRIGGERRIGHT=1;
@@ -52,9 +51,11 @@ public class UserCom
 
     private static Joystick driver2Stick;//The controller held in the hand of driver 2
     private static Joystick fightStick;//Fight Stick buttons for driver 2
+
     private static int DRIVER2STICKPORT=2;
     private static int FIGHTSTICKPORT=3;
     private static double ELEVATORDEADBAND=0.35;
+
     private static final int JSB_RESETCARRIAGE=4;//Get choice from Sammy
     private static int JSB_SAFETYOVERRIDE_D2=5;
     private static int JSB_SAFETYRESTORE=6;
@@ -67,6 +68,8 @@ public class UserCom
 
 
 //Street Fighter
+    private static int DRIVEAXISTWIST=0; //X Axis of the stick
+
     public static final int JSB_LEVEL1HATCH=1;
     public static final int JSB_LEVEL2HATCH=2;
     public static final int JSB_LEVEL3HATCH=3;
@@ -128,7 +131,8 @@ public class UserCom
 
     public static double twistDrive()
     {
-        return linearDeadband(driveStick.getRawAxis(DRIVEAXISTWIST),TWISTDEADBAND);
+        return linearDeadband(turnStick.getRawAxis(DRIVEAXISTWIST),TWISTDEADBAND);
+       
     }
 
 
@@ -241,7 +245,7 @@ public class UserCom
 
     public static boolean fieldDriveToForward()
     {
-        return turnStick.getRawButton(JSB_FIELDDRIVETOFORWARD);
+        return driveStick.getRawButton(JSB_FIELDDRIVETOFORWARD);
     }
 
     public static boolean elevatorTeachMode()

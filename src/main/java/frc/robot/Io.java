@@ -65,10 +65,10 @@ public class Io  {
     //Notice that the following are not "final"
 
 
-    private static final int FRONTLEFTMOTOR_PWMPORT = 4;
-    private static final int REARRIGHTMOTOR_PWMPORT = 2;
-    private static final int FRONTRIGHTMOTOR_PWMPORT = 3;
-    private static final int REARLEFTMOTOR_PWMPORT = 5;
+    private static final int FRONTLEFTMOTOR_PWMPORT = 2;
+    private static final int REARRIGHTMOTOR_PWMPORT = 1;
+    private static final int FRONTRIGHTMOTOR_PWMPORT = 0;
+    private static final int REARLEFTMOTOR_PWMPORT = 3;
     
     private static int INTAKE_PWMPORT=4;
     private static int ELEVATOR_CANID=10;
@@ -109,7 +109,7 @@ public class Io  {
        public static CANEncoder elevatorEncoder;
        public static CANPIDController elevatorController;
 
- //      public static PowerDistributionPanel pdp;
+       public static PowerDistributionPanel pdp;
 
 
       
@@ -144,23 +144,23 @@ public class Io  {
 
             
 
-        intake=new Victor(INTAKE_PWMPORT);
+       // intake=new Victor(INTAKE_PWMPORT);
 
-        elevator=new CANSparkMax(ELEVATOR_CANID, MotorType.kBrushless);
+      //  elevator=new CANSparkMax(ELEVATOR_CANID, MotorType.kBrushless);
        
-        elevatorEncoder=new CANEncoder(elevator); 
-        elevatorController=new CANPIDController(elevator);
+      //  elevatorEncoder=new CANEncoder(elevator); 
+      //  elevatorController=new CANPIDController(elevator);
 
 
-      //  navX = new AHRS(SerialPort.Port.kUSB1);
-     //   navX.zeroYaw();
+        navX = new AHRS(SerialPort.Port.kUSB1);
+        navX.zeroYaw();
 
         shoot1 = new Solenoid(SHOOTERSOLENOID);
         lasthope = new Solenoid(LASTHOPESOLENOID);
         beaverTailLower=new Solenoid(BEAVERTAILLOWER);
         beaverTailFire=new Solenoid(BEAVERTAILFIRE);
 
-        //pdp=new PowerDistributionPanel();
+        pdp=new PowerDistributionPanel();
         
 
     
@@ -175,14 +175,12 @@ public class Io  {
      */
     public static void initMecanum()
     {
-        if (MecanumIsSet) return;
-        else
-        {
+        
 
             meccDrive = new MecanumDrive(frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor);
-            MecanumIsSet=true;
+
        
-        }
+        
 
     }
 

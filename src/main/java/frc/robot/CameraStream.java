@@ -22,10 +22,11 @@ public class CameraStream
        // camera2 = CameraServer.getInstance().startAutomaticCapture(1);
         
       System.out.println("It didn't crash");
-        camera1.setResolution(320, 240);
+      camera1.setResolution(320, 240);
+      camera1.setFPS(12);
       //  camera2.setResolution(320, 240);
         cvSink = CameraServer.getInstance().getVideo();
-        outputStream = CameraServer.getInstance().putVideo("Blur", 320, 240);
+        outputStream = CameraServer.getInstance().putVideo("DriverCam", 320, 240);
         lastSwitch=System.currentTimeMillis();
         cvSink.setSource(camera1);
     }

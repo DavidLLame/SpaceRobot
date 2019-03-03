@@ -49,7 +49,7 @@ public class Drive{
     private long lastcalltime;
     private boolean lastIsRecorded=false;
 
-    private boolean isInitialized=false;
+
     private double myRate()
     {
         double diff=Io.navX.getAngle()-lastAngle;
@@ -69,18 +69,19 @@ public class Drive{
         rotatePidController.setInputRange(-180, 180);
         rotatePidController.setContinuous();
         rotatePidController.setSetpoint(0.0);
-        rotatePidController.setOutputRange(-1.0, 1.0);
+        rotatePidController.setOutputRange(-0.6, 0.6);
+        rotatePidController.setAbsoluteTolerance(4);
         rotatePidController.enable();
     
     }
 
     public void Init()
     {
-        if (isInitialized) return;
+
 
         rotatePidController.setSetpoint(Io.navX.getYaw());
         lastIsRecorded=false;
-        isInitialized=true;
+
     }
 
     private boolean drivemodebuttonpressed=false;
@@ -95,6 +96,10 @@ public class Drive{
         SmartDashboard.putNumber("Yaw", Io.navX.getYaw());
         SmartDashboard.putNumber("Stick Twist",UserCom.twistDrive());
         SmartDashboard.putNumber("Turn Rate",Io.navX.getRate());
+        SmartDashboard.putNumber("X Drive",UserCom.xDrive());
+        SmartDashboard.putNumber("Y Drive",UserCom.yDrive());
+        SmartDashboard.putBoolean("DriveToForward", UserCom.fieldDriveToForward());
+        SmartDashboard.putNumber("Drive direction", currentStickHeading());
 
         
         computeTurningState();
@@ -105,30 +110,17 @@ public class Drive{
         System.out.println("Driving by joystick");
         
 
-        double throttleMultiplier=UserCom.throttle();
-      //TODO:  To switch back and forth between field centered and robot centered,
-      //there has to be some adjustment in yaw calculations.
-      if (drivingMode==DriveCoordinates.FOURTYFIVE)
-      {
-          if (UserCom.yDrive()>0.5)
-          {
-              Io.meccDrive.driveCartesian(-0.7, .7, rotationOutput.getRotationCorrection(),-1*Io.navX.getAngle());
-          }
-          else
-          {
-              Io.meccDrive.driveCartesian(0, 0, 0,0);
-          }
-      }
+        double throttleMultiplier=Math.max(UserCom.throttle(),0.3);
+     
 
 
-      else if (drivingMode==DriveCoordinates.FIELD_CENTERED)
+      if (drivingMode==DriveCoordinates.FIELD_CENTERED)
       {if (turningState==TurnCommand.DRIVE_STRAIGHT)
         {
             if(UserCom.fieldDriveToForward())
             {
                 rotatePidController.setSetpoint(currentStickHeading());
             }
-
           Io.meccDrive.driveCartesian(throttleMultiplier*UserCom.xDrive(),throttleMultiplier*UserCom.yDrive(),rotationOutput.getRotationCorrection(),-1*Io.navX.getAngle());
         }
           else
@@ -153,6 +145,13 @@ public class Drive{
       {
           Io.meccDrive.driveCartesian(UserCom.xDrive(), UserCom.yDrive(), UserCom.twistDrive(),0);
       }
+
+      SmartDashboard.putNumber("Rotation SetPoint", rotatePidController.getSetpoint());
+      SmartDashboard.putNumber("frontLeft",Io.frontLeftMotor.get());
+      SmartDashboard.putNumber("frontRight",Io.frontRightMotor.get());
+      SmartDashboard.putNumber("RearLeft", Io.rearLeftMotor.get());
+      SmartDashboard.putNumber("RearRight",Io.rearRightMotor.get());
+
 
     
     
@@ -280,7 +279,7 @@ public class Drive{
         double radiansHeading=Math.atan2(yDirection,xDirection);
         double degreesCartesianHeading=radiansHeading*180.0/Math.PI;
         double heading= 90-degreesCartesianHeading;
-        if (heading>189) heading-=180;
+        if (heading>189) heading-=360;
         return heading;
 
 
@@ -288,7 +287,7 @@ public class Drive{
 
     public void disable()
     {
-        isInitialized=false;
+
     }
 
 

@@ -56,10 +56,10 @@ public class Robot extends TimedRobot {
     drive =new Drive();
     usbCam=new CameraStream();
     usbCam.initCamera();
-    testThisRobot=new TestComponents();
-    manip = new Manip();
-    elevatorOps=new ElevatorOps();
-    beavertail=new Beavertail();
+  //  testThisRobot=new TestComponents();
+  //  manip = new Manip();
+  //  elevatorOps=new ElevatorOps();
+  //  beavertail=new Beavertail();
 
   }
 
@@ -92,10 +92,12 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
-    teleopInit();
- 
-    
-    //Here is another added comment.
+    super.teleopInit();//What's this?  Not sure if it's necessary.  We'll try without it, too.
+    Io.initMecanum();
+    Io.navX.zeroYaw();
+    drive.Init();
+    // elevatorOps.Init();
+
   }
 
   /**
@@ -103,18 +105,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    teleopPeriodic();
+teleopPeriodic();
+   
+
   }
 
   
   @Override
   public void teleopInit() {
-    super.teleopInit();//What's this?  Not sure if it's necessary.  We'll try without it, too.
-    Io.initMecanum();
-    Io.navX.zeroYaw();
-    drive.Init();
-    elevatorOps.Init();
-
+    
     
   }
 
@@ -122,15 +121,16 @@ public class Robot extends TimedRobot {
    * This function is called periodically during operator control.
    */
   @Override
-  public void teleopPeriodic() {
-
-     manip.runtime();
+  public void teleopPeriodic()
+  {
+    SmartDashboard.putNumber("Port 0 Current",Io.pdp.getCurrent(0));
+     //manip.runtime();
 
   
    
    
    
-   System.out.println("TeleopPeriodic");
+   //System.out.println("TeleopPeriodic");
    
    
    
@@ -138,8 +138,8 @@ public class Robot extends TimedRobot {
    drive.driveByJoystick();
 
 
-   elevatorOps.operateElevator();
-   beavertail.OperateBeaverTail();
+   //elevatorOps.operateElevator();
+   //beavertail.OperateBeaverTail();
     //usbCam.grabFrame();
 
    // SmartDashboard.putNumber("Port_1_Current",Io.pdp.getCurrent(1));

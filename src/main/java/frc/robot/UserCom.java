@@ -22,44 +22,62 @@ public class UserCom
 {
 
 
-/*****************************DECLARATIONS FOR PRIMARY DRIVE STICK *******************/
+
 
 
     private static Joystick driveStick;
     private static Joystick turnStick;
+    private static Joystick driver2Stick;//The controller held in the hand of driver 2
+    private static Joystick fightStick;//Fight Stick buttons for driver 2
+
     private static int DRIVESTICKPORT=0;
     private static int TURNSTICKPORT=1;
+    private static int DRIVER2STICKPORT=2;
+    private static int FIGHTSTICKPORT=3;
 
-    private static int JSB_DRIVEMODE=2;
 
-    private static int JSB_FIELDDRIVETOFORWARD=4;//arbitrary.  On turn stick
-    private static int JSB_TEACHMODE=10;
-    private static int JSB_SAFETYOVERRIDE_DRIVER=11;
-    
+
+    /************************************************************************* */
+    /*****************************DECLARATIONS FOR PRIMARY DRIVE STICK *******************/
+    private static int DRIVEAXISX=0;
     private static int DRIVEAXISY=1;
     private static int DRIVEAXISTHROTTLE=3;
+
+    private static int JSB_DRIVEMODE=2;//Toggles field/rocket
+
+    private static int JSB_FIELDDRIVETOFORWARD=4;//arbitrary.  On turn stick
+
+    private static int JSB_SAFETYOVERRIDE_DRIVER=11;
+    
+
+
 
     private static double XDRIVEDEADBAND=0.15;
     private static double YDRIVEDEADBAND=0.15;
     private static double TWISTDEADBAND=0.5;
    
-    public static int BIGTRIGGERRIGHT=1;
+
 //Turn Stick
-    private static int DRIVEAXISX=0;
-    public static int BIGTRIGGERLEFT=1;
-  
-/************************DECLARATIONS FOR DRIVER 2 Controllers */
+/*****************************DECLARATIONS FOR TURN STICK *******************/
+private static int DRIVEAXISTWIST=0; //X Axis of the stick
 
-    private static Joystick driver2Stick;//The controller held in the hand of driver 2
-    private static Joystick fightStick;//Fight Stick buttons for driver 2
+  /*************************************************************************** */
+/************************DECLARATIONS FOR DRIVER 2 Stick  (game controller) */
 
-    private static int DRIVER2STICKPORT=2;
-    private static int FIGHTSTICKPORT=3;
+ 
+
+
     private static double ELEVATORDEADBAND=0.35;
 
-    private static final int JSB_RESETCARRIAGE=4;//Get choice from Sammy
-    private static int JSB_SAFETYOVERRIDE_D2=5;
-    private static int JSB_SAFETYRESTORE=6;
+    private static int  MANUALAXISELEVATOR=1;
+    public static final int JSB_BEAVERTAILFIRE=2;
+    private static final int JSB_RESETCARRIAGE=4;
+    public static final int JSB_BEAVERTAILLOWER=5;
+    private static int JSB_SAFETYOVERRIDE_D2=8;
+    private static int JSB_SAFETYRESTORE=7;
+    
+
+
     
     private static int PRIMARY_FIRE_BUTTON=1;
     private static int INTAKE_BUTTON_POV = 180;
@@ -70,9 +88,10 @@ public class UserCom
     private static int HATCH_BUTTON_POVR=45;
 
 
-
+/***************************************************************** */
+/********DECLARATIONS FOR FIGHT STICK */
 //Street Fighter
-    private static int DRIVEAXISTWIST=0; //X Axis of the stick
+
 
     public static final int JSB_LEVEL1HATCH=1;
     public static final int JSB_LEVEL2HATCH=2;
@@ -80,13 +99,11 @@ public class UserCom
     public static final int JSB_LEVEL1CARGO=5;
     public static final int JSB_LEVEL2CARGO=6;
     public static final int JSB_LEVEL3CARGO=7;
-    public static final int JSB_ELEVATORZERO=8;//Sammy
+    public static final int JSB_ELEVATORZERO=8;
     public static final int JSB_ELEVATORAUTO=4;
 
-//Afterglow Controller
-    private static int  MANUALAXISELEVATOR=1;
-    public static final int JSB_BEAVERTAILLOWER=5;
-    public static final int JSB_BEAVERTAILFIRE=2;
+
+
 
 
 
@@ -188,32 +205,32 @@ public class UserCom
 
     public static boolean Level1Cargo()
     {
-        return driver2Stick.getRawButton(JSB_LEVEL1CARGO);
+        return fightStick.getRawButton(JSB_LEVEL1CARGO);
     }
 
     public static boolean Level2Cargo()
     {
-        return driver2Stick.getRawButton(JSB_LEVEL2CARGO);
+        return fightStick.getRawButton(JSB_LEVEL2CARGO);
     }
 
     public static boolean Level3Cargo()
     {
-        return driver2Stick.getRawButton(JSB_LEVEL3CARGO);
+        return fightStick.getRawButton(JSB_LEVEL3CARGO);
     }
 
     public static boolean Level1Hatch()
     {
-        return driver2Stick.getRawButton(JSB_LEVEL1HATCH);
+        return fightStick.getRawButton(JSB_LEVEL1HATCH);
     }
 
     public static boolean Level2Hatch()
     {
-        return driver2Stick.getRawButton(JSB_LEVEL2HATCH);
+        return fightStick.getRawButton(JSB_LEVEL2HATCH);
     }
 
     public static boolean Level3Hatch()
     {
-        return driver2Stick.getRawButton(JSB_LEVEL3HATCH);
+        return fightStick.getRawButton(JSB_LEVEL3HATCH);
     }
 
     /**
@@ -264,11 +281,6 @@ public class UserCom
         return driveStick.getRawButton(JSB_FIELDDRIVETOFORWARD);
     }
 
-    public static boolean elevatorTeachMode()
-    {
-        //NOTE THE TEACH MODE BUTTON IS ON DRIVER 1 STICK
-        return driveStick.getRawButton(JSB_TEACHMODE);
-    }
 
     public static boolean elevatorSafetyOverRideDriver1()
     {

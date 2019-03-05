@@ -137,10 +137,6 @@ public class Drive{
       }
 
       SmartDashboard.putNumber("Rotation SetPoint", rotatePidController.getSetpoint());
-      SmartDashboard.putNumber("frontLeft",Io.frontLeftMotor.get());
-      SmartDashboard.putNumber("frontRight",Io.frontRightMotor.get());
-      SmartDashboard.putNumber("RearLeft", Io.rearLeftMotor.get());
-      SmartDashboard.putNumber("RearRight",Io.rearRightMotor.get());
 
 
     
@@ -261,7 +257,7 @@ public class Drive{
         double yDirection=UserCom.yDrive();
 
         
-        if ((xDirection==0)&&(yDirection==0)) //If they aren't using the stick, keep pointed where you are
+        if ((Math.abs(xDirection)==0)&&(Math.abs(yDirection)==0)) //If they aren't using the stick, keep pointed where you are
         {return Io.navX.getYaw();}
 
         

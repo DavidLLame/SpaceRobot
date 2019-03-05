@@ -23,7 +23,7 @@ public class ElevatorOps
     private double elevatorKi=0.0;
     private double elevatorIZone=5;
 
-    private ElevatorPresets currentTarget=ElevatorPresets.LEVEL1HATCH;
+    private ElevatorPresets currentTargetPRESET=ElevatorPresets.LEVEL1HATCH;
 
     private double currentTargetPosition;
     private double lastManualPosition=0;//The last value it was moved to while in manual mode, or its first starting position
@@ -34,8 +34,7 @@ public class ElevatorOps
     private double ELMAXSPEED=0.6;
     private double SAFETYOVERRIDEINCREMENT=0.03;//The 
 
-    private double zeroLevel=0.0;//The stored value that represents 0
-    private boolean isInitialized=false;
+    private double zeroLevel=0.0;//The stored value that represents 
 
     public  ElevatorOps()
     {
@@ -54,12 +53,12 @@ public class ElevatorOps
 
     public void Init()
     {
-        if (isInitialized) return;
+
         zeroLevel=Io.elevatorEncoder.getPosition();
         currentTargetPosition=0;
         lastManualPosition=0;
         SafetyButtonState=TWO_BUTTONS_CLEARED;
-        isInitialized=true;
+
 
     }
 
@@ -73,37 +72,34 @@ public class ElevatorOps
         //Now check for any new preset instruction
 
         if (UserCom.Level1Cargo())
-        {currentTarget=ElevatorPresets.LEVEL1CARGO;}
+        {currentTargetPRESET=ElevatorPresets.LEVEL1CARGO;}
         else if (UserCom.Level2Cargo())
         {
-            currentTarget=ElevatorPresets.LEVEL2CARGO;
+            currentTargetPRESET=ElevatorPresets.LEVEL2CARGO;
         }
         else if (UserCom.Level3Cargo())
         {
-            currentTarget=ElevatorPresets.LEVEL3CARGO;
+            currentTargetPRESET=ElevatorPresets.LEVEL3CARGO;
         }
         else if (UserCom.Level1Hatch())     
         {
-            currentTarget=ElevatorPresets.LEVEL1HATCH;
+            currentTargetPRESET=ElevatorPresets.LEVEL1HATCH;
         }
         else if (UserCom.Level2Hatch())
         {
-            currentTarget=ElevatorPresets.LEVEL2HATCH;
+            currentTargetPRESET=ElevatorPresets.LEVEL2HATCH;
         }
         else if (UserCom.Level3Hatch())
         {
-            currentTarget=ElevatorPresets.LEVEL3HATCH;
+            currentTargetPRESET=ElevatorPresets.LEVEL3HATCH;
         }
 
-        if (UserCom.isElevatorAuto())
-          {
-              isAutomatic=true;
-          }
+
     }
 
     private double getCurrentTargetPosition()
     {
-        switch(currentTarget)
+        switch(currentTargetPRESET)
         {
             case LEVEL1HATCH:return level1HatchPreset;
             
@@ -124,34 +120,6 @@ public class ElevatorOps
         }
     }
 
-    public void teachMode()
-    {
-        if (UserCom.Level1Hatch())
-        {
-            level1HatchPreset=Io.elevatorEncoder.getPosition()-zeroLevel;
-
-        }
-        else if (UserCom.Level2Hatch())
-        {
-            level2HatchPreset=Io.elevatorEncoder.getPosition()-zeroLevel;
-        }
-        else if (UserCom.Level3Hatch())
-        {
-            level3HatchPreset=Io.elevatorEncoder.getPosition()-zeroLevel;
-        }
-        else if (UserCom.Level1Cargo())
-        {
-            level1CargoPreset=Io.elevatorEncoder.getPosition()-zeroLevel;
-        }
-        else if (UserCom.Level2Cargo())
-        {
-            level2CargoPreset=Io.elevatorEncoder.getPosition()-zeroLevel;
-        }
-        else if (UserCom.Level3Cargo())
-        {
-            level3CargoPreset=Io.elevatorEncoder.getPosition()-zeroLevel;
-        }
-    }
 
     public void operateElevator()
     {
@@ -181,13 +149,11 @@ public class ElevatorOps
 
            Io.elevatorController.setReference(limitedElevator(), ControlType.kDutyCycle);
            lastManualPosition=Io.elevatorEncoder.getPosition();//When it leaes manual mode, it will hold the position.
-           currentTarget=ElevatorPresets.HOLDCURRENT;
+           currentTargetPRESET=ElevatorPresets.HOLDCURRENT;
            
         }
 
-        if (UserCom.elevatorTeachMode())
-        {teachMode();
-        }
+
         checkSafetyOverride();
 
         SmartDashboard.putNumber("Motor output", limitedElevator());
@@ -212,7 +178,7 @@ public class ElevatorOps
      */
     public void disableOps()
     {
-        isInitialized=false;
+
     }
 
 

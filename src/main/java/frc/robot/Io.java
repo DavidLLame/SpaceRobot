@@ -135,13 +135,13 @@ public class Io  {
         
 
         frontLeftMotor = new Victor(FRONTLEFTMOTOR_PWMPORT);
-        frontLeftMotor.setInverted(true);
+        frontLeftMotor.setInverted(false);
         rearLeftMotor = new Victor(REARLEFTMOTOR_PWMPORT);
-        rearLeftMotor.setInverted(true);
+        rearLeftMotor.setInverted(false);
         frontRightMotor = new Victor(FRONTRIGHTMOTOR_PWMPORT);
-        frontRightMotor.setInverted(true);
+        frontRightMotor.setInverted(false);
         rearRightMotor = new Victor(REARRIGHTMOTOR_PWMPORT);
-        rearRightMotor.setInverted(true);
+        rearRightMotor.setInverted(false);
 
 
             

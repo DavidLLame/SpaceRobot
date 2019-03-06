@@ -8,20 +8,21 @@ public class ElevatorOps
 {
 
     private double bottomTarget=0;
-    private double level1HatchPreset=5.0;
-    private double level2HatchPreset=14.7;
-    private double level3HatchPreset=31;
-    private double level1CargoPreset=10.3;
-    private double level2CargoPreset=25.0;
-    private double level3CargoPreset=41.0;
+    private double level1HatchPreset=1.2;
+    private double level2HatchPreset=21.52;
+    private double level3HatchPreset=37.86;
+    private double level1CargoPreset=15.45;
+    private double level2CargoPreset=31.35;
+    private double level3CargoPreset=47.1;
+    private double hatchPickupLift=9.57;
 
     private boolean isAutomatic=true;
 
 
-    private double elevatorKp=0.1;
+    private double elevatorKp=0.03;
     private double elevatorKd=0.0;
     private double elevatorKi=0.0;
-    private double elevatorIZone=5;
+    private double elevatorIZone=2;
 
     private ElevatorPresets currentTargetPRESET=ElevatorPresets.LEVEL1HATCH;
 
@@ -93,6 +94,10 @@ public class ElevatorOps
         {
             currentTargetPRESET=ElevatorPresets.LEVEL3HATCH;
         }
+        else if (UserCom.HatchPickupLift())
+        {
+            currentTargetPRESET=ElevatorPresets.HATCHPICKUPLIFT;
+        }
 
 
     }
@@ -123,16 +128,22 @@ public class ElevatorOps
 
     public void operateElevator()
     {
-        
+     
+        SmartDashboard.putString("Current Preset", currentTargetPRESET.toString());
+        SmartDashboard.putNumber("Current Target",currentTargetPosition+zeroLevel);
+        SmartDashboard.putNumber("Elevator Target",currentTargetPosition);
+        SmartDashboard.putNumber("Rotations", Io.elevatorEncoder.getPosition());
+        SmartDashboard.putNumber("Zero Postion", zeroLevel);
+       
+
         selectTarget(); //Also deterines manual or automatic mode
         currentTargetPosition=getCurrentTargetPosition();
         if (UserCom.resetElevatorZero()) zeroLevel=Io.elevatorEncoder.getPosition();
         
         System.out.println("Target   "+currentTargetPosition);
         System.out.println("Current Position"+Io.elevatorEncoder.getPosition());
-        SmartDashboard.putNumber("Rotations", Io.elevatorEncoder.getPosition());
-        SmartDashboard.putNumber("Elevator Target",currentTargetPosition);
 
+     
         if (isAutomatic  &&  UserCom.manualElevatorSpeed()==0)
         {
            
@@ -169,7 +180,8 @@ public class ElevatorOps
     {
         double requestedValue=UserCom.manualElevatorSpeed();//Deadband has been applied
         Io.printDebugMessage("Scaled value:"+Math.signum(requestedValue)*Math.min(Math.abs(requestedValue),ELEVATORMAXSCALEDSPEED));
-        return Math.signum(requestedValue)*Math.min(Math.abs(requestedValue),ELEVATORMAXSCALEDSPEED);
+        double outval =Math.signum(requestedValue)*Math.min(Math.abs(requestedValue),ELEVATORMAXSCALEDSPEED);
+        return Math.max(outval,-0.03);
     }
 
     /**

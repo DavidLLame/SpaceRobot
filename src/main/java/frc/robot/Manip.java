@@ -64,7 +64,7 @@ public void stateTransition()
            }
            break;
         case PICKUPA: //Roll in until either 2 secs, or user stops, or high current detected
-        if ((now-statetime>2000)||(!UserCom.intakeButtons())||(Io.pdp.getCurrent(Io.INTAKE_PDP_CHANNEL)>CURRENTSPIKETHRESHOLD)) //Add || sensor triggered
+        if ((!UserCom.intakeButtons())||(Io.pdp.getCurrent(Io.INTAKE_PDP_CHANNEL)>CURRENTSPIKETHRESHOLD)) //Add || sensor triggered
         {
                 changeState(FiniteStates.PICKUPB);
         }

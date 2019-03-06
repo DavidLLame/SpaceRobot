@@ -70,6 +70,7 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
     private static double ELEVATORDEADBAND=0.35;
 
     private static int  MANUALAXISELEVATOR=1;
+    private static int BEAVERTAIL_FIRE_AXIS=2;
     public static final int JSB_BEAVERTAILFIRE=2;
     private static final int JSB_RESETCARRIAGE=4;
     public static final int JSB_BEAVERTAILLOWER=5;
@@ -96,11 +97,12 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
     public static final int JSB_LEVEL1HATCH=1;
     public static final int JSB_LEVEL2HATCH=2;
     public static final int JSB_LEVEL3HATCH=3;
+    public static final int JSB_HATCKPICKUPLIFT=4;
     public static final int JSB_LEVEL1CARGO=5;
     public static final int JSB_LEVEL2CARGO=6;
     public static final int JSB_LEVEL3CARGO=7;
     public static final int JSB_ELEVATORZERO=8;
-    public static final int JSB_ELEVATORAUTO=4;
+    
 
 
 
@@ -233,6 +235,11 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
         return fightStick.getRawButton(JSB_LEVEL3HATCH);
     }
 
+    public static boolean HatchPickupLift()
+    {
+        return fightStick.getRawButton(JSB_HATCKPICKUPLIFT);
+    }
+
     /**
      * The fire command from the intake/hatch placer
      */
@@ -245,8 +252,8 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
 
     public static boolean beaverTailFire()
     {
-        return driver2Stick.getRawButton(JSB_BEAVERTAILFIRE);
-
+       // return driver2Stick.getRawButton(JSB_BEAVERTAILFIRE);
+        return (driver2Stick.getRawAxis(BEAVERTAIL_FIRE_AXIS)>0.9);
     }
 
     public static boolean beaverTailLower()
@@ -259,10 +266,6 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
         return driver2Stick.getRawButton(JSB_ELEVATORZERO);
     }
 
-    public static boolean isElevatorAuto()
-    {
-        return driver2Stick.getRawButton(JSB_ELEVATORAUTO);
-    }
 
     public static boolean resetCarriageState()
     {

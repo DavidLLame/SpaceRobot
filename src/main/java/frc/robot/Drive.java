@@ -49,6 +49,9 @@ public class Drive{
     private long lastcalltime;
     private boolean lastIsRecorded=false;
 
+    private double SAFETY_HEIGHT=32;
+    long departureTime;
+    double safetyThrottle;
 
     public Drive()
     {
@@ -71,6 +74,8 @@ public class Drive{
         lastIsRecorded=false;
         drivingMode=DriveCoordinates.ROBOT_CENTERED;
         holdingDriveButton=false;
+        
+    
 
     }
 
@@ -80,7 +85,7 @@ public class Drive{
      */
     public void driveByJoystick()
     {
-        SmartDashboard.putString("Turning State",turningState.toString());
+     /*   SmartDashboard.putString("Turning State",turningState.toString());
         SmartDashboard.putNumber("PID Output",rotationOutput.getRotationCorrection());
         SmartDashboard.putNumber("SetPoint", rotatePidController.getSetpoint());
         SmartDashboard.putNumber("Yaw", Io.navX.getYaw());
@@ -89,9 +94,26 @@ public class Drive{
         SmartDashboard.putNumber("X Drive",UserCom.xDrive());
         SmartDashboard.putNumber("Y Drive",UserCom.yDrive());
         SmartDashboard.putBoolean("DriveToForward", UserCom.fieldDriveToForward());
-        SmartDashboard.putNumber("Drive direction", currentStickHeading());
+        SmartDashboard.putNumber("Drive direction", currentStickHeading());*/
 
         
+        if (Io.elevatorEncoder.getPosition()>SAFETY_HEIGHT)
+        {
+            departureTime=System.currentTimeMillis();
+            safetyThrottle=0.2;
+        }
+        else
+        {
+            safetyThrottle=Math.min(1,(0.3+System.currentTimeMillis()-departureTime)*0.7/1000.0);
+        }
+    
+        double throttleMultiplier=Math.max(UserCom.throttle(),0.3);
+        
+        double finalthrottle=Math.min(safetyThrottle,throttleMultiplier);
+        double computedX=UserCom.xDrive()*finalthrottle;
+        double computedY=UserCom.yDrive()*finalthrottle;
+
+
         computeTurningState();
         ComputeDriveMode();
         SmartDashboard.putString("Drive coordinates",drivingMode.toString());
@@ -100,9 +122,10 @@ public class Drive{
         System.out.println("Driving by joystick");
         
 
-        double throttleMultiplier=Math.max(UserCom.throttle(),0.3);
-     
+        
 
+     
+     
 
       if (drivingMode==DriveCoordinates.FIELD_CENTERED)
       {if (turningState==TurnCommand.DRIVE_STRAIGHT)
@@ -111,11 +134,11 @@ public class Drive{
             {
                 rotatePidController.setSetpoint(currentStickHeading());
             }
-          Io.meccDrive.driveCartesian(throttleMultiplier*UserCom.xDrive(),throttleMultiplier*UserCom.yDrive(),rotationOutput.getRotationCorrection(),-1*Io.navX.getYaw());
+          Io.meccDrive.driveCartesian(computedX,computedY,rotationOutput.getRotationCorrection(),-1*Io.navX.getYaw());
         }
           else
          { 
-          Io.meccDrive.driveCartesian(throttleMultiplier*UserCom.xDrive(),throttleMultiplier*UserCom.yDrive(),UserCom.twistDrive(),-1*Io.navX.getYaw());
+          Io.meccDrive.driveCartesian(computedX,computedY,UserCom.twistDrive(),-1*Io.navX.getYaw());
          }
       }
       else if (drivingMode==DriveCoordinates.ROBOT_CENTERED)
@@ -123,17 +146,17 @@ public class Drive{
 
         if (turningState==TurnCommand.DRIVE_STRAIGHT)        
         {
-        Io.meccDrive.driveCartesian(UserCom.xDrive(),UserCom.yDrive(),rotationOutput.getRotationCorrection(),0);
+        Io.meccDrive.driveCartesian(computedX,computedY,rotationOutput.getRotationCorrection(),0);
         }
         else
         {
-            Io.meccDrive.driveCartesian(UserCom.xDrive(),UserCom.yDrive(),UserCom.twistDrive(),0);
+            Io.meccDrive.driveCartesian(computedX,computedY,UserCom.twistDrive(),0);
   
         }
       }
       else
       {
-          Io.meccDrive.driveCartesian(UserCom.xDrive(), UserCom.yDrive(), UserCom.twistDrive(),0);
+          Io.meccDrive.driveCartesian(computedX, computedY, UserCom.twistDrive(),0);
       }
 
       SmartDashboard.putNumber("Rotation SetPoint", rotatePidController.getSetpoint());

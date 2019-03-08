@@ -89,9 +89,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
+    
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+
     super.teleopInit();//What's this?  Not sure if it's necessary.  We'll try without it, too.
     Io.initMecanum();
     Io.navX.zeroYaw();

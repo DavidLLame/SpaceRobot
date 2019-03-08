@@ -8,21 +8,23 @@ public class ElevatorOps
 {
 
     private double bottomTarget=0;
-    private double level1HatchPreset=1.2;
-    private double level2HatchPreset=21.52;
-    private double level3HatchPreset=37.86;
-    private double level1CargoPreset=15.45;
-    private double level2CargoPreset=31.35;
-    private double level3CargoPreset=47.1;
-    private double hatchPickupLift=9.57;
+    private double level1HatchPreset=0;
+    private double level2HatchPreset=20.2;
+    private double level3HatchPreset=37.2;
+    private double level1CargoPreset=16.8;
+    private double level2CargoPreset=32.64;
+    private double level3CargoPreset=46.0;
+    private double hatchPickupLift=8.76;
+    private double ballpickup=22.3;
+
 
     private boolean isAutomatic=true;
 
 
-    private double elevatorKp=0.03;
+    private double elevatorKp=0.11;
     private double elevatorKd=0.0;
     private double elevatorKi=0.0;
-    private double elevatorIZone=2;
+    private double elevatorIZone=5;
 
     private ElevatorPresets currentTargetPRESET=ElevatorPresets.LEVEL1HATCH;
 
@@ -32,7 +34,7 @@ public class ElevatorOps
   
     private double ELMINSPEED=-0.03;
     private double ORIGINALELMINSPEED=-0.03;
-    private double ELMAXSPEED=0.6;
+    private double ELMAXSPEED=0.75;
     private double SAFETYOVERRIDEINCREMENT=0.03;//The 
 
     private double zeroLevel=0.0;//The stored value that represents 
@@ -120,6 +122,8 @@ public class ElevatorOps
 
             case HOLDCURRENT: return lastManualPosition;
 
+            case HATCHPICKUPLIFT: return hatchPickupLift;
+
             default: return bottomTarget;
 
         }
@@ -131,7 +135,6 @@ public class ElevatorOps
      
         SmartDashboard.putString("Current Preset", currentTargetPRESET.toString());
         SmartDashboard.putNumber("Current Target",currentTargetPosition+zeroLevel);
-        SmartDashboard.putNumber("Elevator Target",currentTargetPosition);
         SmartDashboard.putNumber("Rotations", Io.elevatorEncoder.getPosition());
         SmartDashboard.putNumber("Zero Postion", zeroLevel);
        
@@ -140,14 +143,12 @@ public class ElevatorOps
         currentTargetPosition=getCurrentTargetPosition();
         if (UserCom.resetElevatorZero()) zeroLevel=Io.elevatorEncoder.getPosition();
         
-        System.out.println("Target   "+currentTargetPosition);
-        System.out.println("Current Position"+Io.elevatorEncoder.getPosition());
-
+    
      
         if (isAutomatic  &&  UserCom.manualElevatorSpeed()==0)
         {
            
-            System.out.println("Operating in automatic");
+    
             currentTargetPosition=getCurrentTargetPosition();
             SmartDashboard.putNumber("Current Target",currentTargetPosition+zeroLevel);
 

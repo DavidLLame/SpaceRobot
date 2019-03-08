@@ -49,7 +49,7 @@ public class Drive{
     private long lastcalltime;
     private boolean lastIsRecorded=false;
 
-    private double SAFETY_HEIGHT=32;
+    private double SAFETY_HEIGHT=38;
     long departureTime;
     double safetyThrottle;
 
@@ -107,9 +107,10 @@ public class Drive{
             safetyThrottle=Math.min(1,(0.3+System.currentTimeMillis()-departureTime)*0.7/1000.0);
         }
     
-        double throttleMultiplier=Math.max(UserCom.throttle(),0.3);
+        double throttleMultiplier=1;//ath.max(UserCom.throttle(),0.3);
         
-        double finalthrottle=Math.min(safetyThrottle,throttleMultiplier);
+        //double finalthrottle=Math.min(safetyThrottle,throttleMultiplier);
+        double finalthrottle=safetyThrottle;
         double computedX=UserCom.xDrive()*finalthrottle;
         double computedY=UserCom.yDrive()*finalthrottle;
 
@@ -119,7 +120,7 @@ public class Drive{
         SmartDashboard.putString("Drive coordinates",drivingMode.toString());
         SmartDashboard.putString("Turn Mode", turningState.toString());
     
-        System.out.println("Driving by joystick");
+
         
 
         

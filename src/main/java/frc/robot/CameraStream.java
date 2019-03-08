@@ -27,36 +27,14 @@ public class CameraStream
       //  camera2.setResolution(320, 240);
         cvSink = CameraServer.getInstance().getVideo();
         outputStream = CameraServer.getInstance().putVideo("DriverCam", 320, 240);
+        outputStream.setFPS(12);
+        outputStream.setResolution(320, 240);
         lastSwitch=System.currentTimeMillis();
         cvSink.setSource(camera1);
     }
 
     private long lastSwitch;
     private boolean cam1=true;
-    public void grabFrame()
-    {
-/*
-      if (System.currentTimeMillis()-lastSwitch>5000)
-      {
-        System.out.println("Grabbing");
-        if (cam1)
-        {
-          System.out.println("switch to 2");
-          cam1=false;
-          cvSink.setSource(camera2);
-        }
-        else
-        {
-          System.out.println("SWITCH TO 1");
-          cam1=true;
-          cvSink.setSource(camera1);
-        }
-        lastSwitch=System.currentTimeMillis();
-      }*/
-        Mat source = new Mat();
-        cvSink.grabFrame(source);
-        outputStream.putFrame(source);
-
-    }
+  
 
 }

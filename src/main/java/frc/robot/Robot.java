@@ -55,6 +55,7 @@ public class Robot extends TimedRobot {
     UserCom.init();
     drive =new Drive();
     usbCam=new CameraStream();
+   
     usbCam.initCamera();
     testThisRobot=new TestComponents();
     manip = new Manip();
@@ -124,7 +125,7 @@ teleopPeriodic();
   @Override
   public void teleopPeriodic()
   {
-    SmartDashboard.putNumber("Port 0 Current",Io.pdp.getCurrent(0));
+
      manip.runtime();
 
   

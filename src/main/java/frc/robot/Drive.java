@@ -106,7 +106,9 @@ public class Drive{
         {
             safetyThrottle=Math.min(1,(0.3+System.currentTimeMillis()-departureTime)*0.7/1000.0);
         }
-    
+        safetyThrottle=1;
+
+        
         double throttleMultiplier=1;//ath.max(UserCom.throttle(),0.3);
         
         //double finalthrottle=Math.min(safetyThrottle,throttleMultiplier);
@@ -117,9 +119,6 @@ public class Drive{
 
         computeTurningState();
         ComputeDriveMode();
-        SmartDashboard.putString("Drive coordinates",drivingMode.toString());
-        SmartDashboard.putString("Turn Mode", turningState.toString());
-    
 
         
 
@@ -159,8 +158,6 @@ public class Drive{
       {
           Io.meccDrive.driveCartesian(computedX, computedY, UserCom.twistDrive(),0);
       }
-
-      SmartDashboard.putNumber("Rotation SetPoint", rotatePidController.getSetpoint());
 
 
     

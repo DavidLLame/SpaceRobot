@@ -140,7 +140,6 @@ break;
         boolean off = false;
     switch(nowstate){
     case IDLE:
-        System.out.println("In IDLE");
         Io.intake.set(0);
     break;
     

@@ -149,7 +149,7 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
 
     public static double xDrive()
 {
-    System.out.println("X drive "+ driveStick.getRawAxis(0));
+
     
     return linearDeadband(driveStick.getRawAxis(DRIVEAXISX),XDRIVEDEADBAND);
 }
@@ -183,7 +183,7 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
 
     public static double manualElevatorSpeed()
     {
-        System.out.println("Requesting elevator speed");
+      
         return linearDeadband(driver2Stick.getRawAxis(MANUALAXISELEVATOR),ELEVATORDEADBAND);
     }
 
@@ -198,8 +198,6 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
     private static double linearDeadband(double raw, double deadband)
     {
 
-        System.out.println("Deadband "+ raw+ " "+ "deadband");
-       System.out.println("Ret value: "+ Math.signum(raw)*(Math.abs(raw)-deadband)/(1-deadband));
         if (Math.abs(raw)<deadband) return 0;
 
        return Math.signum(raw)*(Math.abs(raw)-deadband)/(1-deadband);
@@ -263,7 +261,8 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
 
     public static boolean resetElevatorZero()
     {
-        return driver2Stick.getRawButton(JSB_ELEVATORZERO);
+        return false;
+     //   return driver2Stick.getRawButton(JSB_ELEVATORZERO);
     }
 
 

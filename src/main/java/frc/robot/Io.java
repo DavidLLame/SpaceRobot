@@ -186,7 +186,7 @@ public class Io  {
 
     }
 
-    private static boolean printDebugStrings=true;
+    private static boolean printDebugStrings=false;
     public static void printDebugMessage(String st)
     {
         if (printDebugStrings)

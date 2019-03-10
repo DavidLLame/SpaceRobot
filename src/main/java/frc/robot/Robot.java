@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
 
    
   private Drive drive;
-  CameraStream usbCam;
+  //CameraStream usbCam;
   private TestComponents testThisRobot;
   Manip manip;
   ElevatorOps elevatorOps;
@@ -54,9 +54,9 @@ public class Robot extends TimedRobot {
     Io.initIO();
     UserCom.init();
     drive =new Drive();
-    usbCam=new CameraStream();
+    //usbCam=new CameraStream();
    
-    usbCam.initCamera();
+    //usbCam.initCamera();
     testThisRobot=new TestComponents();
     manip = new Manip();
     elevatorOps=new ElevatorOps();

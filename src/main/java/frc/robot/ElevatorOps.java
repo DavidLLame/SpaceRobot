@@ -179,7 +179,6 @@ public class ElevatorOps
     private double limitedElevator()
     {
         double requestedValue=UserCom.manualElevatorSpeed();//Deadband has been applied
-        Io.printDebugMessage("Scaled value:"+Math.signum(requestedValue)*Math.min(Math.abs(requestedValue),ELEVATORMAXSCALEDSPEED));
         double outval =Math.signum(requestedValue)*Math.min(Math.abs(requestedValue),ELEVATORMAXSCALEDSPEED);
         return Math.max(outval,-0.03);
     }

@@ -35,13 +35,7 @@ public class Io  {
 
     
 
-    //This class will be used to do all hardware initialization.
-    //The lines below will be changed as we move forward to replace their current descriptions
-    //with a description of the hardware that will be attached to them.  For example, if 
-    //we add a motor drive on the left side and attach it to PWM Port 0, 
-    //The line that says  public static final int PWMPORT_0=0;
-    //will be replaced by  public static final int LEFTSIDEMOTOR_PWMPORT=0;
-
+  
 
     /**
      *
@@ -80,6 +74,8 @@ public class Io  {
     private static int LASTHOPESOLENOID=0;
     private static final int BEAVERTAILLOWER=2;
     private static final int BEAVERTAILFIRE=3;
+
+    private static final SerialPort.Port JEVOISPORT=Port.kUSB2;
     
     
 
@@ -116,6 +112,8 @@ public class Io  {
 
       
        public static AHRS navX;
+
+       public static SerialPort jevoisPort;
 
     
 
@@ -164,6 +162,15 @@ public class Io  {
 
         pdp=new PowerDistributionPanel();
         
+        try
+        {
+        jevoisPort=new SerialPort(115200,JEVOISPORT);
+        }
+        catch(Exception ex)
+        {
+            //Do nothing.  Just make sure all references are inside
+            //try....catch
+        }
 
     
         

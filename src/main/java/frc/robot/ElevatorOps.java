@@ -132,12 +132,7 @@ public class ElevatorOps
 
     public void operateElevator()
     {
-     /*
-        SmartDashboard.putString("Current Preset", currentTargetPRESET.toString());
-        SmartDashboard.putNumber("Current Target",currentTargetPosition+zeroLevel);
-        SmartDashboard.putNumber("Rotations", Io.elevatorEncoder.getPosition());
-        SmartDashboard.putNumber("Zero Postion", zeroLevel);
-       */
+ 
 
         selectTarget(); //Also deterines manual or automatic mode
         currentTargetPosition=getCurrentTargetPosition();

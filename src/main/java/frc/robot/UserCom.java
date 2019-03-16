@@ -101,7 +101,7 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
     public static final int JSB_LEVEL1CARGO=5;
     public static final int JSB_LEVEL2CARGO=6;
     public static final int JSB_LEVEL3CARGO=7;
-    public static final int JSB_ELEVATORZERO=8;
+
     
 
 

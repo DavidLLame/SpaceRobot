@@ -126,17 +126,7 @@ teleopPeriodic();
   public void teleopPeriodic()
   {
 
-     manip.runtime();
-
-  
-   
-   
-   
-   //System.out.println("TeleopPeriodic");
-   
-   
-   
-   
+   manip.runtime(); 
    drive.driveByJoystick();
 
 

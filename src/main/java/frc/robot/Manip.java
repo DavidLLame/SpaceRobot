@@ -113,11 +113,19 @@ break;
         {
             if (UserCom.primaryFire())
             {
-                changeState(FiniteStates.HATCHFIRING);
+                changeState(FiniteStates.HATCHLOCATORRETRACT);
             }
             else if (UserCom.resetCarriageState())
             {
                 changeState(FiniteStates.RESET);
+            }
+        }
+        break;
+        case HATCHLOCATORRETRACT:
+        {
+            if ((now-statetime)>2000)
+            {
+                changeState(FiniteStates.HATCHFIRING);
             }
         }
         break;
@@ -145,9 +153,12 @@ break;
     
     case PICKUPA:
         Io.intake.set(1);
+        Io.lasthope.set(false);
+        Io.shoot1.set(false);
     break;
     case PICKUPB:
         Io.lasthope.set(true);
+        Io.shoot1.set(false);
         Io.intake.set(1);
 
     break;
@@ -164,7 +175,7 @@ break;
     break;
     case FIRINGA:
         Io.lasthope.set(true);
-        Io.shoot1.set(true);
+        Io.shoot1.set(false);
         Io.intake.set(-1);
     break;
     case RESET:
@@ -177,8 +188,13 @@ break;
         Io.intake.set(0);
         Io.shoot1.set(false);
         break;
+    case HATCHLOCATORRETRACT:
+         Io.lasthope.set(false);
+         Io.intake.set(0);
+         Io.shoot1.set(false);
+         break;
     case HATCHFIRING:
-        Io.lasthope.set(true);
+        Io.lasthope.set(false);
         Io.shoot1.set(true);
         Io.intake.set(0);
         break;

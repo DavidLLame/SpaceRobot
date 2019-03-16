@@ -18,12 +18,12 @@ public class ElevatorOps
     private double ballpickup=22.3;
 
 
-    private boolean isAutomatic=true;
+    private boolean isAutomatic=false;
 
 
     private double elevatorKp=0.11;
     private double elevatorKd=0.0;
-    private double elevatorKi=0.0;
+    private double elevatorKi=0.1;
     private double elevatorIZone=5;
 
     private ElevatorPresets currentTargetPRESET=ElevatorPresets.LEVEL1HATCH;
@@ -37,7 +37,7 @@ public class ElevatorOps
     private double ELMAXSPEED=0.75;
     private double SAFETYOVERRIDEINCREMENT=0.03;//The 
 
-    private double zeroLevel=0.0;//The stored value that represents 
+   // private double zeroLevel=0.0;//The stored value that represents 
 
     public  ElevatorOps()
     {
@@ -57,7 +57,7 @@ public class ElevatorOps
     public void Init()
     {
 
-        zeroLevel=Io.elevatorEncoder.getPosition();
+
         currentTargetPosition=0;
         lastManualPosition=0;
         SafetyButtonState=TWO_BUTTONS_CLEARED;
@@ -132,11 +132,12 @@ public class ElevatorOps
 
     public void operateElevator()
     {
- 
+        teachmode();
 
         selectTarget(); //Also deterines manual or automatic mode
+        currentTargetPRESET=ElevatorPresets.HOLDCURRENT;
         currentTargetPosition=getCurrentTargetPosition();
-        if (UserCom.resetElevatorZero()) zeroLevel=Io.elevatorEncoder.getPosition();
+        //if (UserCom.resetElevatorZero()) zeroLevel=Io.elevatorEncoder.getPosition();
         
     
      
@@ -146,7 +147,7 @@ public class ElevatorOps
     
             currentTargetPosition=getCurrentTargetPosition();
            
-            Io.elevatorController.setReference(currentTargetPosition+zeroLevel, ControlType.kPosition);
+            Io.elevatorController.setReference(currentTargetPosition, ControlType.kPosition);
 
         }
         else
@@ -163,6 +164,19 @@ public class ElevatorOps
         checkSafetyOverride();
 
 
+    }
+
+    private void teachmode()
+    {
+        SmartDashboard.putBoolean("Select Cargo 1",UserCom.Level1Cargo());
+        SmartDashboard.putBoolean("Select Cargo 2",UserCom.Level2Cargo());
+        SmartDashboard.putBoolean("Select Cargo 3",UserCom.Level3Cargo());
+        SmartDashboard.putBoolean("Select Hatch 1",UserCom.Level1Hatch());
+        SmartDashboard.putBoolean("Select Hatch 2",UserCom.Level2Hatch());
+        SmartDashboard.putBoolean("Select Hatch 3",UserCom.Level3Hatch());
+        SmartDashboard.putBoolean("Select Hatch Lift",UserCom.HatchPickupLift());
+        SmartDashboard.putBoolean("Cargo Pickup", UserCom.cargpPickupPreset());
+        SmartDashboard.putNumber("Rotations", Io.elevatorEncoder.getPosition());
     }
 
 

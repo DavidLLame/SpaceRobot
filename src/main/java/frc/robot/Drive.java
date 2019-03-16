@@ -79,36 +79,10 @@ public class Drive{
      */
     public void driveByJoystick()
     {
-     /*   SmartDashboard.putString("Turning State",turningState.toString());
-        SmartDashboard.putNumber("PID Output",rotationOutput.getRotationCorrection());
-        SmartDashboard.putNumber("SetPoint", rotatePidController.getSetpoint());
-        SmartDashboard.putNumber("Yaw", Io.navX.getYaw());
-        SmartDashboard.putNumber("Stick Twist",UserCom.twistDrive());
-        SmartDashboard.putNumber("Turn Rate",Io.navX.getRate());
-        SmartDashboard.putNumber("X Drive",UserCom.xDrive());
-        SmartDashboard.putNumber("Y Drive",UserCom.yDrive());
-        SmartDashboard.putBoolean("DriveToForward", UserCom.fieldDriveToForward());
-        SmartDashboard.putNumber("Drive direction", currentStickHeading());*/
-
         
-        if (Io.elevatorEncoder.getPosition()>SAFETY_HEIGHT)
-        {
-            departureTime=System.currentTimeMillis();
-            safetyThrottle=0.2;
-        }
-        else
-        {
-            safetyThrottle=Math.min(1,(0.3+System.currentTimeMillis()-departureTime)*0.7/1000.0);
-        }
-        safetyThrottle=1;
-
-        
-        double throttleMultiplier=1;//ath.max(UserCom.throttle(),0.3);
-        
-        //double finalthrottle=Math.min(safetyThrottle,throttleMultiplier);
-        double finalthrottle=safetyThrottle;
-        double computedX=UserCom.xDrive()*finalthrottle;
-        double computedY=UserCom.yDrive()*finalthrottle;
+   
+        double computedX=UserCom.xDrive();//All throttle references are gone
+        double computedY=UserCom.yDrive();
 
 
         computeTurningState();
@@ -159,22 +133,12 @@ public class Drive{
 
     }
 
-    /**
-     * This function is used to drive under computer control, and set the values of the
-     * motors based on desired speed and rotation.
-     * @param desiredSpeed - The forward rate of motion, -1 to 1
-     * @param desiredRotationRate -The turn rate, -1 to 1
-     */
-    public void driveAutonomous(double desiredSpeed, double desiredRotationRate)
+    public void driveByCamera(double x, double y, double theta)
     {
-        //Calculate the desired motor speeds based on the desired input speeds
-    }
-
-    public void driveToAngle(double newAngle)
-    {
-        rotatePidController.setSetpoint(newAngle);
-        Io.meccDrive.driveCartesian(0, 0, rotationOutput.getRotationCorrection(),Io.navX.getYaw());
-        
+        rotatePidController.setSetpoint(theta);
+        double SLOWDOWN=.5;
+        double divisor=x/(Math.max(Math.abs(x), Math.abs(y)));
+        Io.meccDrive.driveCartesian(SLOWDOWN*x/divisor, SLOWDOWN*y/divisor, rotationOutput.getRotationCorrection(),0);
     }
 
     public void sitStill()
@@ -182,13 +146,7 @@ public class Drive{
      Io.meccDrive.driveCartesian(0, 0, 0);
 }
 
-    /**
-     * Translate throttle stick value from -1 to 1, to 0 to 1
-     * @param axisValue
-     * @return
-     */
-    public double throttleLevel(double axisValue)
-    { return (axisValue+1)/2.0;}
+
 
 
     private boolean holdingDriveButton=false;

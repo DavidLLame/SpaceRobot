@@ -94,13 +94,14 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
 //Street Fighter
 
 
-    public static final int JSB_LEVEL1HATCH=1;
-    public static final int JSB_LEVEL2HATCH=2;
-    public static final int JSB_LEVEL3HATCH=3;
-    public static final int JSB_HATCKPICKUPLIFT=4;
-    public static final int JSB_LEVEL1CARGO=5;
-    public static final int JSB_LEVEL2CARGO=6;
-    public static final int JSB_LEVEL3CARGO=7;
+    private static final int JSB_LEVEL1HATCH=1;
+    private static final int JSB_LEVEL2HATCH=2;
+    private static final int JSB_LEVEL3HATCH=3;
+    private static final int JSB_HATCKPICKUPLIFT=4;
+    private static final int JSB_LEVEL1CARGO=5;
+    private static final int JSB_LEVEL2CARGO=6;
+    private static final int JSB_LEVEL3CARGO=7;
+    private static final int JSB_CARGOPICKUPPRESET=8;
 
     
 
@@ -236,6 +237,11 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
     public static boolean HatchPickupLift()
     {
         return fightStick.getRawButton(JSB_HATCKPICKUPLIFT);
+    }
+
+    public static boolean CargoPickupPreset()
+    {
+        return fightStick.getRawButton(JSB_CARGOPICKUPPRESET);
     }
 
     /**

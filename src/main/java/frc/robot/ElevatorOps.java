@@ -15,7 +15,7 @@ public class ElevatorOps
     private double level2CargoPreset=32.64;
     private double level3CargoPreset=46.0;
     private double hatchPickupLift=8.76;
-    private double ballpickup=22.3;
+    private double cargopickup=22.3;
 
 
     private boolean isAutomatic=true;
@@ -57,7 +57,7 @@ public class ElevatorOps
     public void Init()
     {
 
-        zeroLevel=Io.elevatorEncoder.getPosition();
+       // zeroLevel=Io.elevatorEncoder.getPosition();
         currentTargetPosition=0;
         lastManualPosition=0;
         SafetyButtonState=TWO_BUTTONS_CLEARED;
@@ -124,6 +124,8 @@ public class ElevatorOps
 
             case HATCHPICKUPLIFT: return hatchPickupLift;
 
+            case CARGOPICKUP: return cargopickup;
+
             default: return bottomTarget;
 
         }
@@ -136,7 +138,7 @@ public class ElevatorOps
 
         selectTarget(); //Also deterines manual or automatic mode
         currentTargetPosition=getCurrentTargetPosition();
-        if (UserCom.resetElevatorZero()) zeroLevel=Io.elevatorEncoder.getPosition();
+  //      if (UserCom.resetElevatorZero()) zeroLevel=Io.elevatorEncoder.getPosition();
         
     
      
@@ -146,7 +148,7 @@ public class ElevatorOps
     
             currentTargetPosition=getCurrentTargetPosition();
            
-            Io.elevatorController.setReference(currentTargetPosition+zeroLevel, ControlType.kPosition);
+            Io.elevatorController.setReference(currentTargetPosition, ControlType.kPosition);
 
         }
         else

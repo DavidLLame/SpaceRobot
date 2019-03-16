@@ -79,7 +79,9 @@ public class Io  {
     private static int SHOOTERSOLENOID=1;
     private static int LASTHOPESOLENOID=0;
     private static final int BEAVERTAILLOWER=2;
-    private static final int BEAVERTAILFIRE=3;
+    private static final int BEAVERTAILFIRE=4;
+
+    private static final int LEDSOLENOIDPORT=3;
     
     
 
@@ -112,6 +114,8 @@ public class Io  {
        public static CANPIDController elevatorController;
 
        public static PowerDistributionPanel pdp;
+
+       public static Solenoid ledRingSolenoid;
 
 
       
@@ -163,6 +167,10 @@ public class Io  {
         beaverTailFire=new Solenoid(BEAVERTAILFIRE);
 
         pdp=new PowerDistributionPanel();
+
+        ledRingSolenoid=new Solenoid(LEDSOLENOIDPORT);
+        
+        ledRingSolenoid.set(true);
         
 
     

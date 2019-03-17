@@ -25,7 +25,11 @@ public void runtime(){
     stateTransition();
     todolist();//Set actuators
 }
-    public void changeState(FiniteStates newstate){     
+    public void changeState(FiniteStates newstate){
+        if ((nowstate==FiniteStates.HATCHLOADING)&&(newstate==FiniteStates.HATCHLOADED)) 
+        {
+            elevator.setToHatchDriveOff();
+        }    
     nowstate = newstate;
     statetime = System.currentTimeMillis();
     }    
@@ -200,7 +204,6 @@ break;
         Io.lasthope.set(true);
         Io.intake.set(0);
         Io.shoot1.set(false);
-        elevator.setToHatchDriveOff();
         break;
     case HATCHLOCATORRETRACT:
          Io.lasthope.set(false);

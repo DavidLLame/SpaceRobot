@@ -132,7 +132,7 @@ public class Robot extends TimedRobot {
 
    elevatorOps.operateElevator();
    beavertail.OperateBeaverTail();
-   usbCam.checkSwitchCamera();
+  // usbCam.checkSwitchCamera();
 
 
   }

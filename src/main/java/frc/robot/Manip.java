@@ -123,7 +123,7 @@ break;
         break;
         case HATCHLOCATORRETRACT:
         {
-            if ((now-statetime)>2000)
+            if ((now-statetime)>1000)
             {
                 changeState(FiniteStates.HATCHFIRING);
             }

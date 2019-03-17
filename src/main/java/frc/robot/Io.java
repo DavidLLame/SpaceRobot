@@ -113,7 +113,7 @@ public class Io  {
       
        public static AHRS navX;
 
-       public static SerialPort jevoisPort;
+       //public static SerialPort jevoisPort;
 
     
 
@@ -162,7 +162,7 @@ public class Io  {
 
         pdp=new PowerDistributionPanel();
         
-        try
+    /*    try
         {
         jevoisPort=new SerialPort(115200,JEVOISPORT);
         }
@@ -170,7 +170,7 @@ public class Io  {
         {
             //Do nothing.  Just make sure all references are inside
             //try....catch
-        }
+        }*/
 
     
         

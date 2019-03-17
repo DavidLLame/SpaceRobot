@@ -24,9 +24,10 @@ public class CameraData
      */
     public void checkForInstructions()
     {
-        try
+        return;
+     /*   try
         {
-       String inputData= Io.jevoisPort.readString();
+//       String inputData= Io.jevoisPort.readString();
        String[] allStrings= inputData.split("\\s+");//Spit by any whitespace.  Includes spaces or end of line
        for(int i=0;i<allStrings.length;i++)
        {
@@ -76,7 +77,7 @@ public class CameraData
         //Something went wrong.  Start again and hope for the best
         currentIndex=0;
     }
-    
+    */
     
         
     }

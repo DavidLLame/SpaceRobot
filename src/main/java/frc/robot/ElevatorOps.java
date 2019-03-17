@@ -23,7 +23,7 @@ public class ElevatorOps
 
     private double elevatorKp=0.11;
     private double elevatorKd=0.0;
-    private double elevatorKi=0.0;
+    private double elevatorKi=0.00;
     private double elevatorIZone=5;
 
     private ElevatorPresets currentTargetPRESET=ElevatorPresets.LEVEL1HATCH;

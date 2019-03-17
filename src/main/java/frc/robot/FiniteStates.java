@@ -10,6 +10,7 @@ public enum FiniteStates{
     PICKUPD, 
     LOADED, 
     RESET, 
+    HATCHLOADING,
     HATCHLOADED,
     HATCHLOCATORRETRACT,
     HATCHFIRING

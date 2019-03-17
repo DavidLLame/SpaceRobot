@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
     Io.initMecanum();
     Io.navX.zeroYaw();
     drive.Init();
-    manip.Init();
+    manip.Init(elevatorOps);
     elevatorOps.Init();
 
   }

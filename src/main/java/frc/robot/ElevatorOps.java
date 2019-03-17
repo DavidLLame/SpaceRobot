@@ -230,6 +230,12 @@ public class ElevatorOps
              Io.elevatorController.setOutputRange(ORIGINALELMINSPEED,ELMAXSPEED);
         }
     }
+/**
+ * Called from manip.  Sets the preset to be the hatch pickup drivate location
+ */
+	public void setToHatchDriveOff() {
+        currentTargetPRESET=ElevatorPresets.HATCHPICKUPLIFT;
+	}
 
     
 

@@ -12,10 +12,12 @@ public class Manip {
 
     long statetime;
     FiniteStates nowstate = FiniteStates.IDLE;
+    ElevatorOps elevator;
    
-public void Init()
+public void Init(ElevatorOps elev)
 {
     nowstate=FiniteStates.IDLE;
+    elevator=elev;
 }
 
 public void runtime(){
@@ -56,7 +58,7 @@ public void stateTransition()
            }
            else if (UserCom.hatchPickup())
            {
-               changeState(FiniteStates.HATCHLOADED);
+               changeState(FiniteStates.HATCHLOADING);
            }
            else if (UserCom.resetCarriageState())
            {
@@ -107,6 +109,12 @@ break;
         if (now-statetime>100)
         {
             changeState(FiniteStates.IDLE);
+        }
+        break;
+        case HATCHLOADING:
+        if (now-statetime>300)
+        {
+            changeState(FiniteStates.HATCHLOADED);
         }
         break;
         case HATCHLOADED:
@@ -183,10 +191,16 @@ break;
         Io.shoot1.set(false);
         Io.intake.set(0);
     break;
+    case HATCHLOADING:
+        Io.lasthope.set(true);
+        Io.intake.set(0);
+        Io.shoot1.set(false);
+    break;
     case HATCHLOADED:
         Io.lasthope.set(true);
         Io.intake.set(0);
         Io.shoot1.set(false);
+        elevator.setToHatchDriveOff();
         break;
     case HATCHLOCATORRETRACT:
          Io.lasthope.set(false);

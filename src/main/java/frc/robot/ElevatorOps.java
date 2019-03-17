@@ -9,12 +9,12 @@ public class ElevatorOps
 
     private double bottomTarget=0;
     private double level1HatchPreset=0;
-    private double level2HatchPreset=20.2;
-    private double level3HatchPreset=37.2;
+    private double level2HatchPreset=19.4;
+    private double level3HatchPreset=37.4;
     private double level1CargoPreset=16.8;
-    private double level2CargoPreset=32.64;
+    private double level2CargoPreset=30.3;
     private double level3CargoPreset=46.0;
-    private double hatchPickupLift=8.76;
+    private double hatchPickupLift=6.76;
     private double cargopickup=22.3;
 
 

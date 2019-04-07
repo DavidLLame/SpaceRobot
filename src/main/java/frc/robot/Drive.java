@@ -81,8 +81,8 @@ public class Drive{
     {
         
    
-        double computedX=UserCom.xDrive();//All throttle references are gone
-        double computedY=UserCom.yDrive();
+        double computedX=UserCom.xDrive()*UserCom.throttle();//All throttle references are gone
+        double computedY=UserCom.yDrive()*UserCom.throttle();
 
 
         computeTurningState();

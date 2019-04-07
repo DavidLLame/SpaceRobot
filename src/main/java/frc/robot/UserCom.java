@@ -178,7 +178,8 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
      */
     public static double throttle()
     {
-        return ((1+driveStick.getRawAxis(DRIVEAXISTHROTTLE))/2.0);
+        double axisval=(1+driveStick.getRawAxis(DRIVEAXISTHROTTLE))/2.0;
+        return Math.max(0.3,axisval);
     }
 
 

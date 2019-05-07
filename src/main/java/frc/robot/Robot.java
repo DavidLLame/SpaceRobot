@@ -39,6 +39,8 @@ public class Robot extends TimedRobot {
 
   private boolean DriveDisabled=true;
 
+  CameraData cData;
+
   
   /**
    * This function is run when the robot is first started up and should be
@@ -54,13 +56,14 @@ public class Robot extends TimedRobot {
     Io.initIO();
     UserCom.init();
     drive =new Drive();
-    usbCam=new CameraStream();
+   // usbCam=new CameraStream();
    
-    usbCam.initCamera();
+  //  usbCam.initCamera();
     testThisRobot=new TestComponents();
     manip = new Manip();
     elevatorOps=new ElevatorOps();
     beavertail=new Beavertail();
+    cData=new CameraData();
 
   }
 
@@ -127,7 +130,16 @@ public class Robot extends TimedRobot {
   {
 
    manip.runtime(); 
-   drive.driveByJoystick();
+  // drive.driveByJoystick();
+  //drive.driveRaw(0.5, 0, 0);
+  cData.checkForInstructions();
+  if (cData.mostRecentObject!=null)
+  {
+    double range=Math.sqrt(cData.mostRecentObject.x*cData.mostRecentObject.x+cData.mostRecentObject.y*cData.mostRecentObject.y);
+    double xdrive=cData.mostRecentObject.x/range;
+    double ydrive=cData.mostRecentObject.y/range; //This makes for a unit vector in the direction of the target
+    drive.driveByCamera(cData.mostRecentObject.x, cData.mostRecentObject.y, cData.mostRecentObject.theta);
+  }
 
 
    elevatorOps.operateElevator();

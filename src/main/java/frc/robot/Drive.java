@@ -16,7 +16,7 @@ public class Drive{
     public boolean naxXDisabled=true;
 
     PIDController rotatePidController;
-    private final double Kp=0.03;
+    private final double Kp=0.1;
     private final double Kd=0.0;
     private final double Ki=0.0;
     MecPIDOutput rotationOutput;
@@ -133,11 +133,20 @@ public class Drive{
 
     }
 
+    public void driveRaw(double x, double y, double rotation)
+    {
+        Io.meccDrive.driveCartesian(x,y,rotation);
+
+        
+    }
+
     public void driveByCamera(double x, double y, double theta)
     {
         rotatePidController.setSetpoint(theta);
         double SLOWDOWN=.5;
-        double divisor=x/(Math.max(Math.abs(x), Math.abs(y)));
+        double divisor=Math.max(Math.abs(x), Math.abs(y));
+        double correction=rotationOutput.getRotationCorrection();
+        System.out.println("Drive: "+SLOWDOWN*x/divisor+" "+SLOWDOWN*y/divisor+" "+correction);
         Io.meccDrive.driveCartesian(SLOWDOWN*x/divisor, SLOWDOWN*y/divisor, rotationOutput.getRotationCorrection(),0);
     }
 

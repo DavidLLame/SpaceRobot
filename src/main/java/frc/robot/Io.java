@@ -154,7 +154,7 @@ public class Io {
         
         try
         {
-        jevoisPort=new SerialPort(115200,JEVOISPORT);
+          jevoisPort=new SerialPort(115200,JEVOISPORT);
         }
         catch(Exception ex)
         {

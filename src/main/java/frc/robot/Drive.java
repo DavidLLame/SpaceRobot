@@ -142,7 +142,7 @@ public class Drive{
 
     public void driveByCamera(double x, double y, double theta)
     {
-        rotatePidController.setSetpoint(theta);
+        rotatePidController.setSetpoint(Io.navX.getAngle()+theta);
         double SLOWDOWN=.5;
         double divisor=Math.max(Math.abs(x), Math.abs(y));
         double correction=rotationOutput.getRotationCorrection();

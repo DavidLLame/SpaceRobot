@@ -1,6 +1,8 @@
 package frc.robot;
 
 import javax.lang.model.util.ElementScanner6;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * This class will read the serial port and if there are strings found
@@ -24,11 +26,14 @@ public class CameraData
      */
     public void checkForInstructions()
     {
-        return;
-     /*   try
+        
+        try
         {
-//       String inputData= Io.jevoisPort.readString();
-       String[] allStrings= inputData.split("\\s+");//Spit by any whitespace.  Includes spaces or end of line
+       SmartDashboard.putString("dumbserial","Hi"); 
+       String inputData= Io.jevoisPort.readString();
+       System.out.println(inputData);
+       SmartDashboard.putString("serialdata", inputData);
+       /*String[] allStrings= inputData.split("\\s+");//Spit by any whitespace.  Includes spaces or end of line
        for(int i=0;i<allStrings.length;i++)
        {
            switch(currentIndex)
@@ -70,14 +75,16 @@ public class CameraData
                    //so for the moment, I'm going to do nothing.
                }
            }
-       }
+       }*/
     }
     catch(Exception ex)
     {
         //Something went wrong.  Start again and hope for the best
         currentIndex=0;
+        SmartDashboard.putString("serialdata", "threw an exception seeking serial data "+ex.getMessage());
+        System.out.println("Exception reading data: "+ex.getMessage());
     }
-    */
+    
     
         
     }

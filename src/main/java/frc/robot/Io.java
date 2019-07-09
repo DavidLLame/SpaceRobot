@@ -75,7 +75,7 @@ public class Io  {
     private static final int BEAVERTAILLOWER=2;
     private static final int BEAVERTAILFIRE=3;
 
-    private static final SerialPort.Port JEVOISPORT=Port.kUSB2;
+    private static final SerialPort.Port JEVOISPORT=Port.kUSB1;
     
     
 
@@ -113,7 +113,7 @@ public class Io  {
       
        public static AHRS navX;
 
-       //public static SerialPort jevoisPort;
+       public static SerialPort jevoisPort;
 
     
 
@@ -162,15 +162,16 @@ public class Io  {
 
         pdp=new PowerDistributionPanel();
         
-    /*    try
+        try
         {
         jevoisPort=new SerialPort(115200,JEVOISPORT);
         }
         catch(Exception ex)
         {
+            System.out.println("Exception thrown opening serial: "+ex.getMessage());
             //Do nothing.  Just make sure all references are inside
             //try....catch
-        }*/
+        }
 
     
         

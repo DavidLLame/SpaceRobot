@@ -66,7 +66,8 @@ public class Drive{
 
         rotatePidController.setSetpoint(Io.navX.getYaw());
         lastIsRecorded=false;
-        drivingMode=DriveCoordinates.ROBOT_CENTERED;
+        //drivingMode=DriveCoordinates.ROBOT_CENTERED;
+        drivingMode=DriveCoordinates.RAWSTICK;
         holdingDriveButton=false;
         
     
@@ -77,6 +78,12 @@ public class Drive{
     /**
      * This function is called to do "normal", teleperated, driving.
      */
+
+     public void driveRaw(double x, double y,  double rotation)
+     {
+        Io.meccDrive.driveCartesian(x, y, 0,0);
+     }
+
     public void driveByJoystick()
     {
         

@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
    
   private Drive drive;
   CameraStream usbCam;
+  private CameraData camData;
   private TestComponents testThisRobot;
   Manip manip;
   ElevatorOps elevatorOps;
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
   Beavertail beavertail;
 
   private boolean DriveDisabled=true;
+  int  dumb=0;
 
   
   /**
@@ -54,9 +56,10 @@ public class Robot extends TimedRobot {
     Io.initIO();
     UserCom.init();
     drive =new Drive();
-    usbCam=new CameraStream();
+   // usbCam=new CameraStream();
+    camData=new CameraData();
    
-    usbCam.initCamera();
+   // usbCam.initCamera();
     testThisRobot=new TestComponents();
     manip = new Manip();
     elevatorOps=new ElevatorOps();
@@ -126,14 +129,25 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic()
   {
 
+    System.out.println("In teleopPeriodic");
+    camData.checkForInstructions();
    manip.runtime(); 
    drive.driveByJoystick();
+
+   //drive.driveRaw(-0, 0.8, 0);
+   
 
 
    elevatorOps.operateElevator();
    beavertail.OperateBeaverTail();
   // usbCam.checkSwitchCamera();
 
+  SmartDashboard.putNumber("Channel 0", Io.pdp.getCurrent(0));
+  SmartDashboard.putNumber("Channel 1", Io.pdp.getCurrent(1));
+  SmartDashboard.putNumber("Channel 2", Io.pdp.getCurrent(2));
+  SmartDashboard.putNumber("Channel 3", Io.pdp.getCurrent(3));
+  SmartDashboard.putNumber("Dumb",dumb);
+  dumb++;
 
   }
 

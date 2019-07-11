@@ -132,14 +132,15 @@ public class Robot extends TimedRobot {
    manip.runtime(); 
   // drive.driveByJoystick();
   //drive.driveRaw(0.5, 0, 0);
-  cData.checkForInstructions();
-  if (cData.mostRecentObject!=null)
-  {
-    double range=Math.sqrt(cData.mostRecentObject.x*cData.mostRecentObject.x+cData.mostRecentObject.y*cData.mostRecentObject.y);
-    double xdrive=cData.mostRecentObject.x/range;
-    double ydrive=cData.mostRecentObject.y/range; //This makes for a unit vector in the direction of the target
-    drive.driveByCamera(cData.mostRecentObject.x, cData.mostRecentObject.y, cData.mostRecentObject.theta);
-  }
+  if (cData.checkForInstructions())
+      {
+        drive.driveByCamera(cData.mostRecentObject.x, cData.mostRecentObject.y, cData.mostRecentObject.theta);
+      }
+      else
+      {
+        drive.driveByCamera(0,0,0);
+      }
+
 
 
    elevatorOps.operateElevator();

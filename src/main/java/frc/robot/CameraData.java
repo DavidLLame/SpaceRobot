@@ -17,6 +17,8 @@ public class CameraData
     double currentY;
     double currentTheta;
 
+    public final double cameraXOffset=14.5;
+    public final double cameraYOffset=8;
 
     public DetectedObject mostRecentObject;
     /**
@@ -24,7 +26,7 @@ public class CameraData
      * e.g.  "LeftTarget 10.2 11.3 -45.0"
      * @return
      */
-    public void checkForInstructions()
+    public boolean checkForInstructions()
     {
 /*
         DetectedObject fake=new DetectedObject();
@@ -40,17 +42,19 @@ public class CameraData
         if (Io.jevoisPort.getBytesReceived()==0) 
 
         {System.out.println("No data receieved");
-            return;//No data. Go home.
+            return false;//No data. Go home.
     }
         try
         {
        String inputData= Io.jevoisPort.readString();
        System.out.println("Data received: "+inputData);
+       Io.writeToDebug(inputData);
 
        
        String[] allStrings= inputData.split("\\s+");//Spit by any whitespace.  Includes spaces or end of line
        for(int i=0;i<allStrings.length;i++)
        {
+
            switch(currentIndex)
            {
                case 0: 
@@ -60,7 +64,7 @@ public class CameraData
                    currentObject=allStrings[i];
                    currentIndex++;
                }
-               else if (allStrings[i].equals("Target"))
+               else if (allStrings[i].equals("targets"))
                {
                    //System.out.println("Target");
                    currentObject=allStrings[i];
@@ -93,15 +97,17 @@ public class CameraData
                    currentIndex=0;
                    DetectedObject newObject=new DetectedObject();
                    newObject.typeOfOjbect=currentObject;
-                   newObject.x=currentX;
-                   newObject.y=currentY;
+                   newObject.x=currentX+cameraXOffset;
+                   newObject.y=currentY+cameraYOffset;
                    newObject.theta=currentTheta;
                    newObject.timeOfDetection=System.currentTimeMillis();
                    mostRecentObject=newObject;
+                   Io.writeToDebug("New Object detected");
+                   return true;
                }
-               break;
                default:
                     System.out.println("What the hell? "+currentIndex);
+                    Io.writeToDebug("What the hell? "+currentIndex);
                     currentIndex=0;
            }
        }
@@ -109,8 +115,11 @@ public class CameraData
     catch(Exception ex)
     {
         //Something went wrong.  Start again and hope for the best
+        System.out.println("Exception reading serial port");
+        Io.writeToDebug("Exception reading serial port: "+ex.getMessage());
         currentIndex=0;
     }
+    return false;
     
     
         

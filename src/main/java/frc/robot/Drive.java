@@ -21,6 +21,8 @@ public class Drive{
     private final double Ki=0.0;
     MecPIDOutput rotationOutput;
 
+    private final double DRIVEBYCAMERARATE=0.4;
+
     long stateChangeTime;
 
     private TurnCommand turningState=TurnCommand.DRIVE_STRAIGHT;
@@ -140,14 +142,31 @@ public class Drive{
         
     }
 
+
+    private double lastXInstruction=0;
+    private double lastYInstruction=0;
+    private double lastThetaInstruction=0;
+    private double thetaTarget=0;
+
     public void driveByCamera(double x, double y, double theta)
     {
-        rotatePidController.setSetpoint(theta);
-        double SLOWDOWN=.5;
-        double divisor=Math.max(Math.abs(x), Math.abs(y));
-        double correction=rotationOutput.getRotationCorrection();
-        System.out.println("Drive: "+SLOWDOWN*x/divisor+" "+SLOWDOWN*y/divisor+" "+correction);
-        Io.meccDrive.driveCartesian(SLOWDOWN*x/divisor, SLOWDOWN*y/divisor, rotationOutput.getRotationCorrection(),0);
+        if ((x!=0)||(y!=0)||(theta!=0))  //new instruction
+        {
+            thetaTarget=Io.navX.getYaw()-theta*180/Math.PI;
+            lastXInstruction=x;
+            lastYInstruction=y;
+            lastThetaInstruction=theta;
+        }     
+        if ((lastXInstruction!=0)||(lastYInstruction!=0)||(lastThetaInstruction!=0))
+        {
+            rotatePidController.setSetpoint(this.thetaTarget);
+            double totalRateVector=Math.sqrt(lastXInstruction*lastXInstruction+lastYInstruction*lastYInstruction);
+            double xRate=DRIVEBYCAMERARATE*lastXInstruction/totalRateVector;
+            double yRate=DRIVEBYCAMERARATE*lastYInstruction/totalRateVector;
+            double correction=rotationOutput.getRotationCorrection();
+            Io.writeToDebug("Driving x: "+xRate+" y: "+yRate+" rotation: "+correction+" yaw "+ Io.navX.getYaw());
+            Io.meccDrive.driveCartesian(xRate, yRate, correction,Io.navX.getYaw());//field centered
+        }
     }
 
     public void sitStill()

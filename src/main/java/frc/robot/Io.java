@@ -7,6 +7,8 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import java.io.PrintWriter;
+
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SerialPort.Port;
@@ -66,6 +68,8 @@ public class Io {
     private static final int BEAVERTAILFIRE=3;
 
     private static final SerialPort.Port JEVOISPORT=Port.kUSB1;
+
+    private static final String DEBUGFILENAME="debug.txt";
     
     
 
@@ -104,6 +108,8 @@ public class Io {
        public static AHRS navX;
 
        public static SerialPort jevoisPort;
+
+       private static PrintWriter debugWriter;
 
     
 
@@ -162,6 +168,15 @@ public class Io {
             throw ex; //remove after testing.  Deliberately crash things.
         }
 
+        try
+        {
+        debugWriter=new PrintWriter(DEBUGFILENAME);
+        }
+        catch(Exception ex)
+        {
+           // Io.writeToDebug("File not found exception for debug file");
+        }
+        
     
         
     }
@@ -190,6 +205,24 @@ public class Io {
         {
             System.out.println(st);
         }
+    }
+
+    private static int flushcount=0;
+    public static void writeToDebug(String st)
+    {
+        if (debugWriter!=null)
+        {
+        debugWriter.println(st);
+        flushcount++;
+        if (flushcount%20==0)
+           debugWriter.flush();
+        }
+
+    }
+
+    public static void closeDebugFile()
+    {
+        debugWriter.close();
     }
 
 

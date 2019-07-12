@@ -20,6 +20,12 @@ public class CameraData
     public final double cameraXOffset=-14.5;
     public final double cameraYOffset=8;
 
+
+    private int numberTestFrames=0;
+    private double cumulativeYawError=0;
+    private final int testFramesToAverage=5;
+    private double computedYawOffset=0;
+
     public DetectedObject mostRecentObject;
     /**
      * All reports will be of the form [typeOfObject, XPosition, Yposition, theta]
@@ -104,11 +110,22 @@ public class CameraData
                    newObject.x=currentX-cameraXOffset;
                    Io.writeToDebug("x and offset "+currentX+" "+cameraXOffset+" "+newObject.x+"\r\n");
                    newObject.y=currentY-cameraYOffset;
-                   newObject.theta=currentTheta;
+                   newObject.theta=currentTheta-computedYawOffset; //compensate for camera mismount
                    newObject.timeOfDetection=System.currentTimeMillis();
                    mostRecentObject=newObject;
                    Io.writeToDebug("New Object detected\n");
                    returnflag=true;
+
+                   if (this.numberTestFrames<this.testFramesToAverage)
+                   {
+                       this.cumulativeYawError+=currentTheta;
+                       numberTestFrames++;
+                       if (numberTestFrames==this.testFramesToAverage)
+                       {
+                           computedYawOffset=cumulativeYawError/(double)this.testFramesToAverage;
+                       }
+                   }
+                   
                    
                }
                break;

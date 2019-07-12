@@ -41,6 +41,8 @@ public class Robot extends TimedRobot {
 
   CameraData cData;
 
+  private long startTime;
+
   
   /**
    * This function is run when the robot is first started up and should be
@@ -102,6 +104,8 @@ public class Robot extends TimedRobot {
     drive.Init();
     manip.Init(elevatorOps);
     elevatorOps.Init();
+    Io.jevoisPort.flush();
+    startTime=System.currentTimeMillis();
 
   }
 
@@ -132,13 +136,14 @@ public class Robot extends TimedRobot {
    manip.runtime(); 
   // drive.driveByJoystick();
   //drive.driveRaw(0.5, 0, 0);
+  boolean reallyDrive=(System.currentTimeMillis()-startTime>30000);
   if (cData.checkForInstructions())
       {
-        drive.driveByCamera(cData.mostRecentObject.x, cData.mostRecentObject.y, cData.mostRecentObject.theta);
+        drive.driveByCamera(cData.mostRecentObject.x, cData.mostRecentObject.y, cData.mostRecentObject.theta,reallyDrive);
       }
       else
       {
-        drive.driveByCamera(0,0,0);
+        drive.driveByCamera(0,0,0,reallyDrive);
       }
 
 

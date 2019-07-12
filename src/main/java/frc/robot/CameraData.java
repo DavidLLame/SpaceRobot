@@ -17,7 +17,7 @@ public class CameraData
     double currentY;
     double currentTheta;
 
-    public final double cameraXOffset=14.5;
+    public final double cameraXOffset=-14.5;
     public final double cameraYOffset=8;
 
     public DetectedObject mostRecentObject;
@@ -42,19 +42,22 @@ public class CameraData
         if (Io.jevoisPort.getBytesReceived()==0) 
 
         {System.out.println("No data receieved");
+         Io.writeToDebug("No data this time\r\n");
             return false;//No data. Go home.
     }
+    boolean returnflag=false;
         try
         {
        String inputData= Io.jevoisPort.readString();
        System.out.println("Data received: "+inputData);
-       Io.writeToDebug(inputData);
+       Io.writeToDebug("New data: "+inputData+"\r\n");
 
        
        String[] allStrings= inputData.split("\\s+");//Spit by any whitespace.  Includes spaces or end of line
+       Io.writeToDebug("Split to "+allStrings.length+"\r\n");
        for(int i=0;i<allStrings.length;i++)
        {
-
+           Io.writeToDebug("Parsing "+allStrings[i]+" index is "+currentIndex+"\r\n");
            switch(currentIndex)
            {
                case 0: 
@@ -74,6 +77,7 @@ public class CameraData
                {
                    //System.out.println("Something else: "+allStrings[i]);
                    currentIndex=0;//You are lost.  Go back to the beginning
+                   Io.writeToDebug("Got lost - resetting index \r\n");
                }
                break;
                case 1:
@@ -97,14 +101,17 @@ public class CameraData
                    currentIndex=0;
                    DetectedObject newObject=new DetectedObject();
                    newObject.typeOfOjbect=currentObject;
-                   newObject.x=currentX+cameraXOffset;
-                   newObject.y=currentY+cameraYOffset;
+                   newObject.x=currentX-cameraXOffset;
+                   Io.writeToDebug("x and offset "+currentX+" "+cameraXOffset+" "+newObject.x+"\r\n");
+                   newObject.y=currentY-cameraYOffset;
                    newObject.theta=currentTheta;
                    newObject.timeOfDetection=System.currentTimeMillis();
                    mostRecentObject=newObject;
-                   Io.writeToDebug("New Object detected");
-                   return true;
+                   Io.writeToDebug("New Object detected\n");
+                   returnflag=true;
+                   
                }
+               break;
                default:
                     System.out.println("What the hell? "+currentIndex);
                     Io.writeToDebug("What the hell? "+currentIndex);
@@ -119,7 +126,15 @@ public class CameraData
         Io.writeToDebug("Exception reading serial port: "+ex.getMessage());
         currentIndex=0;
     }
-    return false;
+    Io.writeToDebug("Current target position\r\n");
+    Io.writeToDebug("x: "+mostRecentObject.x+"\r\n");
+    Io.writeToDebug("y: "+mostRecentObject.y+"\r\n");
+    Io.writeToDebug("theta: "+mostRecentObject.theta+"\r\n"
+    
+    
+    
+    );
+    return returnflag;
     
     
         

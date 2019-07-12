@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import java.io.PrintWriter;
+import java.io.File;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -69,7 +70,7 @@ public class Io {
 
     private static final SerialPort.Port JEVOISPORT=Port.kUSB1;
 
-    private static final String DEBUGFILENAME="debug.txt";
+    private static final String DEBUGFILENAME="/home/lvuser/debug.txt";
     
     
 
@@ -170,10 +171,14 @@ public class Io {
 
         try
         {
-        debugWriter=new PrintWriter(DEBUGFILENAME);
+        File newfile=new File(DEBUGFILENAME);
+        debugWriter=new PrintWriter(DEBUGFILENAME,"UTF-8");
+        Io.writeToDebug("Debug log started");
+        debugWriter.flush();
         }
         catch(Exception ex)
         {
+            throw new RuntimeException("Kill it");
            // Io.writeToDebug("File not found exception for debug file");
         }
         

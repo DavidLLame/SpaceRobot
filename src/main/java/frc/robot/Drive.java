@@ -145,10 +145,12 @@ public class Drive{
 
     private double lastXInstruction=0;
     private double lastYInstruction=0;
-    private double lastThetaInstruction=0;
-    private double thetaTarget=0;
+    private double lastThetaInstruction=0; // Visual yaw, provided by camera
+    private double thetaTarget=0;  
+    double directionOfTravel_World=0;
 
-    public void driveByCamera(double x, double y, double theta)
+    //X, y, theta are based on front of robot coordinates (camera coords, then adjusted for offset of camera from cente)
+    public void driveByCamera(double x, double y, double theta, boolean reallyDrive)
     {
         if ((x!=0)||(y!=0)||(theta!=0))  //new instruction
         {
@@ -156,16 +158,26 @@ public class Drive{
             lastXInstruction=x;
             lastYInstruction=y;
             lastThetaInstruction=theta;
-        }     
+            double directionOfTravel=Math.atan2(lastYInstruction,lastXInstruction);
+            directionOfTravel_World=directionOfTravel-Io.navX.getYaw()*Math.PI/180.0;
+            Io.writeToDebug("travel "+directionOfTravel+ "world "+directionOfTravel_World+"\r\n");
+
+        }
+             
         if ((lastXInstruction!=0)||(lastYInstruction!=0)||(lastThetaInstruction!=0))
         {
             rotatePidController.setSetpoint(this.thetaTarget);
-            double totalRateVector=Math.sqrt(lastXInstruction*lastXInstruction+lastYInstruction*lastYInstruction);
-            double xRate=DRIVEBYCAMERARATE*lastXInstruction/totalRateVector;
-            double yRate=DRIVEBYCAMERARATE*lastYInstruction/totalRateVector;
+           
+            //double totalRateVector=Math.sqrt(lastXInstruction*lastXInstruction+lastYInstruction*lastYInstruction);
+            double xRate=DRIVEBYCAMERARATE*Math.cos(directionOfTravel_World);
+            double yRate=DRIVEBYCAMERARATE*Math.sin(directionOfTravel_World);
+
             double correction=rotationOutput.getRotationCorrection();
-            Io.writeToDebug("Driving x: "+xRate+" y: "+yRate+" rotation: "+correction+" yaw "+ Io.navX.getYaw());
+            Io.writeToDebug("Driving x: "+xRate+" y: "+yRate+" rotation: "+correction+" yaw "+ Io.navX.getYaw()+"\r\n");
+            if (reallyDrive)
+            {
             Io.meccDrive.driveCartesian(xRate, yRate, correction,Io.navX.getYaw());//field centered
+            }
         }
     }
 

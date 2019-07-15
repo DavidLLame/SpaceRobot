@@ -76,7 +76,7 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
     public static final int JSB_BEAVERTAILLOWER=5;
     private static int JSB_SAFETYOVERRIDE_D2=8;
     private static int JSB_SAFETYRESTORE=7;
-    
+    private static int PISTONBACK=3;
 
 
     
@@ -108,7 +108,8 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
 
 
 
-
+    
+    
 
     
     public static boolean intakeButtons(){
@@ -303,6 +304,11 @@ private static int DRIVEAXISTWIST=0; //X Axis of the stick
     public static boolean restoreSafety()
     {
         return driver2Stick.getRawButton(JSB_SAFETYRESTORE);
+    }
+
+    public static boolean pullBackLocatorPiston()
+    {
+        return driver2Stick.getRawButton(PISTONBACK);
     }
 
 

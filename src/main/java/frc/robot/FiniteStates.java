@@ -12,6 +12,7 @@ public enum FiniteStates{
     RESET, 
     HATCHLOADING,
     HATCHLOADED,
+    HATCHMANUALRETRACT,
     HATCHLOCATORRETRACT,
     HATCHFIRING
     

@@ -24,6 +24,7 @@ public void runtime(){
     //shooter();//Compute next state
     stateTransition();
     todolist();//Set actuators
+    pistonBack();//pull locator piston back
 }
     public void changeState(FiniteStates newstate){
         if ((nowstate==FiniteStates.HATCHLOADING)&&(newstate==FiniteStates.HATCHLOADED)) 
@@ -34,7 +35,14 @@ public void runtime(){
     statetime = System.currentTimeMillis();
     }    
 
+    public static void pistonBack() {
 
+        if(UserCom.pullBackLocatorPiston())
+        {
+        Io.lasthope.set(false);
+        }
+    
+        }
 
 public void stateTransition()
 {
@@ -131,8 +139,22 @@ break;
             {
                 changeState(FiniteStates.RESET);
             }
+            else if (UserCom.pullBackLocatorPiston())
+            {
+                changeState(FiniteStates.HATCHMANUALRETRACT);
+            }
         }
         break;
+        case HATCHMANUALRETRACT:
+        if (UserCom.primaryFire())
+            {
+                changeState(FiniteStates.HATCHLOCATORRETRACT);
+            }
+            else if (UserCom.resetCarriageState())
+            {
+                changeState(FiniteStates.RESET);
+            }
+           break;
         case HATCHLOCATORRETRACT:
         {
             if ((now-statetime)>1000)
@@ -206,6 +228,7 @@ break;
         Io.shoot1.set(false);
         break;
     case HATCHLOCATORRETRACT:
+    case HATCHMANUALRETRACT:
          Io.lasthope.set(false);
          Io.intake.set(0);
          Io.shoot1.set(false);
